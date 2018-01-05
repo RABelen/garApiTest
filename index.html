@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>API Test</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+
+    <link rel="stylesheet" href="styles/app.css">
+</head>
+
+<body ng-app="MyApp" ng-cloak>
+
+    <md-content ng-controller="MyCtrl">
+        <md-tabs md-dynamic-height="" md-border-bottom="">
+
+            <md-tab label="properties">
+                <md-content layout="md-padding">
+                    
+                </md-content>
+            </md-tab>
+
+            <md-tab label="multi-property">
+                <md-content class="md-padding" layout="column">
+                    <md-content layout layout-align="center center">
+                        <md-input-container>
+                            <label>Check-In Date</label>
+                            <md-datepicker ng-model="params.check_in"></md-datepicker>
+                        </md-input-container>
+
+                        <md-input-container>
+                            <label>Check-Out Date</label>
+                            <md-datepicker ng-model="params.check_out"></md-datepicker>
+                        </md-input-container>
+                    </md-content>
+
+                    <md-button class="md-raised md-primary" ng-click="fetch(params)">Query</md-button>
+                </md-content>
+
+                <md-card ng-show="results" ng-repeat="res in results['roomStay']">
+                    <img ng-src="{{imagePath}}" class="md-card-image">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{ res.roomStay.room.title }}</span>
+                        </md-card-title-text>
+                    </md-card-title>
+
+                    <md-card-content>
+                        <p>
+                            <b>Description:</b> {{ res.roomStay.room.description }}</p>
+
+                        <p>
+                            <b>Check In:</b> {{ res.request["check-in"] }}</p>
+                        <p>
+                            <b>Check Out:</b> {{ res.request["check-out"] }}</p>
+                        <p>
+                            <b>Rooms:</b> {{ res.request.rooms }}</p>
+                        <p>
+                            <b>Adults:</b> {{ res.request.adults }}</p>
+                        <p>
+                            <b>Children:</b> {{ res.request.children }}</p>
+
+                        <span>
+                            <b>Display Pricing</b>
+                        </span>
+                        <p>Subtotal: {{ res.displayPricing.subtotal }}</p>
+                        <p>Taxes: {{ res.displayPricing.taxes }}</p>
+                        <p>Fees: {{ res.displayPricing.fees }}</p>
+
+                        <span>
+                            <b>Line Items</b>
+                        </span>
+                        <ul ng-repeat="item in res.lineItems['line-item']">
+                            <li>Code: {{ item.code }}</li>
+                            <li>Name: {{ item.name.__text }}</li>
+                            <li>Amount: {{ item.amount }}</li>
+                        </ul>
+
+                        <span>
+                            <b>Cancellation Policy</b>
+                        </span>
+                        <p>{{ results.roomStay["cancellation-policy"] }}</p>
+                    </md-card-content>
+
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button class="md-icon-button" aria-label="Favorite">
+                            <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button" aria-label="Settings">
+                            <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+                        </md-button>
+                        <md-button class="md-icon-button" aria-label="Share">
+                            <md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>
+                        </md-button>
+                    </md-card-actions>
+                </md-card>
+            </md-tab>
+
+            <md-tab label="single-property">
+                <md-content class="md-padding">
+                    <h1 class="md-display-2">JSON Response</h1>
+                    <p> {{ json }} </p>
+                </md-content>
+            </md-tab>
+
+            <md-tab label="pre-book">
+                <md-content class="md-padding">
+                    <h1 class="md-display-2">XML Response</h1>
+                    <pre> {{ xml }} </pre>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+    <script src="https://cdn.rawgit.com/abdmob/x2js/master/xml2json.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+
+    <script src="scripts/app.js"></script>
+
+</body>
+
+</html>
