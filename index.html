@@ -32,6 +32,11 @@
                         </md-input-container>
                     </md-content>
 
+                    <md-content ng-show="multiFetchUrl">
+                        <span>Sending request to</span>
+                        <span> {{ multiFetchUrl }}</span>
+                    </md-content>
+                    
                     <md-button class="md-raised md-primary" ng-click="multiFetch(params)">Query</md-button>
                 </md-content>
 
