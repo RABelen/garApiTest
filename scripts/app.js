@@ -2,6 +2,10 @@ angular
   .module("MyApp", ["ngMaterial"])
   .controller("MyCtrl", function($scope, $http) {
     const base_url = "https://availability.integration2.testaroom.com";
+    let today = new Date();
+    let tom = new Date();
+
+    tom.setDate(tom.getDate() + 1);
 
     let auth = {
       api_key: "095f6d98-36cc-5975-a67a-95c48b87187d",
@@ -10,8 +14,8 @@ angular
 
     $scope.params = {
       prop_id: "d4b5bc60-1c9c-4e10-b8bd-cc6f6a1a08a8",
-      check_in: new Date(),
-      check_out: new Date(),
+      check_in: today,
+      check_out: tom,
       nights: "",
       cancellation_rules: 1,
       rinfo: [[18, 18]],
