@@ -25,34 +25,42 @@ angular
 
       $scope.results = $scope.message = "";
 
-      $scope.multiFetchUrl = base_url + "/api/version/room_availability?check_in=check_in&check_out=check_out&cancellation_rules=cancellation_rules&api_key=api_key&auth_token=auth_token&rinfo=rinfo&transaction_id=transaction_id";
+      $scope.multiFetchUrl = `${
+        base_url
+      }/api/1.1/room_availability?check_in=${formatDate(
+        req.check_in
+      )}&check_out=${formatDate(req.check_out)}&cancellation_rules=${
+        req.cancellation_rules
+      }&api_key=${auth.api_key}&auth_token=${auth.auth_token}&rinfo=${
+        req.rinfo
+      }&transaction_id=${req.trans_id}`;
 
       console.log($scope.url);
 
       let post = {
-          method: 'POST',
-          url: $scope.multiFetchUrl,
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-          transformRequest: function(obj){
-              let str = [];
+        method: "POST",
+        url: $scope.multiFetchUrl,
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        transformRequest: function(obj) {
+          let str = [];
 
-              for (let p in obj) {
-                  str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-              }
-
-              return str.join("&");
-          },
-          data: {
-              check_in: formatDate(req.check_in),
-              check_out: formatDate(req.check_out),
-              cancellation_rules: req.cancellation_rules,
-              api_key: auth.api_key,
-              auth_token: auth.auth_token,
-              rinfo: req.rinfo,
-              trans_id: req.trans_id
+          for (let p in obj) {
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
           }
-      }
-      
+
+          return str.join("&");
+        },
+        data: {
+          check_in: formatDate(req.check_in),
+          check_out: formatDate(req.check_out),
+          cancellation_rules: req.cancellation_rules,
+          api_key: auth.api_key,
+          auth_token: auth.auth_token,
+          rinfo: req.rinfo,
+          trans_id: req.trans_id
+        }
+      };
+
       $http(post)
         .success(function(res) {
           let x2js = new X2JS();
