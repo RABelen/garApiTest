@@ -20,34 +20,46 @@
 
             <md-tab label="multi-property">
                 <md-content class="md-padding" layout="column">
-                    <md-content layout layout-align="center center">
-                        <md-input-container>
-                            <label>Check-In Date</label>
+                    <md-content layout-gt-xs="row">
+                        <div flex-gt-xs>
+                            <h4>Check-In Date</h4>
                             <md-datepicker ng-model="params.check_in"></md-datepicker>
-                        </md-input-container>
-
-                        <md-input-container>
-                            <label>Check-Out Date</label>
+                        </div>
+                        <div flex-gt-xs>
+                            <h4>Check-Out Date</h4>
                             <md-datepicker ng-model="params.check_out"></md-datepicker>
-                        </md-input-container>
+                        </div>
                     </md-content>
 
-                    <md-content ng-show="multiFetchUrl">
-                        <span>Sending request to</span>
-                        <span> {{ multiFetchUrl }}</span>
-                    </md-content>
-                    
                     <md-button class="md-raised md-primary" ng-click="multiFetch(params)">Query</md-button>
-                </md-content>
 
-                <md-card ng-show="results" ng-repeat="res in results">
-                    <md-card-title>
-                        <md-card-title-text>
-                            <span class="md-headline">{{ res.room.title.__text }}</span>
-                            <span class="md-subhead">Hotel ID: {{ res.room['hotel-id'] }}</span>
-                        </md-card-title-text>
-                    </md-card-title>
-                </md-card>
+                    <md-card class="md-padding" ng-show="multiFetchUrl">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline" ng-show="multiFetchUrl" ng-hide="json">Sending request...</span>
+                                <span class="md-headline" ng-show="json">Request sent!</span>
+                                <span class="md-subhead">{{ multiFetchUrl }}</span>
+                            </md-card-title-text>
+                        </md-card-title>
+
+                        <md-card-content class="md-padding" ng-show="multiFetchUrl">
+                            <span>XML</span>
+                            <pre>{{ xml }}</pre>
+
+                            <span>JSON</span>
+                            <p>{{ json }}</p>
+                        </md-card-content>
+                    </md-card>
+
+                    <md-card ng-show="results" ng-repeat="res in results">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">{{ res.room.title.__text }}</span>
+                                <span class="md-subhead">Hotel ID: {{ res.room['hotel-id'] }}</span>
+                            </md-card-title-text>
+                        </md-card-title>
+                    </md-card>
+                </md-content>
             </md-tab>
 
             <md-tab label="single-property">

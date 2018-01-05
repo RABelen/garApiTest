@@ -67,8 +67,10 @@ angular
           let data = x2js.xml_str2json(res);
 
           $scope.results = data["room-stays"]["room-stay"];
+          $scope.xml = res;
+          $scope.json = data;
 
-          console.log($scope.results);
+          console.log(res);
         })
         .catch(function(err) {
           let x2js = new X2JS();
@@ -107,6 +109,8 @@ angular
           let data = x2js.xml_str2json(res);
 
           $scope.results = data["room-stays"]["room-stay"];
+          $scope.xml = res;
+          $scope.json = data;
 
           console.log($scope.results);
         })
