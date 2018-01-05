@@ -18,12 +18,6 @@
     <md-content ng-controller="MyCtrl">
         <md-tabs md-dynamic-height="" md-border-bottom="">
 
-            <md-tab label="properties">
-                <md-content layout="md-padding">
-                    
-                </md-content>
-            </md-tab>
-
             <md-tab label="multi-property">
                 <md-content class="md-padding" layout="column">
                     <md-content layout layout-align="center center">
@@ -38,79 +32,28 @@
                         </md-input-container>
                     </md-content>
 
-                    <md-button class="md-raised md-primary" ng-click="fetch(params)">Query</md-button>
+                    <md-button class="md-raised md-primary" ng-click="multiFetch(params)">Query</md-button>
                 </md-content>
 
-                <md-card ng-show="results" ng-repeat="res in results['roomStay']">
-                    <img ng-src="{{imagePath}}" class="md-card-image">
+                <md-card ng-show="results" ng-repeat="res in results">
                     <md-card-title>
                         <md-card-title-text>
-                            <span class="md-headline">{{ res.roomStay.room.title }}</span>
+                            <span class="md-headline">{{ res.room.title.__text }}</span>
+                            <span class="md-subhead">Hotel ID: {{ res.room['hotel-id'] }}</span>
                         </md-card-title-text>
                     </md-card-title>
-
-                    <md-card-content>
-                        <p>
-                            <b>Description:</b> {{ res.roomStay.room.description }}</p>
-
-                        <p>
-                            <b>Check In:</b> {{ res.request["check-in"] }}</p>
-                        <p>
-                            <b>Check Out:</b> {{ res.request["check-out"] }}</p>
-                        <p>
-                            <b>Rooms:</b> {{ res.request.rooms }}</p>
-                        <p>
-                            <b>Adults:</b> {{ res.request.adults }}</p>
-                        <p>
-                            <b>Children:</b> {{ res.request.children }}</p>
-
-                        <span>
-                            <b>Display Pricing</b>
-                        </span>
-                        <p>Subtotal: {{ res.displayPricing.subtotal }}</p>
-                        <p>Taxes: {{ res.displayPricing.taxes }}</p>
-                        <p>Fees: {{ res.displayPricing.fees }}</p>
-
-                        <span>
-                            <b>Line Items</b>
-                        </span>
-                        <ul ng-repeat="item in res.lineItems['line-item']">
-                            <li>Code: {{ item.code }}</li>
-                            <li>Name: {{ item.name.__text }}</li>
-                            <li>Amount: {{ item.amount }}</li>
-                        </ul>
-
-                        <span>
-                            <b>Cancellation Policy</b>
-                        </span>
-                        <p>{{ results.roomStay["cancellation-policy"] }}</p>
-                    </md-card-content>
-
-                    <md-card-actions layout="row" layout-align="end center">
-                        <md-button class="md-icon-button" aria-label="Favorite">
-                            <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
-                        </md-button>
-                        <md-button class="md-icon-button" aria-label="Settings">
-                            <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
-                        </md-button>
-                        <md-button class="md-icon-button" aria-label="Share">
-                            <md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>
-                        </md-button>
-                    </md-card-actions>
                 </md-card>
             </md-tab>
 
             <md-tab label="single-property">
                 <md-content class="md-padding">
-                    <h1 class="md-display-2">JSON Response</h1>
-                    <p> {{ json }} </p>
+
                 </md-content>
             </md-tab>
 
             <md-tab label="pre-book">
                 <md-content class="md-padding">
-                    <h1 class="md-display-2">XML Response</h1>
-                    <pre> {{ xml }} </pre>
+
                 </md-content>
             </md-tab>
         </md-tabs>

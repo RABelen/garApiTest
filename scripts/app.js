@@ -18,32 +18,34 @@ angular
       trans_id: "67f6d937"
     };
 
-    $scope.fetch = function(req) {
+    $scope.multiFetch = function(req) {
       let formatDate = function(date) {
         return moment(date).format("MM/DD/YYYY");
-      }
-     
+      };
+
       $scope.results = $scope.message = "";
       
-      $scope.url = `${base_url}/api/1.1/properties/${req.prop_id}/room_availability?check_in=${formatDate(req.check_in)}&check_out=${formatDate(req.check_out)}&nights=${req.nights}&cancellation_rules=${req.cancellation_rules}&api_key=${auth.api_key}&auth_token=${auth.auth_token}&rinfo=${req.rinfo}&transaction_id=${req.trans_id}`;
+      $scope.url = `${base_url}/api/1.1/properties/${
+        req.prop_id
+      }/room_availability?check_in=${formatDate(
+        req.check_in
+      )}&check_out=${formatDate(req.check_out)}&nights=${
+        req.nights
+      }&cancellation_rules=${req.cancellation_rules}&api_key=${
+        auth.api_key
+      }&auth_token=${auth.auth_token}&rinfo=${req.rinfo}&transaction_id=${
+        req.trans_id
+      }`;
 
+      console.log($scope.url);
+      
       $http
         .get($scope.url)
         .success(function(res) {
           let x2js = new X2JS();
           let data = x2js.xml_str2json(res);
 
-          $scope.json = data["room-stays"];
-          $scope.xml = res;
-
-          $scope.results = {
-            request: data["room-stays"].request,
-            status: data["room-stays"].status,
-            roomStay: data["room-stays"]["room-stay"]
-            // displayPricing: data["room-stays"]["room-stay"]["display-pricing"],
-            // lineItems:
-            //   data["room-stays"]["room-stay"]["display-pricing"]["line-items"]
-          };
+          $scope.results = data["room-stays"]["room-stay"];
 
           console.log($scope.results);
         })
@@ -55,4 +57,44 @@ angular
           console.log(error);
         });
     };
+
+    $scope.singleFetch = function(propId) {
+        let formatDate = function(date) {
+          return moment(date).format("MM/DD/YYYY");
+        };
+  
+        $scope.results = $scope.message = "";
+        
+        $scope.url = `${base_url}/api/1.1/properties/${
+          req.prop_id
+        }/room_availability?check_in=${formatDate(
+          req.check_in
+        )}&check_out=${formatDate(req.check_out)}&nights=${
+          req.nights
+        }&cancellation_rules=${req.cancellation_rules}&api_key=${
+          auth.api_key
+        }&auth_token=${auth.auth_token}&rinfo=${req.rinfo}&transaction_id=${
+          req.trans_id
+        }`;
+  
+        console.log($scope.url);
+        
+        $http
+          .get($scope.url)
+          .success(function(res) {
+            let x2js = new X2JS();
+            let data = x2js.xml_str2json(res);
+  
+            $scope.results = data["room-stays"]["room-stay"];
+  
+            console.log($scope.results);
+          })
+          .catch(function(err) {
+            let x2js = new X2JS();
+            let error = x2js.xml_str2json(err);
+            $scope.error = `Error. ${err.statusText}`;
+  
+            console.log(error);
+          });
+      };
   });
