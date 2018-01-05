@@ -22,6 +22,26 @@ angular
       trans_id: "67f6d937"
     };
 
+    $scope.listProperties = function() {
+        $scope.propUrl = `https://book.integration2.testaroom.com/api/properties.xml?api_key=${auth.api_key}&auth_token=${auth.auth_token}`
+    
+        $http
+        .get($scope.propUrl)
+        .success(function(res) {
+          let x2js = new X2JS();
+          let data = x2js.xml_str2json(res);
+
+          console.log(res);
+        })
+        .catch(function(err) {
+          let x2js = new X2JS();
+          let error = x2js.xml_str2json(err);
+          $scope.error = `Error. ${err.statusText}`;
+
+          console.log(error);
+        });
+    }
+
     $scope.multiFetch = function(req) {
       let data = new FormData();
       data.append("property_id[]", "b41ce02e-69a3-4a28-8bf8-2ab48d0d4135");

@@ -14,17 +14,28 @@
 </head>
 
 <body ng-app="MyApp" ng-cloak>
-
     <md-content ng-controller="MyCtrl">
+        <md-toolbar class="md-hue-2">
+            <div class="md-toolbar-tools">
+                <h2 flex md-truncate>This page needs to have CORS enabled.</h2>
+
+                <md-button class="md-raised" target="_blank" ng-href="https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi">
+                    Install Allow-Control-Allow-Origin: *
+                    <md-tooltip>Needs to have CORS enabled.</md-tooltip>                
+                </md-button>
+            </div>
+        </md-toolbar>
+
         <md-tabs md-dynamic-height="" md-border-bottom="">
+
+            <md-tab label="properties">
+                <md-content class="md-padding">
+                    <md-button class="md-raised md-primary" ng-click="listProperties()">Refresh Properties</md-button>
+                </md-content>
+            </md-tab>
 
             <md-tab label="multi-property">
                 <md-content class="md-padding" layout="column">
-                    <span>Needs to have CORS enabled.</span>
-                    <span>Install <a href="https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi">Allow-Control-Allow-Origin: *</a>
-                        from Chrome webstore.
-                    </span>
-                    
                     <md-content layout-gt-xs="row">
                         <div flex-gt-xs>
                             <h4>Check-In Date</h4>
@@ -37,7 +48,7 @@
                     </md-content>
 
                     <md-button class="md-raised md-primary" ng-click="multiFetch(params)">Query</md-button>
-                    
+
                     <md-card class="md-padding" ng-show="multiFetchUrl">
                         <md-card-title>
                             <md-card-title-text>
