@@ -66,35 +66,33 @@
                     </md-content>
 
                     <md-button class="md-raised md-primary" ng-click="fetch(params, rows)">Query</md-button>
-                    <md-card ng-repeat="row in rows">
+                    <md-card  ng-show="results" ng-repeat="res in results">
                         <md-card-title>
                             <md-card-title-text>
-                                <span class="md-headline">{{ row.name }}</span>
-                                <span class="md-subhead">Hotel ID: {{ row.id }}</span>
+                                <span class="md-headline">{{ res.hotelName }}</span>
+                                <span class="md-subhead">Hotel ID: {{ res.hotelId }}</span>
                             </md-card-title-text>
                         </md-card-title>
 
-                        <md-card-content>
-                            <md-card ng-show="results" ng-repeat="res in results">
+                        <md-card-content layout="column">
+                           
+                            <md-card ng-repeat="room in res.rooms">
                                 <md-card-title>
                                     <md-card-title-text>
-                                        <span class="md-headline">{{ res.room.title.__text }}</span>
+                                        <span class="md-headline">{{ room.title }}</span>
+                                        <span class="md-subhead">Hotel ID: {{ room.hotelId }}</span>  
+                                        <span class="md-subhead">Room ID: {{ room.roomId }}</span>                                        
                                     </md-card-title-text>
                                 </md-card-title>
 
                                 <md-card-content layout="column">
-                                    <span>Check In: {{ params.check_in | date:'MM/dd/yyyy'}}</span>
-                                    <span>Check Out: {{ params.check_out | date:'MM/dd/yyyy'}}</span>
+                                    <span class="md-headline">Check In: {{ params.check_in | date:'MM/dd/yyyy'}}</span>
+                                    <span class="md-headline">Check Out: {{ params.check_out | date:'MM/dd/yyyy'}}</span>
                                     <md-divider></md-divider>
-                                    <span class="md-subhead">Hotel ID: {{ res.room['hotel-id'] }}</span>
-                                    <span class="md-subhead">Room ID: {{ res.room['room-id'] }}</span>
-                                    <span class="md-subhead">Rate Plan Code: {{ res['rate-plan-code'] }}</span>
-                                    <span class="md-subhead">Multi-Property Rate: {{ res['display-pricing'].total }}</span>
+                                    <span class="md-subhead">Rate Plan Code: {{ room.ratePlanCode }}</span>
+                                    <span class="md-subhead">Multi-Property Rate: {{ room.multiRate }}</span>
                                     <span class="md-subhead">Single Property Rate: {{ single['display-pricing'].total }}</span>
                                 </md-card-content>
-                                <md-card-actions layout="row" layout-align="end center">
-                                    <md-button ng-click="singleFetch(params, res.room['hotel-id'])">Single Property</md-button>
-                                </md-card-actions>
                             </md-card>
                         </md-card-content>
                     </md-card>
@@ -137,7 +135,8 @@
     <script src="https://cdn.rawgit.com/abdmob/x2js/master/xml2json.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.6/papaparse.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
+    
     <script src="scripts/app.js"></script>
 
 </body>

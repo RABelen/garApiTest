@@ -39,30 +39,26 @@ angular
 
     $scope.fetch = function(req, rows) {
       let data = new FormData();
-      let promises = $timeout();
+      $scope.results = [];
 
-      $scope.output = {};
+      multiFetch(req, rows);
 
-      angular.forEach(rows, function(row) {
-        promise = promises.then(function() {
-          multiFetch(req, row.id, function(data) {
-            console.log(data);
-          })
-          return $timeout(5000);
-        })
-      })
+      // angular.forEach(rows[0], function(row) {
+      //   promise = promises.then(function() {
+      //     multiFetch(req, row, function(data) {
+      //       console.log(data);
+      //     })
+      //     return $timeout(5000);
+      //   })
+      // })
     };
 
-    let multiFetch = function(req, id) {
-      let data = new FormData();
+    let formatDate = function(date) {
+      return moment(date).format("MM/DD/YYYY");
+    };
 
-      data.append("property_id[]", id);
-
-      let formatDate = function(date) {
-        return moment(date).format("MM/DD/YYYY");
-      };
-
-      $scope.multiFetchUrl = `${base_url}/api/1.1/room_availability?check_in=${formatDate(
+    let multiFetch = function(req, rows) {
+      let multiFetchUrl = `${base_url}/api/1.1/room_availability?check_in=${formatDate(
         req.check_in
       )}&check_out=${formatDate(req.check_out)}&cancellation_rules=${
         req.cancellation_rules
@@ -70,11 +66,22 @@ angular
         req.rinfo
       }&transaction_id=${req.trans_id}`;
 
+      let fd = new FormData();
+
+      angular.forEach(rows, function(row) {
+        fd.append("property_id[]", row.id);
+
+        $scope.results.push({
+          hotelId: row.id,
+          hotelName: row.name
+        });
+      });
+
       let post = {
         method: "POST",
-        url: $scope.multiFetchUrl,
+        url: multiFetchUrl,
         headers: { "Content-Type": undefined },
-        data: data,
+        data: fd,
         timeout: 5000
       };
 
@@ -82,12 +89,33 @@ angular
         .success(function(res) {
           let x2js = new X2JS();
           let data = x2js.xml_str2json(res);
+          let rooms = [];
+          
+          console.log(data)
 
-          // $scope.results = data["room-stays"]["room-stay"];
-          // $scope.xml = res;
-          // $scope.json = data;
+          angular.forEach(data["room-stays"]["room-stay"], function(room) {
+            rooms.push({
+              hotelId: room.room["hotel-id"],
+              roomId: room.room["room-id"],
+              title: room.room.title.__text,
+              ratePlanCode: room["rate-plan-code"],
+              multiRate: room["display-pricing"].total
+            });
+            console.log(room)
+          });
 
-          return data["room-stays"]["room-stay"];
+          for (let hotel = 0; hotel < $scope.results.length; hotel++) {
+            $scope.results[hotel].rooms = [];
+
+            for (let room = 0; room < rooms.length; room++) {
+              if (rooms[room].hotelId == $scope.results[hotel].hotelId) {
+                $scope.results[hotel].rooms.push(rooms[room]);
+              }
+            }
+          }
+
+          console.log($scope.results.length);
+          console.log(rooms.length);
         })
         .catch(function(err) {
           let x2js = new X2JS();
@@ -98,12 +126,10 @@ angular
         });
     };
 
-    let singleFetch = function(req, id) {
-      let formatDate = function(date) {
-        return moment(date).format("MM/DD/YYYY");
-      };
-
-      $scope.url = `${base_url}/api/1.1/properties/${id}/room_availability?check_in=${formatDate(
+    let singleFetch = function(req, row) {
+      let singleUrl = `${base_url}/api/1.1/properties/${
+        row.id
+      }/room_availability?check_in=${formatDate(
         req.check_in
       )}&check_out=${formatDate(req.check_out)}&nights=${
         req.nights
@@ -114,14 +140,14 @@ angular
       }`;
 
       $http
-        .get($scope.url)
+        .get(singleUrl)
         .success(function(res) {
           let x2js = new X2JS();
           let data = x2js.xml_str2json(res);
+          let result = angular.extend({}, row, data);
 
-          $scope.single = data["room-stays"]["room-stay"];
-
-          console.log($scope.single);
+          console.log(result);
+          return result;
         })
         .catch(function(err) {
           let x2js = new X2JS();
