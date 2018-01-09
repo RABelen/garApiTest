@@ -13,7 +13,6 @@ angular
     };
 
     $scope.params = {
-      prop_id: "d4b5bc60-1c9c-4e10-b8bd-cc6f6a1a08a8",
       check_in: today,
       check_out: tom,
       nights: "",
@@ -23,54 +22,25 @@ angular
     };
 
     $scope.listProperties = function() {
-        $scope.propUrl = `https://book.integration2.testaroom.com/api/properties.csv?api_key=${auth.api_key}&auth_token=${auth.auth_token}`
+        let url = `https://book.integration2.testaroom.com/api/properties.csv?api_key=${auth.api_key}&auth_token=${auth.auth_token}`
     
-        // $http
-        // .get($scope.propUrl)
-        // .map(function(res) {
-        //   let x2js = new X2JS();
-        //   let data = x2js.xml_str2json(res);
-
-        //   console.log(res);
-        // })
-        // .catch(function(err) {
-        //   let x2js = new X2JS();
-        //   let error = x2js.xml_str2json(err);
-        //   $scope.error = `Error. ${err.statusText}`;
-
-        //   console.log(error);
-        // });
-
-        // let response = fetch($scope.propUrl).then(function(res) {
-        //   let x2js = new X2JS();
-        //   let data = x2js.xml_str2json(res);
-
-        //   return res;
-        //   console.log(res);
-        // });
-
-        // let stream = Rx.Observable.fromPromise(response)
-        //   .map(function(data) {
-        //     console.log(data);
-        //   })
-
         Papa.parse("/assets/sample.csv", {
           download: true,
-          complete: function(results) {
-            $scope.results = results.data;
-            $scope.fields = results.meta.fields;
+          header: true,
+          complete: function(rows) {
+            $scope.rows = rows.data;
+            $scope.fields = rows.meta.fields;
             $scope.$apply();
-
-            console.log($scope.results);
           }
         });
     }
 
     $scope.multiFetch = function(req) {
       let data = new FormData();
-      data.append("property_id[]", "b41ce02e-69a3-4a28-8bf8-2ab48d0d4135");
-      data.append("property_id[]", "bf7bdcbc-83e5-4fba-b3a9-bc0f97f222f5");
-      data.append("property_id[]", "2823e7e0-9f26-4d03-af66-fd1cf5f64f1d");
+
+      for (let i = 0; i < $scope.rows.length; i++) {
+        data.append("property_id[]", $scope.rows[i].id);
+      }
      
       let formatDate = function(date) {
         return moment(date).format("MM/DD/YYYY");
@@ -88,8 +58,6 @@ angular
         req.rinfo
       }&transaction_id=${req.trans_id}`;
 
-      console.log(data);
-
       let post = {
         method: "POST",
         url: $scope.multiFetchUrl,
@@ -105,8 +73,6 @@ angular
           $scope.results = data["room-stays"]["room-stay"];
           $scope.xml = res;
           $scope.json = data;
-
-          console.log(res);
         })
         .catch(function(err) {
           let x2js = new X2JS();
@@ -117,15 +83,13 @@ angular
         });
     };
 
-    $scope.singleFetch = function(req) {
+    $scope.singleFetch = function(req, id) {
       let formatDate = function(date) {
         return moment(date).format("MM/DD/YYYY");
       };
 
-      $scope.results = "";
-
       $scope.url = `${base_url}/api/1.1/properties/${
-        req.prop_id
+        id
       }/room_availability?check_in=${formatDate(
         req.check_in
       )}&check_out=${formatDate(req.check_out)}&nights=${
@@ -136,19 +100,15 @@ angular
         req.trans_id
       }`;
 
-      console.log($scope.url);
-
       $http
         .get($scope.url)
         .success(function(res) {
           let x2js = new X2JS();
           let data = x2js.xml_str2json(res);
 
-          $scope.results = data["room-stays"]["room-stay"];
-          $scope.xml = res;
-          $scope.json = data;
+          $scope.single = data["room-stays"]["room-stay"];
 
-          console.log($scope.results);
+          console.log($scope.single);
         })
         .catch(function(err) {
           let x2js = new X2JS();

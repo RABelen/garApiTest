@@ -21,7 +21,7 @@
 
                 <md-button class="md-raised" target="_blank" ng-href="https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi">
                     Install Allow-Control-Allow-Origin: *
-                    <md-tooltip>Needs to have CORS enabled.</md-tooltip>                
+                    <md-tooltip>Needs to have CORS enabled.</md-tooltip>
                 </md-button>
             </div>
         </md-toolbar>
@@ -30,8 +30,24 @@
 
             <md-tab label="properties">
                 <md-content class="md-padding">
-                    <div  layout-align="center center">
-                        <md-button class="md-raised md-primary" ng-click="listProperties()">Refresh Properties</md-button>                            
+                    <div layout-align="center center">
+                        <md-button class="md-raised md-primary" ng-click="listProperties()">Refresh Properties</md-button>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th ng-repeat='c in fields'>{{ c | uppercase }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat='r in rows'>
+                                        <td ng-repeat='c in fields'>
+                                            {{ r[c] }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </md-content>
             </md-tab>
@@ -50,43 +66,60 @@
                     </md-content>
 
                     <md-button class="md-raised md-primary" ng-click="multiFetch(params)">Query</md-button>
-
-                    <md-card class="md-padding" ng-show="multiFetchUrl">
+                    <md-card ng-repeat="row in rows">
                         <md-card-title>
                             <md-card-title-text>
-                                <span class="md-headline" ng-show="multiFetchUrl" ng-hide="json">Sending request...</span>
-                                <span class="md-headline" ng-show="json">Request sent!</span>
-                                <span class="md-subhead">{{ multiFetchUrl }}</span>
+                                <span class="md-headline">{{ row.name }}</span>
+                                <span class="md-subhead">Hotel ID: {{ row.id }}</span>
                             </md-card-title-text>
                         </md-card-title>
 
-                        <md-card-content class="md-padding" ng-show="multiFetchUrl">
-                            <span>XML</span>
-                            <pre>{{ xml }}</pre>
+                        <md-card-content>
+                            <md-card ng-show="results" ng-repeat="res in results">
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline">{{ res.room.title.__text }}</span>
+                                    </md-card-title-text>
+                                </md-card-title>
 
-                            <span>JSON</span>
-                            <p>{{ json }}</p>
+                                <md-card-content layout="column">
+                                    <span>Check In: {{ params.check_in | date:'MM/dd/yyyy'}}</span>
+                                    <span>Check Out: {{ params.check_out | date:'MM/dd/yyyy'}}</span>
+                                    <md-divider></md-divider>
+                                    <span class="md-subhead">Hotel ID: {{ res.room['hotel-id'] }}</span>
+                                    <span class="md-subhead">Room ID: {{ res.room['room-id'] }}</span>
+                                    <span class="md-subhead">Rate Plan Code: {{ res['rate-plan-code'] }}</span>
+                                    <span class="md-subhead">Multi-Property Rate: {{ res['display-pricing'].total }}</span>
+                                    <span class="md-subhead">Single Property Rate: {{ single['display-pricing'].total }}</span>
+                                </md-card-content>
+                                <md-card-actions layout="row" layout-align="end center">
+                                    <md-button ng-click="singleFetch(params, res.room['hotel-id'])">Single Property</md-button>
+                                </md-card-actions>
+                            </md-card>
                         </md-card-content>
                     </md-card>
-
-                    <md-card ng-show="results" ng-repeat="res in results">
-                        <md-card-title>
-                            <md-card-title-text>
-                                <span class="md-headline">{{ res.room.title.__text }}</span>
-                                <span class="md-subhead">Hotel ID: {{ res.room['hotel-id'] }}</span>
-                            </md-card-title-text>
-                        </md-card-title>
-                    </md-card>
                 </md-content>
             </md-tab>
 
-            <md-tab label="single-property">
+            <md-tab label="xml">
                 <md-content class="md-padding">
-
+                    <div class="md-padding" ng-show="multiFetchUrl">
+                        <span>XML</span>
+                        <pre>{{ xml }}</pre>
+                    </div>
                 </md-content>
             </md-tab>
 
-            <md-tab label="pre-book">
+            <md-tab label="json">
+                <md-content class="md-padding">
+                    <div class="md-padding" ng-show="multiFetchUrl">
+                        <span>JSON</span>
+                        <p>{{ json }}</p>
+                    </div>
+                </md-content>
+            </md-tab>
+
+            <md-tab label="">
                 <md-content class="md-padding">
 
                 </md-content>
@@ -103,9 +136,8 @@
 
     <script src="https://cdn.rawgit.com/abdmob/x2js/master/xml2json.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/2.5.2/rx.all.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.6/papaparse.js"></script>
-    
+
     <script src="scripts/app.js"></script>
 
 </body>
