@@ -28,10 +28,10 @@
 
         <md-tabs md-dynamic-height="" md-border-bottom="">
 
-            <md-tab label="properties">
+            <md-tab label="data">
                 <md-content class="md-padding">
-                    <div layout-align="center center">
-                        <md-button class="md-raised md-primary" ng-click="listProperties()">Refresh Properties</md-button>
+                    <div layout="column" layout-align="center center">
+                        <md-button flex class="md-raised md-primary" ng-click="listProperties()">Refresh Properties</md-button>
                         <div class="table-responsive">
                             <table>
                                 <thead>
@@ -52,7 +52,7 @@
                 </md-content>
             </md-tab>
 
-            <md-tab label="multi-property">
+            <md-tab label="properties">
                 <md-content class="md-padding" layout="column">
                     <md-content layout-gt-xs="row">
                         <div flex-gt-xs>
@@ -65,7 +65,7 @@
                         </div>
                     </md-content>
 
-                    <md-button class="md-raised md-primary" ng-click="multiFetch(params)">Query</md-button>
+                    <md-button class="md-raised md-primary" ng-click="fetch(params, rows)">Query</md-button>
                     <md-card ng-repeat="row in rows">
                         <md-card-title>
                             <md-card-title-text>

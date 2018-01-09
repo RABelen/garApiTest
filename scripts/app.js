@@ -1,6 +1,6 @@
 angular
   .module("MyApp", ["ngMaterial"])
-  .controller("MyCtrl", function($scope, $http) {
+  .controller("MyCtrl", function($scope, $http, $timeout) {
     const base_url = "https://availability.integration2.testaroom.com";
     let today = new Date();
     let tom = new Date();
@@ -22,35 +22,47 @@ angular
     };
 
     $scope.listProperties = function() {
-        let url = `https://book.integration2.testaroom.com/api/properties.csv?api_key=${auth.api_key}&auth_token=${auth.auth_token}`
-    
-        Papa.parse("/assets/sample.csv", {
-          download: true,
-          header: true,
-          complete: function(rows) {
-            $scope.rows = rows.data;
-            $scope.fields = rows.meta.fields;
-            $scope.$apply();
-          }
-        });
-    }
+      let url = `https://book.integration2.testaroom.com/api/properties.csv?api_key=${
+        auth.api_key
+      }&auth_token=${auth.auth_token}`;
 
-    $scope.multiFetch = function(req) {
+      Papa.parse("/assets/sample.csv", {
+        download: true,
+        header: true,
+        complete: function(rows) {
+          $scope.rows = rows.data;
+          $scope.fields = rows.meta.fields;
+          $scope.$apply();
+        }
+      });
+    };
+
+    $scope.fetch = function(req, rows) {
+      let data = new FormData();
+      let promises = $timeout();
+
+      $scope.output = {};
+
+      angular.forEach(rows, function(row) {
+        promise = promises.then(function() {
+          multiFetch(req, row.id, function(data) {
+            console.log(data);
+          })
+          return $timeout(5000);
+        })
+      })
+    };
+
+    let multiFetch = function(req, id) {
       let data = new FormData();
 
-      for (let i = 0; i < $scope.rows.length; i++) {
-        data.append("property_id[]", $scope.rows[i].id);
-      }
-     
+      data.append("property_id[]", id);
+
       let formatDate = function(date) {
         return moment(date).format("MM/DD/YYYY");
       };
 
-      $scope.results = "";
-
-      $scope.multiFetchUrl = `${
-        base_url
-      }/api/1.1/room_availability?check_in=${formatDate(
+      $scope.multiFetchUrl = `${base_url}/api/1.1/room_availability?check_in=${formatDate(
         req.check_in
       )}&check_out=${formatDate(req.check_out)}&cancellation_rules=${
         req.cancellation_rules
@@ -62,7 +74,8 @@ angular
         method: "POST",
         url: $scope.multiFetchUrl,
         headers: { "Content-Type": undefined },
-        data: data
+        data: data,
+        timeout: 5000
       };
 
       $http(post)
@@ -70,9 +83,11 @@ angular
           let x2js = new X2JS();
           let data = x2js.xml_str2json(res);
 
-          $scope.results = data["room-stays"]["room-stay"];
-          $scope.xml = res;
-          $scope.json = data;
+          // $scope.results = data["room-stays"]["room-stay"];
+          // $scope.xml = res;
+          // $scope.json = data;
+
+          return data["room-stays"]["room-stay"];
         })
         .catch(function(err) {
           let x2js = new X2JS();
@@ -83,14 +98,12 @@ angular
         });
     };
 
-    $scope.singleFetch = function(req, id) {
+    let singleFetch = function(req, id) {
       let formatDate = function(date) {
         return moment(date).format("MM/DD/YYYY");
       };
 
-      $scope.url = `${base_url}/api/1.1/properties/${
-        id
-      }/room_availability?check_in=${formatDate(
+      $scope.url = `${base_url}/api/1.1/properties/${id}/room_availability?check_in=${formatDate(
         req.check_in
       )}&check_out=${formatDate(req.check_out)}&nights=${
         req.nights
