@@ -23,22 +23,46 @@ angular
     };
 
     $scope.listProperties = function() {
-        $scope.propUrl = `https://book.integration2.testaroom.com/api/properties.xml?api_key=${auth.api_key}&auth_token=${auth.auth_token}`
+        $scope.propUrl = `https://book.integration2.testaroom.com/api/properties.csv?api_key=${auth.api_key}&auth_token=${auth.auth_token}`
     
-        $http
-        .get($scope.propUrl)
-        .success(function(res) {
-          let x2js = new X2JS();
-          let data = x2js.xml_str2json(res);
+        // $http
+        // .get($scope.propUrl)
+        // .map(function(res) {
+        //   let x2js = new X2JS();
+        //   let data = x2js.xml_str2json(res);
 
-          console.log(res);
-        })
-        .catch(function(err) {
-          let x2js = new X2JS();
-          let error = x2js.xml_str2json(err);
-          $scope.error = `Error. ${err.statusText}`;
+        //   console.log(res);
+        // })
+        // .catch(function(err) {
+        //   let x2js = new X2JS();
+        //   let error = x2js.xml_str2json(err);
+        //   $scope.error = `Error. ${err.statusText}`;
 
-          console.log(error);
+        //   console.log(error);
+        // });
+
+        // let response = fetch($scope.propUrl).then(function(res) {
+        //   let x2js = new X2JS();
+        //   let data = x2js.xml_str2json(res);
+
+        //   return res;
+        //   console.log(res);
+        // });
+
+        // let stream = Rx.Observable.fromPromise(response)
+        //   .map(function(data) {
+        //     console.log(data);
+        //   })
+
+        Papa.parse("/assets/sample.csv", {
+          download: true,
+          complete: function(results) {
+            $scope.results = results.data;
+            $scope.fields = results.meta.fields;
+            $scope.$apply();
+
+            console.log($scope.results);
+          }
         });
     }
 
