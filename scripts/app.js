@@ -44,16 +44,9 @@ angular
       $scope.multiCount = 0;
       $scope.singleCount = 0;
 
-      multiFetch(req, rows);
-      console.log($scope.results);
-      // angular.forEach(rows[0], function(row) {
-      //   promise = promises.then(function() {
-      //     multiFetch(req, row, function(data) {
-      //       console.log(data);
-      //     })
-      //     return $timeout(5000);
-      //   })
-      // })
+      multiFetch(req, rows, function() {
+        console.log($scope.results);
+      });
     };
 
     let formatDate = function(date) {
@@ -75,6 +68,7 @@ angular
         if (row.id != "") {
           $scope.hotelsCount++;
           fd.append("property_id[]", row.id);
+          $timeout(singleFetch(req, row.id), 5000);
 
           $scope.results.push({
             hotelId: row.id,
@@ -100,8 +94,6 @@ angular
           let data = x2js.xml_str2json(res);
           let rooms = [];
 
-          console.log(data);
-
           angular.forEach(data["room-stays"]["room-stay"], function(room) {
             $scope.multiCount++;
 
@@ -119,28 +111,22 @@ angular
             });
           });
 
-          for (let hotel = 0; hotel < $scope.results.length; hotel++) {
-            $scope.results[hotel].rooms.multi = [];
-
-            for (let room = 0; room < rooms.length; room++) {
-              if (rooms[room].hotelId == $scope.results[hotel].hotelId) {
-                singleFetch(req, rooms[room].hotelId);
-                
-                if ($scope.results[hotel].rooms.roomId.indexOf(rooms[room].roomId) !== -1) {
-                  $scope.results[hotel].rooms.rates.push(rooms[room].rates);
-                } else {
-                  $scope.results[hotel].rooms.push(rooms[room]);
-                }
-              }
-            }
-          }
+          pushResult($scope.results, rooms);
+          
+          // for (let hotel = 0; hotel < $scope.results.length; hotel++) {
+          //   for (let room = 0; room < rooms.length; room++) {
+          //     if (rooms[room].hotelId == $scope.results[hotel].hotelId) {            
+          //       if ($scope.results[hotel].rooms.indexOf(rooms[room].roomId) !== -1) {
+          //         $scope.results[hotel].rooms.rates.push(rooms[room].rates);
+          //       } else {
+          //         $scope.results[hotel].rooms.push(rooms[room]);
+          //       }
+          //     }
+          //   }
+          // }
         })
         .catch(function(err) {
-          let x2js = new X2JS();
-          let error = x2js.xml_str2json(err);
-          $scope.error = `Error. ${err.statusText}`;
-
-          console.log(error);
+          console.log(err.statusText);
         });
     };
 
@@ -160,8 +146,6 @@ angular
           let data = x2js.xml_str2json(res);
           let rooms = [];
 
-          console.log(data);
-
           angular.forEach(data["room-stays"]["room-stay"], function(room) {
             $scope.singleCount++;
 
@@ -179,27 +163,40 @@ angular
             });
           });
 
-          for (let hotel = 0; hotel < $scope.results.length; hotel++) {
-            $scope.results[hotel].rooms.multi = [];
+          pushResult($scope.results, rooms);
+          // for (let hotel = 0; hotel < $scope.results.length; hotel++) {
+          //   $scope.results[hotel].rooms.multi = [];
 
-            for (let room = 0; room < rooms.length; room++) {
-              if (rooms[room].hotelId == $scope.results[hotel].hotelId) {
+          //   for (let room = 0; room < rooms.length; room++) {
+          //     if (rooms[room].hotelId == $scope.results[hotel].hotelId) {
                 
-                if ($scope.results[hotel].rooms.roomId.indexOf(rooms[room].roomId) !== -1) {
-                  $scope.results[hotel].rooms.rates.push(rooms[room].rates);
-                } else {
-                  $scope.results[hotel].rooms.push(rooms[room]);
-                }
-              }
-            }
-          }
+          //       if ($scope.results[hotel].rooms.indexOf(rooms[room].roomId) !== -1) {
+          //         console.log(rooms[room].roomId);                  
+          //         $scope.results[hotel].rooms.rates.push(rooms[room].rates);
+          //       } else {
+          //         $scope.results[hotel].rooms.push(rooms[room]);
+          //       }
+          //     }
+          //   }
+          // }
         })
         .catch(function(err) {
-          let x2js = new X2JS();
-          let error = x2js.xml_str2json(err);
-          $scope.error = `Error. ${err.statusText}`;
-
-          console.log(error);
+          console.log(err.statusText);
         });
     };
+
+    let pushResult = function(result, data) {
+      for (let hotel = 0; hotel < result.length; hotel++) {
+        for (let room = 0; room < data.length; room++) {
+          if (data[room].hotelId == result[hotel].hotelId) {   
+            if (result[hotel].rooms.indexOf(data[room].roomId) !== -1) {
+              console.log(data[room].roomId);                  
+              result[hotel].rooms.rates.push(data[room].rates);
+            } else {
+              result[hotel].rooms.push(data[room]);
+            }
+          }
+        }
+      }
+    }
   });

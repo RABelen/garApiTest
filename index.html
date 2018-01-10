@@ -100,18 +100,23 @@
                                 <md-card-content layout="column">
                                     <md-list flex ng-repeat="room in res.rooms">
                                         <md-subheader class="md-no-sticky" ng-show="room.title">{{ room.title }} : {{ room.roomId }}</md-subheader>
-                                            <md-list ng-repeat="rate in room.rates" layout>
-                                            <md-list-item class="md-3-line">
-                                                <div class="md-list-item-text" layout="column">
-                                                    <!-- <p class="md-subhead">Rate Plan Code: {{ rate.ratePlanCode }}</p> -->
-                                                    <p class="md-subhead">Request Type: {{ rate.requestType }}</p>
-                                                    <p class="md-subhead">Display Pricing: {{ rate.displayPrice }}</p>
-                                                    <p class="md-subhead">Booking Pricing: {{ rate.bookingPrice }}</p>
-                                                </div>
-                                            </md-list-item>
+                                        <md-list ng-repeat="rate in room.rates" layout>
+                                            <div layout="column">
+                                                <md-list-item class="md-2-line">
+                                                    <div class="md-list-item-text" layout="column">
+                                                        <p class="md-caption">Rate Plan Code: {{ rate.ratePlanCode }}</p>
+                                                        <p class="md-caption">Request Type: {{ rate.requestType }}</p>
+                                                    </div>
+                                                </md-list-item>
+                                                <md-list-item class="md-2-line">
+                                                    <div class="md-list-item-text" layout="column">
+                                                        <p class="md-caption">Display Pricing: {{ rate.displayPrice }}</p>
+                                                        <p class="md-caption">Booking Pricing: {{ rate.bookingPrice }}</p>
+                                                    </div>
+                                                </md-list-item>
+                                            </div>
                                         </md-list>
-                                        <md-divider></md-divider>
-
+                                        <md-divider></md-divider>                                        
                                     </md-list>
                                 </md-card-content>
                             </md-card>
