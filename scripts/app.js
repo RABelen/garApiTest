@@ -26,6 +26,7 @@ angular
         auth.api_key
       }&auth_token=${auth.auth_token}`;
 
+<<<<<<< HEAD
       Papa.parse(
         "https://raw.githubusercontent.com/iamjigz/garApiTest/master/assets/sample.csv",
         {
@@ -36,6 +37,15 @@ angular
             $scope.fields = rows.meta.fields;
             $scope.$apply();
           }
+=======
+      Papa.parse("https://raw.githubusercontent.com/iamjigz/garApiTest/master/assets/sample.csv", {
+        download: true,
+        header: true,
+        complete: function(rows) {
+          $scope.rows = rows.data;
+          $scope.fields = rows.meta.fields;
+          $scope.$apply();
+>>>>>>> 2046833e32f258b58cad52d3e2be0685c38912a8
         }
       );
     };
