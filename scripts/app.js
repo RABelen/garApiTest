@@ -4,10 +4,10 @@ angular
     const base_url = "https://availability.integration2.testaroom.com";
     let today = new Date();
     let tom = new Date();
-
+    
     tom.setDate(tom.getDate() + 1);
 
-    let auth = {
+    $scope.auth = {
       api_key: "095f6d98-36cc-5975-a67a-95c48b87187d",
       auth_token: "92623a90-6c52-5cbf-88c2-f061fd003028"
     };
@@ -15,18 +15,16 @@ angular
     $scope.params = {
       check_in: today,
       check_out: tom,
-      nights: 1,
       cancellation_rules: 1,
       rinfo: "[[18,18]]",
       trans_id: "67f6d937"
     };
-
+    
     $scope.listProperties = function() {
       let url = `https://book.integration2.testaroom.com/api/properties.csv?api_key=${
-        auth.api_key
-      }&auth_token=${auth.auth_token}`;
+        $scope.auth.api_key
+      }&auth_token=${$scope.auth.auth_token}`;
 
-<<<<<<< HEAD
       Papa.parse(
         "https://raw.githubusercontent.com/iamjigz/garApiTest/master/assets/sample.csv",
         {
@@ -37,15 +35,6 @@ angular
             $scope.fields = rows.meta.fields;
             $scope.$apply();
           }
-=======
-      Papa.parse("https://raw.githubusercontent.com/iamjigz/garApiTest/master/assets/sample.csv", {
-        download: true,
-        header: true,
-        complete: function(rows) {
-          $scope.rows = rows.data;
-          $scope.fields = rows.meta.fields;
-          $scope.$apply();
->>>>>>> 2046833e32f258b58cad52d3e2be0685c38912a8
         }
       );
     };
@@ -72,13 +61,11 @@ angular
         req.check_in
       )}&check_out=${formatDate(req.check_out)}&cancellation_rules=${
         req.cancellation_rules
-      }&api_key=${auth.api_key}&auth_token=${auth.auth_token}&rinfo=${
+      }&api_key=${$scope.auth.api_key}&auth_token=${$scope.auth.auth_token}&rinfo=${
         req.rinfo
       }&transaction_id=${req.trans_id}`;
 
       let fd = new FormData();
-
-      $timeout(singleFetch(req, rows[0].id), 5000);
 
       angular.forEach(rows, function(row) {
         if (row.id != "") {
@@ -111,7 +98,7 @@ angular
           let x2js = new X2JS();
           let data = x2js.xml_str2json(res);
           let rooms = [];
-
+          
           angular.forEach(data["room-stays"]["room-stay"], function(room) {
             $scope.multiCount++;
 
@@ -131,19 +118,14 @@ angular
             });
           });
 
-          pushResult($scope.results, rooms);
+          pushResult($scope.results, rooms, function() {
+            $timeout(singleFetch(req, rooms[0].id), 10000);            
+            // angular.forEach(rooms, function(room) {
+            //   $timeout(singleFetch(req, room.id), 5000);              
+            // })
+          });
 
-          // for (let hotel = 0; hotel < $scope.results.length; hotel++) {
-          //   for (let room = 0; room < rooms.length; room++) {
-          //     if (rooms[room].hotelId == $scope.results[hotel].hotelId) {
-          //       if ($scope.results[hotel].rooms.indexOf(rooms[room].roomId) !== -1) {
-          //         $scope.results[hotel].rooms.rates.push(rooms[room].rates);
-          //       } else {
-          //         $scope.results[hotel].rooms.push(rooms[room]);
-          //       }
-          //     }
-          //   }
-          // }
+
         })
         .catch(function(err) {
           $scope.message = {
@@ -158,7 +140,7 @@ angular
         req.check_in
       )}&check_out=${formatDate(req.check_out)}&cancellation_rules=${
         req.cancellation_rules
-      }&api_key=${auth.api_key}&auth_token=${auth.auth_token}&rinfo=${
+      }&api_key=${$scope.auth.api_key}&auth_token=${$scope.auth.auth_token}&rinfo=${
         req.rinfo
       }&transaction_id=${req.trans_id}`;
 

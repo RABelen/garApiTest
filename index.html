@@ -29,7 +29,7 @@
         <md-tabs md-dynamic-height="" md-border-bottom="">
 
             <md-tab label="data">
-                <md-content class="md-padding">
+                <md-content layout-padding>
                     <div layout="column" layout-align="center center">
                         <md-button flex class="md-raised md-primary" ng-click="listProperties()">Refresh Properties</md-button>
                         <div class="table-responsive">
@@ -53,23 +53,36 @@
             </md-tab>
 
             <md-tab label="properties">
-                <md-content class="md-padding" layout="column">
-                    <md-content layout-gt-xs="row">
-                        <div flex-gt-xs>
-                            <h4>Check-In Date</h4>
-                            <md-datepicker ng-model="params.check_in"></md-datepicker>
+                <md-content layout-padding layout="column">
+                    <md-content layout-padding>
+                        <div layout-gt-xs="row">
+                            <div flex-gt-xs>
+                                <h4>Check-In Date</h4>
+                                <md-datepicker ng-model="params.check_in"></md-datepicker>
+                            </div>
+                            <div flex-gt-xs>
+                                <h4>Check-Out Date</h4>
+                                <md-datepicker ng-model="params.check_out"></md-datepicker>
+                            </div>
                         </div>
-                        <div flex-gt-xs>
-                            <h4>Check-Out Date</h4>
-                            <md-datepicker ng-model="params.check_out"></md-datepicker>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>API Key</label>
+                                <input ng-model="auth.api_key">
+                            </md-input-container>
+                    
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Auth Token</label>
+                                <input ng-model="auth.auth_token">
+                            </md-input-container>
                         </div>
                     </md-content>
 
                     <md-button class="md-raised md-primary" ng-click="fetch(params, rows)">Query</md-button>
 
-                    <md-content class="md-padding" layout="column" ng-show="hotelsCount > 0">
+                    <md-content layout-padding layout="column" ng-show="hotelsCount > 0">
                         <md-list flex>
-                            <md-subheader class="md-no-sticky">QUERY RESULTS</md-subheader>
+                            <md-subheader class="md-no-sticky">QUERY RESULTS:</md-subheader>
                             <md-list-item class="md-3-line">
                                 <div class="md-list-item-text" layout="column">
                                     <p class="md-subhead">Hotels: {{ hotelsCount }}</p>
@@ -88,7 +101,7 @@
                     <md-card ng-show="res.hotelName" ng-repeat="res in results">
                         <md-card-header>
                             <md-card-header-text>
-                                <span class="md-headline">{{ hotelsCount = $index + 1 }}. {{ res.hotelName }} 
+                                <span class="md-headline">{{ hotelsCount = $index + 1 }}. {{ res.hotelName }}
                                     <span class="md-subhead">({{ res.hotelId }})</span>
                                 </span>
                             </md-card-header-text>
@@ -106,7 +119,7 @@
                                 <md-card-content layout="column">
                                     <md-list flex ng-repeat="room in res.rooms">
                                         <md-subheader class="md-no-sticky" ng-show="room.title">{{ room.title }} ({{ room.roomId }})</md-subheader>
-                                        <md-list ng-repeat="rate in room.rates" layout>
+                                        <!-- <md-list ng-repeat="rate in room.rates" layout>
                                             <div layout="column">
                                                 <md-list-item class="md-2-line">
                                                     <div class="md-list-item-text" layout="column">
@@ -121,8 +134,22 @@
                                                     </div>
                                                 </md-list-item>
                                             </div>
+                                        </md-list> -->
+                                        <md-list>
+                                            <md-list-item class="md-2-line">
+                                                <div class="md-list-item-text" layout="row" layout-align="start center">
+                                                    <span flex="10">Request Type</span>
+                                                    <span flex="10">Display Pricing</span>
+                                                </div>
+                                            </md-list-item>
+                                            <md-list-item class="md-2-line" ng-repeat="rate in room.rates">
+                                                <div class="md-list-item-text" layout="row" layout-align="start center">
+                                                    <span flex="10">{{ rate.requestType }}</span>
+                                                    <span flex="10">{{ rate.displayPrice }}</span>
+                                                </div>
+                                            </md-list-item>
                                         </md-list>
-                                        <md-divider></md-divider>                                        
+                                        <md-divider></md-divider>
                                     </md-list>
                                 </md-card-content>
                             </md-card>
@@ -132,7 +159,7 @@
             </md-tab>
 
             <md-tab label="">
-                <md-content class="md-padding">
+                <md-content layout-padding>
 
                 </md-content>
             </md-tab>
