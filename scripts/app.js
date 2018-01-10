@@ -26,7 +26,7 @@ angular
         auth.api_key
       }&auth_token=${auth.auth_token}`;
 
-      Papa.parse("/assets/sample.csv", {
+      Papa.parse("https://github.com/iamjigz/garApiTest/blob/master/assets/sample.csv", {
         download: true,
         header: true,
         complete: function(rows) {
