@@ -7,6 +7,8 @@ angular
     
     tom.setDate(tom.getDate() + 1);
 
+    $scope.rows = [];
+
     $scope.auth = {
       api_key: "095f6d98-36cc-5975-a67a-95c48b87187d",
       auth_token: "92623a90-6c52-5cbf-88c2-f061fd003028"
@@ -39,6 +41,17 @@ angular
       );
     };
 
+    $scope.queryList = function(data) {
+      Papa.parse("id,name\n" + data, {
+        header: true,
+        complete: function(rows) {
+          $scope.rows = rows.data;
+          $scope.fields = ["id", "name"];
+          console.log($scope.rows)
+        }
+      });
+    };
+
     $scope.fetch = function(req, rows) {
       let data = new FormData();
       $scope.message = {};
@@ -67,11 +80,13 @@ angular
 
       let fd = new FormData();
 
+     $timeout(singleFetch(req, rows[0].id), 10000);
+
       angular.forEach(rows, function(row) {
         if (row.id != "") {
           $scope.hotelsCount++;
           fd.append("property_id[]", row.id);
-          // $timeout(singleFetch(req, row.id), 1000);
+          // $timeout(singleFetch(req, rows[0].id), 10000);
 
           $scope.results.push({
             hotelId: row.id,
@@ -101,6 +116,10 @@ angular
           
           angular.forEach(data["room-stays"]["room-stay"], function(room) {
             $scope.multiCount++;
+            $scope.message = {
+              type: "Running",
+              text: `Acquiring data for ${room.room.title.__text}`
+            };
 
             rooms.push({
               hotelId: room.room["hotel-id"],
@@ -118,14 +137,11 @@ angular
             });
           });
 
-          pushResult($scope.results, rooms, function() {
-            $timeout(singleFetch(req, rooms[0].id), 10000);            
-            // angular.forEach(rooms, function(room) {
-            //   $timeout(singleFetch(req, room.id), 5000);              
-            // })
-          });
-
-
+          pushResult($scope.results, rooms);
+          $scope.message = {
+            type: "Finished",
+            text: `Received ${rooms.length} responses.`
+          };
         })
         .catch(function(err) {
           $scope.message = {
@@ -145,7 +161,7 @@ angular
       }&transaction_id=${req.trans_id}`;
 
       $http
-        .get(singleUrl)
+        .get(singleUrl, { timeout: 5000 })
         .success(function(res) {
           let x2js = new X2JS();
           let data = x2js.xml_str2json(res);
@@ -153,6 +169,10 @@ angular
 
           angular.forEach(data["room-stays"]["room-stay"], function(room) {
             $scope.singleCount++;
+            $scope.message = {
+              type: "Running",
+              text: `Acquiring data for ${room.room.title.__text}`
+            };
 
             rooms.push({
               hotelId: room.room["hotel-id"],
@@ -171,21 +191,10 @@ angular
           });
 
           pushResult($scope.results, rooms);
-          // for (let hotel = 0; hotel < $scope.results.length; hotel++) {
-          //   $scope.results[hotel].rooms.multi = [];
-
-          //   for (let room = 0; room < rooms.length; room++) {
-          //     if (rooms[room].hotelId == $scope.results[hotel].hotelId) {
-
-          //       if ($scope.results[hotel].rooms.indexOf(rooms[room].roomId) !== -1) {
-          //         console.log(rooms[room].roomId);
-          //         $scope.results[hotel].rooms.rates.push(rooms[room].rates);
-          //       } else {
-          //         $scope.results[hotel].rooms.push(rooms[room]);
-          //       }
-          //     }
-          //   }
-          // }
+          $scope.message = {
+            type: "Finished",
+            text: `Received ${rooms.length} responses.`
+          };
         })
         .catch(function(err) {
           $scope.message = {
