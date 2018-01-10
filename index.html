@@ -66,32 +66,60 @@
                     </md-content>
 
                     <md-button class="md-raised md-primary" ng-click="fetch(params, rows)">Query</md-button>
-                    <md-card  ng-show="results" ng-repeat="res in results">
+
+                    <md-content class="md-padding" layout="column" ng-show="hotelsCount > 0">
+                        <md-list flex>
+                            <md-subheader class="md-no-sticky">QUERY RESULTS</md-subheader>
+                            <md-list-item class="md-2-line">
+                                <div class="md-list-item-text" layout="column">
+                                    <p class="md-subhead">Hotels: {{ hotelsCount }}</p>
+                                    <p class="md-subhead">Rooms: {{ roomsCount }}</p>
+                                </div>
+                            </md-list-item>
+                        </md-list>
+                    </md-content>
+
+                    <md-card ng-show="res.hotelName" ng-repeat="res in results">
                         <md-card-title>
                             <md-card-title-text>
-                                <span class="md-headline">{{ res.hotelName }}</span>
-                                <span class="md-subhead">Hotel ID: {{ res.hotelId }}</span>
+                                <span class="md-headline">{{ hotelsCount = $index + 1 }}. {{ res.hotelName }}</span>
+                                <p class="md-subhead">Hotel ID: {{ res.hotelId }}</p>
                             </md-card-title-text>
                         </md-card-title>
 
                         <md-card-content layout="column">
-                           
-                            <md-card ng-repeat="room in res.rooms">
+
+                            <md-card ng-repeat="room in res.rooms.multi">
                                 <md-card-title>
                                     <md-card-title-text>
-                                        <span class="md-headline">{{ room.title }}</span>
-                                        <span class="md-subhead">Hotel ID: {{ room.hotelId }}</span>  
-                                        <span class="md-subhead">Room ID: {{ room.roomId }}</span>                                        
+                                        <span class="md-title">MULTIPROPERTY REQUEST</span>
                                     </md-card-title-text>
                                 </md-card-title>
 
                                 <md-card-content layout="column">
-                                    <span class="md-headline">Check In: {{ params.check_in | date:'MM/dd/yyyy'}}</span>
-                                    <span class="md-headline">Check Out: {{ params.check_out | date:'MM/dd/yyyy'}}</span>
-                                    <md-divider></md-divider>
-                                    <span class="md-subhead">Rate Plan Code: {{ room.ratePlanCode }}</span>
-                                    <span class="md-subhead">Multi-Property Rate: {{ room.multiRate }}</span>
-                                    <span class="md-subhead">Single Property Rate: {{ single['display-pricing'].total }}</span>
+                                    <md-list flex>
+                                        <md-subheader class="md-no-sticky">{{ room.title }}</md-subheader>
+                                        <md-list-item class="md-2-line">
+                                            <div class="md-list-item-text" layout="column">
+                                                <p class="md-subhead">Room ID: {{ room.roomId }}</p>
+                                                <p class="md-subhead">Rate Plan Code: {{ room.ratePlanCode }}</p>
+                                            </div>
+                                        </md-list-item>
+                                        <md-divider></md-divider>                                        
+                                        <md-list-item class="md-2-line">
+                                            <div class="md-list-item-text" layout="column">
+                                                <p class="md-subhead">Check In: {{ params.check_in | date:'MM/dd/yyyy' }}</p>
+                                                <p class="md-subhead">Check Out: {{ params.check_out | date:'MM/dd/yyyy' }}</p>
+                                            </div>
+                                        </md-list-item>
+                                        <md-divider></md-divider>
+                                        <md-list-item class="md-2-line">
+                                            <div class="md-list-item-text" layout="column">
+                                                <p class="md-subhead">Display Pricing: {{ room.displayPrice }}</p>
+                                                <p class="md-subhead">Booking Pricing: {{ room.bookingPrice }}</p>
+                                            </div>
+                                        </md-list-item>
+                                    </md-list>
                                 </md-card-content>
                             </md-card>
                         </md-card-content>
@@ -136,7 +164,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.6/papaparse.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
-    
+
     <script src="scripts/app.js"></script>
 
 </body>
