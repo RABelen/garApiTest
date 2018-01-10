@@ -26,7 +26,7 @@ angular
         auth.api_key
       }&auth_token=${auth.auth_token}`;
 
-      Papa.parse("/assets/sample.csv", {
+      Papa.parse("https://raw.githubusercontent.com/iamjigz/garApiTest/master/assets/sample.csv", {
         download: true,
         header: true,
         complete: function(rows) {
@@ -88,6 +88,9 @@ angular
         timeout: 5000
       };
 
+      $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+      delete $http.defaults.headers.common['X-Requested-With'];
+      
       $http(post)
         .success(function(res) {
           let x2js = new X2JS();
