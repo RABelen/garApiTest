@@ -70,55 +70,48 @@
                     <md-content class="md-padding" layout="column" ng-show="hotelsCount > 0">
                         <md-list flex>
                             <md-subheader class="md-no-sticky">QUERY RESULTS</md-subheader>
-                            <md-list-item class="md-2-line">
+                            <md-list-item class="md-3-line">
                                 <div class="md-list-item-text" layout="column">
                                     <p class="md-subhead">Hotels: {{ hotelsCount }}</p>
-                                    <p class="md-subhead">Rooms: {{ roomsCount }}</p>
+                                    <p class="md-subhead">Multi-Property Rooms: {{ multiCount }}</p>
+                                    <p class="md-subhead">Single Property Rooms: {{ singleCount }}</p>
                                 </div>
                             </md-list-item>
                         </md-list>
                     </md-content>
 
                     <md-card ng-show="res.hotelName" ng-repeat="res in results">
-                        <md-card-title>
-                            <md-card-title-text>
+                        <md-card-header>
+                            <md-card-header-text>
                                 <span class="md-headline">{{ hotelsCount = $index + 1 }}. {{ res.hotelName }}</span>
-                                <p class="md-subhead">Hotel ID: {{ res.hotelId }}</p>
-                            </md-card-title-text>
-                        </md-card-title>
+                                <span class="md-subhead">Hotel ID: {{ res.hotelId }}</span>
+                            </md-card-header-text>
+                        </md-card-header>
 
                         <md-card-content layout="column">
-
-                            <md-card ng-repeat="room in res.rooms.multi">
-                                <md-card-title>
-                                    <md-card-title-text>
-                                        <span class="md-title">MULTIPROPERTY REQUEST</span>
-                                    </md-card-title-text>
-                                </md-card-title>
+                            <md-card ng-show="res.rooms.length > 1">
+                                <md-card-header>
+                                    <md-card-header-text>
+                                        <p class="md-subhead">Check In Dates : {{ params.check_in | date:'MM/dd/yyyy' }} - {{ params.check_out
+                                            | date:'MM/dd/yyyy' }}</p>
+                                    </md-card-header-text>
+                                </md-card-header>
 
                                 <md-card-content layout="column">
-                                    <md-list flex>
-                                        <md-subheader class="md-no-sticky">{{ room.title }}</md-subheader>
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text" layout="column">
-                                                <p class="md-subhead">Room ID: {{ room.roomId }}</p>
-                                                <p class="md-subhead">Rate Plan Code: {{ room.ratePlanCode }}</p>
-                                            </div>
-                                        </md-list-item>
-                                        <md-divider></md-divider>                                        
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text" layout="column">
-                                                <p class="md-subhead">Check In: {{ params.check_in | date:'MM/dd/yyyy' }}</p>
-                                                <p class="md-subhead">Check Out: {{ params.check_out | date:'MM/dd/yyyy' }}</p>
-                                            </div>
-                                        </md-list-item>
+                                    <md-list flex ng-repeat="room in res.rooms">
+                                        <md-subheader class="md-no-sticky" ng-show="room.title">{{ room.title }} : {{ room.roomId }}</md-subheader>
+                                            <md-list ng-repeat="rate in room.rates" layout>
+                                            <md-list-item class="md-3-line">
+                                                <div class="md-list-item-text" layout="column">
+                                                    <!-- <p class="md-subhead">Rate Plan Code: {{ rate.ratePlanCode }}</p> -->
+                                                    <p class="md-subhead">Request Type: {{ rate.requestType }}</p>
+                                                    <p class="md-subhead">Display Pricing: {{ rate.displayPrice }}</p>
+                                                    <p class="md-subhead">Booking Pricing: {{ rate.bookingPrice }}</p>
+                                                </div>
+                                            </md-list-item>
+                                        </md-list>
                                         <md-divider></md-divider>
-                                        <md-list-item class="md-2-line">
-                                            <div class="md-list-item-text" layout="column">
-                                                <p class="md-subhead">Display Pricing: {{ room.displayPrice }}</p>
-                                                <p class="md-subhead">Booking Pricing: {{ room.bookingPrice }}</p>
-                                            </div>
-                                        </md-list-item>
+
                                     </md-list>
                                 </md-card-content>
                             </md-card>

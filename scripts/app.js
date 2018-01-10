@@ -41,10 +41,11 @@ angular
       let data = new FormData();
       $scope.results = [];
       $scope.hotelsCount = 0;
-      $scope.roomsCount = 0;
+      $scope.multiCount = 0;
+      $scope.singleCount = 0;
 
       multiFetch(req, rows);
-
+      console.log($scope.results);
       // angular.forEach(rows[0], function(row) {
       //   promise = promises.then(function() {
       //     multiFetch(req, row, function(data) {
@@ -79,9 +80,7 @@ angular
             hotelId: row.id,
             hotelName: row.name,
             rooms: [{
-              multi: {},
-              single: {},
-              prebook: {}
+              rates: []
             }]
           });
         }
@@ -104,26 +103,34 @@ angular
           console.log(data);
 
           angular.forEach(data["room-stays"]["room-stay"], function(room) {
-            $scope.roomsCount++;
+            $scope.multiCount++;
 
             rooms.push({
               hotelId: room.room["hotel-id"],
               roomId: room.room["room-id"],
               title: room.room.title.__text,
-              url: room["landing-url"],
-              ratePlanCode: room["rate-plan-code"],
-              displayPrice: room["display-pricing"].total,
-              bookingPrice: room["booking-pricing"].total
+              rates: [{
+                url: room["landing-url"],
+                ratePlanCode: room["rate-plan-code"],
+                displayPrice: room["display-pricing"].total,
+                bookingPrice: room["booking-pricing"].total,
+                requestType: "Multi Property"
+              }]
             });
           });
 
           for (let hotel = 0; hotel < $scope.results.length; hotel++) {
             $scope.results[hotel].rooms.multi = [];
-            
+
             for (let room = 0; room < rooms.length; room++) {
               if (rooms[room].hotelId == $scope.results[hotel].hotelId) {
-                $scope.results[hotel].rooms.multi.push(rooms[room]);
-                singleFetch(req, rooms[room].hotelId);  
+                singleFetch(req, rooms[room].hotelId);
+                
+                if ($scope.results[hotel].rooms.roomId.indexOf(rooms[room].roomId) !== -1) {
+                  $scope.results[hotel].rooms.rates.push(rooms[room].rates);
+                } else {
+                  $scope.results[hotel].rooms.push(rooms[room]);
+                }
               }
             }
           }
@@ -137,10 +144,8 @@ angular
         });
     };
 
-    let singleFetch = function(req, row) {
-      let singleUrl = `${base_url}/api/1.1/properties/${
-        row.id
-      }/room_availability?check_in=${formatDate(
+    let singleFetch = function(req, id) {
+      let singleUrl = `${base_url}/api/1.1/properties/${id}/room_availability?check_in=${formatDate(
         req.check_in
       )}&check_out=${formatDate(req.check_out)}&cancellation_rules=${
         req.cancellation_rules
@@ -153,10 +158,41 @@ angular
         .success(function(res) {
           let x2js = new X2JS();
           let data = x2js.xml_str2json(res);
-          // let result = angular.extend({}, row, data);
+          let rooms = [];
 
           console.log(data);
-          // return result;
+
+          angular.forEach(data["room-stays"]["room-stay"], function(room) {
+            $scope.singleCount++;
+
+            rooms.push({
+              hotelId: room.room["hotel-id"],
+              roomId: room.room["room-id"],
+              title: room.room.title.__text,
+              url: room["landing-url"],
+              rates: [{
+                ratePlanCode: room["rate-plan-code"],
+                displayPrice: room["display-pricing"].total,
+                bookingPrice: room["booking-pricing"].total,
+                requestType: "Single Property"
+              }]
+            });
+          });
+
+          for (let hotel = 0; hotel < $scope.results.length; hotel++) {
+            $scope.results[hotel].rooms.multi = [];
+
+            for (let room = 0; room < rooms.length; room++) {
+              if (rooms[room].hotelId == $scope.results[hotel].hotelId) {
+                
+                if ($scope.results[hotel].rooms.roomId.indexOf(rooms[room].roomId) !== -1) {
+                  $scope.results[hotel].rooms.rates.push(rooms[room].rates);
+                } else {
+                  $scope.results[hotel].rooms.push(rooms[room]);
+                }
+              }
+            }
+          }
         })
         .catch(function(err) {
           let x2js = new X2JS();
