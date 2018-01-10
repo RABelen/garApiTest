@@ -47,7 +47,6 @@ angular
         complete: function(rows) {
           $scope.rows = rows.data;
           $scope.fields = ["id", "name"];
-          console.log($scope.rows)
         }
       });
     };
@@ -60,9 +59,7 @@ angular
       $scope.multiCount = 0;
       $scope.singleCount = 0;
 
-      multiFetch(req, rows, function() {
-        console.log($scope.results);
-      });
+      multiFetch(req, rows);
     };
 
     let formatDate = function(date) {
@@ -80,22 +77,17 @@ angular
 
       let fd = new FormData();
 
-     $timeout(singleFetch(req, rows[0].id), 10000);
-
       angular.forEach(rows, function(row) {
         if (row.id != "") {
           $scope.hotelsCount++;
           fd.append("property_id[]", row.id);
-          // $timeout(singleFetch(req, rows[0].id), 10000);
+
+          $timeout(singleFetch(req, row.id), 10000);
 
           $scope.results.push({
             hotelId: row.id,
             hotelName: row.name,
-            rooms: [
-              {
-                rates: []
-              }
-            ]
+            rooms: []
           });
         }
       });
@@ -127,7 +119,6 @@ angular
               title: room.room.title.__text,
               rates: [
                 {
-                  url: room["landing-url"],
                   ratePlanCode: room["rate-plan-code"],
                   displayPrice: room["display-pricing"].total,
                   bookingPrice: room["booking-pricing"].total,
@@ -208,9 +199,10 @@ angular
       for (let hotel = 0; hotel < result.length; hotel++) {
         for (let room = 0; room < data.length; room++) {
           if (data[room].hotelId == result[hotel].hotelId) {
-            if (result[hotel].rooms.indexOf(data[room].roomId) !== -1) {
-              console.log(data[room].roomId);
-              result[hotel].rooms.rates.push(data[room].rates);
+            let filter = _.find(result[hotel].rooms, { roomId: data[room].roomId})
+            if (filter) {
+              console.log(result[hotel])
+              result[hotel].rooms.push({rates: data[room].rates});
             } else {
               result[hotel].rooms.push(data[room]);
             }

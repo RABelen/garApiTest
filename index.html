@@ -125,38 +125,23 @@
                                 <md-card-content layout="column">
                                     <md-list flex ng-repeat="room in res.rooms">
                                         <md-subheader class="md-no-sticky" ng-show="room.title">{{ room.title }} ({{ room.roomId }})</md-subheader>
-                                        <!-- <md-list ng-repeat="rate in room.rates" layout>
-                                            <div layout="column">
-                                                <md-list-item class="md-2-line">
-                                                    <div class="md-list-item-text" layout="column">
-                                                        <p class="md-caption">Rate Plan Code: {{ rate.ratePlanCode }}</p>
-                                                        <p class="md-caption">Request Type: {{ rate.requestType }}</p>
-                                                    </div>
-                                                </md-list-item>
-                                                <md-list-item class="md-2-line">
-                                                    <div class="md-list-item-text" layout="column">
-                                                        <p class="md-caption">Display Pricing: {{ rate.displayPrice }}</p>
-                                                        <p class="md-caption">Booking Pricing: {{ rate.bookingPrice }}</p>
-                                                    </div>
-                                                </md-list-item>
+                                        <md-content  ng-repeat="rate in room.rates">
+                                        <md-list-item class="md-2-line">
+                                            <div class="md-list-item-text" layout="row" layout-align="start center">
+                                                <span flex="20">Request Type</span>
+                                                <span flex="20">Display Pricing</span>
                                             </div>
-                                        </md-list> -->
-                                        <md-list ng-show="room.rates.length > 0">
+                                        </md-list-item>
+                                        <md-list ng-show="room.rates.length > 0" >
                                             <md-list-item class="md-2-line">
-                                                <div class="md-list-item-text" layout="row" layout-align="start center">
-                                                    <span flex="20">Request Type</span>
-                                                    <span flex="20">Display Pricing</span>
-                                                </div>
-                                            </md-list-item>
-                                            <md-list-item class="md-2-line" ng-repeat="rate in room.rates">
                                                 <div class="md-list-item-text" layout="row" layout-align="start center">
                                                     <span flex="20">{{ rate.requestType }}</span>
                                                     <span flex="20">{{ rate.displayPrice }}</span>
                                                 </div>
                                             </md-list-item>
                                         </md-list>
-                                        <md-divider></md-divider>
                                     </md-list>
+                                    <md-divider></md-divider>                                    
                                 </md-card-content>
                             </md-card>
                         </md-card-content>
