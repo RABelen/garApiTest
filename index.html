@@ -77,14 +77,20 @@
                                     <p class="md-subhead">Single Property Rooms: {{ singleCount }}</p>
                                 </div>
                             </md-list-item>
+                            <md-list-item class="md-2-line" ng-show="message">
+                                <div class="md-list-item-text" layout="column">
+                                    <p class="md-subhead">{{ message.type }}: {{ message.text }}</p>
+                                </div>
+                            </md-list-item>
                         </md-list>
                     </md-content>
 
                     <md-card ng-show="res.hotelName" ng-repeat="res in results">
                         <md-card-header>
                             <md-card-header-text>
-                                <span class="md-headline">{{ hotelsCount = $index + 1 }}. {{ res.hotelName }}</span>
-                                <span class="md-subhead">Hotel ID: {{ res.hotelId }}</span>
+                                <span class="md-headline">{{ hotelsCount = $index + 1 }}. {{ res.hotelName }} 
+                                    <span class="md-subhead">({{ res.hotelId }})</span>
+                                </span>
                             </md-card-header-text>
                         </md-card-header>
 
@@ -99,7 +105,7 @@
 
                                 <md-card-content layout="column">
                                     <md-list flex ng-repeat="room in res.rooms">
-                                        <md-subheader class="md-no-sticky" ng-show="room.title">{{ room.title }} : {{ room.roomId }}</md-subheader>
+                                        <md-subheader class="md-no-sticky" ng-show="room.title">{{ room.title }} ({{ room.roomId }})</md-subheader>
                                         <md-list ng-repeat="rate in room.rates" layout>
                                             <div layout="column">
                                                 <md-list-item class="md-2-line">

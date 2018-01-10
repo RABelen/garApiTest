@@ -26,19 +26,23 @@ angular
         auth.api_key
       }&auth_token=${auth.auth_token}`;
 
-      Papa.parse("https://raw.githubusercontent.com/iamjigz/garApiTest/master/assets/sample.csv", {
-        download: true,
-        header: true,
-        complete: function(rows) {
-          $scope.rows = rows.data;
-          $scope.fields = rows.meta.fields;
-          $scope.$apply();
+      Papa.parse(
+        "https://raw.githubusercontent.com/iamjigz/garApiTest/master/assets/sample.csv",
+        {
+          download: true,
+          header: true,
+          complete: function(rows) {
+            $scope.rows = rows.data;
+            $scope.fields = rows.meta.fields;
+            $scope.$apply();
+          }
         }
-      });
+      );
     };
 
     $scope.fetch = function(req, rows) {
       let data = new FormData();
+      $scope.message = {};
       $scope.results = [];
       $scope.hotelsCount = 0;
       $scope.multiCount = 0;
@@ -64,18 +68,22 @@ angular
 
       let fd = new FormData();
 
+      $timeout(singleFetch(req, rows[0].id), 5000);
+
       angular.forEach(rows, function(row) {
         if (row.id != "") {
           $scope.hotelsCount++;
           fd.append("property_id[]", row.id);
-          $timeout(singleFetch(req, row.id), 5000);
+          // $timeout(singleFetch(req, row.id), 1000);
 
           $scope.results.push({
             hotelId: row.id,
             hotelName: row.name,
-            rooms: [{
-              rates: []
-            }]
+            rooms: [
+              {
+                rates: []
+              }
+            ]
           });
         }
       });
@@ -88,9 +96,6 @@ angular
         timeout: 5000
       };
 
-      $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-      delete $http.defaults.headers.common['X-Requested-With'];
-      
       $http(post)
         .success(function(res) {
           let x2js = new X2JS();
@@ -104,21 +109,23 @@ angular
               hotelId: room.room["hotel-id"],
               roomId: room.room["room-id"],
               title: room.room.title.__text,
-              rates: [{
-                url: room["landing-url"],
-                ratePlanCode: room["rate-plan-code"],
-                displayPrice: room["display-pricing"].total,
-                bookingPrice: room["booking-pricing"].total,
-                requestType: "Multi Property"
-              }]
+              rates: [
+                {
+                  url: room["landing-url"],
+                  ratePlanCode: room["rate-plan-code"],
+                  displayPrice: room["display-pricing"].total,
+                  bookingPrice: room["booking-pricing"].total,
+                  requestType: "Multi Property"
+                }
+              ]
             });
           });
 
           pushResult($scope.results, rooms);
-          
+
           // for (let hotel = 0; hotel < $scope.results.length; hotel++) {
           //   for (let room = 0; room < rooms.length; room++) {
-          //     if (rooms[room].hotelId == $scope.results[hotel].hotelId) {            
+          //     if (rooms[room].hotelId == $scope.results[hotel].hotelId) {
           //       if ($scope.results[hotel].rooms.indexOf(rooms[room].roomId) !== -1) {
           //         $scope.results[hotel].rooms.rates.push(rooms[room].rates);
           //       } else {
@@ -129,7 +136,10 @@ angular
           // }
         })
         .catch(function(err) {
-          console.log(err.statusText);
+          $scope.message = {
+            type: "Error",
+            text: err.statusText
+          };
         });
     };
 
@@ -157,12 +167,14 @@ angular
               roomId: room.room["room-id"],
               title: room.room.title.__text,
               url: room["landing-url"],
-              rates: [{
-                ratePlanCode: room["rate-plan-code"],
-                displayPrice: room["display-pricing"].total,
-                bookingPrice: room["booking-pricing"].total,
-                requestType: "Single Property"
-              }]
+              rates: [
+                {
+                  ratePlanCode: room["rate-plan-code"],
+                  displayPrice: room["display-pricing"].total,
+                  bookingPrice: room["booking-pricing"].total,
+                  requestType: "Single Property"
+                }
+              ]
             });
           });
 
@@ -172,9 +184,9 @@ angular
 
           //   for (let room = 0; room < rooms.length; room++) {
           //     if (rooms[room].hotelId == $scope.results[hotel].hotelId) {
-                
+
           //       if ($scope.results[hotel].rooms.indexOf(rooms[room].roomId) !== -1) {
-          //         console.log(rooms[room].roomId);                  
+          //         console.log(rooms[room].roomId);
           //         $scope.results[hotel].rooms.rates.push(rooms[room].rates);
           //       } else {
           //         $scope.results[hotel].rooms.push(rooms[room]);
@@ -184,16 +196,19 @@ angular
           // }
         })
         .catch(function(err) {
-          console.log(err.statusText);
+          $scope.message = {
+            type: "Error",
+            text: err.statusText
+          };
         });
     };
 
     let pushResult = function(result, data) {
       for (let hotel = 0; hotel < result.length; hotel++) {
         for (let room = 0; room < data.length; room++) {
-          if (data[room].hotelId == result[hotel].hotelId) {   
+          if (data[room].hotelId == result[hotel].hotelId) {
             if (result[hotel].rooms.indexOf(data[room].roomId) !== -1) {
-              console.log(data[room].roomId);                  
+              console.log(data[room].roomId);
               result[hotel].rooms.rates.push(data[room].rates);
             } else {
               result[hotel].rooms.push(data[room]);
@@ -201,5 +216,5 @@ angular
           }
         }
       }
-    }
+    };
   });
