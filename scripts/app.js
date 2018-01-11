@@ -82,8 +82,6 @@ angular
           $scope.hotelsCount++;
           fd.append("property_id[]", row.id);
 
-          $timeout(singleFetch(req, row.id), 10000);
-
           $scope.results.push({
             hotelId: row.id,
             hotelName: row.name,
@@ -97,7 +95,7 @@ angular
         url: multiFetchUrl,
         headers: { "Content-Type": undefined },
         data: fd,
-        timeout: 5000
+        timeout: 10000
       };
 
       $http(post)
@@ -128,7 +126,10 @@ angular
             });
           });
 
-          pushResult($scope.results, rooms);
+          pushResult($scope.results, rooms).then(function() {
+            $timeout(singleFetch(req, row.id), 10000);            
+          });
+
           $scope.message = {
             type: "Finished",
             text: `Received ${rooms.length} responses.`
@@ -152,7 +153,7 @@ angular
       }&transaction_id=${req.trans_id}`;
 
       $http
-        .get(singleUrl, { timeout: 5000 })
+        .get(singleUrl, { timeout: 10000 })
         .success(function(res) {
           let x2js = new X2JS();
           let data = x2js.xml_str2json(res);
