@@ -60,6 +60,10 @@ angular
       $scope.singleCount = 0;
 
       multiFetch(req, rows);
+      $scope.message = {
+        type: "Finished",
+        text: `Queried ${$scope.hotelsCount} hotels.`
+      };
     };
 
     let formatDate = function(date) {
@@ -106,10 +110,6 @@ angular
           
           angular.forEach(data["room-stays"]["room-stay"], function(room) {
             $scope.multiCount++;
-            $scope.message = {
-              type: "Running",
-              text: `Acquiring data for ${room.room.title.__text}`
-            };
 
             rooms.push({
               hotelId: room.room["hotel-id"],
@@ -119,21 +119,19 @@ angular
                 {
                   ratePlanCode: room["rate-plan-code"],
                   displayPrice: room["display-pricing"].total,
-                  bookingPrice: room["booking-pricing"].total,
                   requestType: "Multi Property"
                 }
               ]
             });
           });
 
-          pushResult($scope.results, rooms).then(function() {
-            $timeout(singleFetch(req, row.id), 10000);            
-          });
+          pushResult($scope.results, rooms);
 
-          $scope.message = {
-            type: "Finished",
-            text: `Received ${rooms.length} responses.`
-          };
+          angular.forEach(rows, function(row) {
+            if (row.id != "") {
+              $timeout(singleFetch(req, row.id), 10000);
+            }
+          });
         })
         .catch(function(err) {
           $scope.message = {
@@ -159,12 +157,10 @@ angular
           let data = x2js.xml_str2json(res);
           let rooms = [];
 
+          console.log(`Running singleFetch ${new Date().getTime()}`);
+          
           angular.forEach(data["room-stays"]["room-stay"], function(room) {
             $scope.singleCount++;
-            $scope.message = {
-              type: "Running",
-              text: `Acquiring data for ${room.room.title.__text}`
-            };
 
             rooms.push({
               hotelId: room.room["hotel-id"],
@@ -175,7 +171,6 @@ angular
                 {
                   ratePlanCode: room["rate-plan-code"],
                   displayPrice: room["display-pricing"].total,
-                  bookingPrice: room["booking-pricing"].total,
                   requestType: "Single Property"
                 }
               ]
@@ -183,10 +178,6 @@ angular
           });
 
           pushResult($scope.results, rooms);
-          $scope.message = {
-            type: "Finished",
-            text: `Received ${rooms.length} responses.`
-          };
         })
         .catch(function(err) {
           $scope.message = {
@@ -202,14 +193,8 @@ angular
           if (data[room].hotelId == result[hotel].hotelId) {
             let filter = _.find(result[hotel].rooms, { roomId: data[room].roomId})
             if (filter) {
-              console.log("filter")
-              
-              console.log(filter)
               filter.rates.push(data[room].rates[0]);
-            } else {
-              console.log("result[hotel]")                            
-              console.log(result[hotel])              
-              // filter.rooms.push(data[room].rates);
+            } else {          
               result[hotel].rooms.push(data[room]);
             }
           }
