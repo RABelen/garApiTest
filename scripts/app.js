@@ -201,9 +201,14 @@ angular
           if (data[room].hotelId == result[hotel].hotelId) {
             let filter = _.find(result[hotel].rooms, { roomId: data[room].roomId})
             if (filter) {
-              console.log(result[hotel])
-              result[hotel].rooms.push({rates: data[room].rates});
+              console.log("filter")
+              
+              console.log(filter)
+              filter.rates.push(data[room].rates[0]);
             } else {
+              console.log("result[hotel]")                            
+              console.log(result[hotel])              
+              // filter.rooms.push(data[room].rates);
               result[hotel].rooms.push(data[room]);
             }
           }
