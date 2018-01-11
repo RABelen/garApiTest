@@ -105,10 +105,10 @@
                         </md-list>
                     </md-content>
 
-                    <md-card ng-show="res.hotelName" ng-repeat="res in results">
+                    <md-card ng-show="res.hotelName" ng-repeat="res in results" ng-init="hotelIndex = $index">
                         <md-card-header ng-click="hide = !hide">
                             <md-card-header-text layout="column">
-                                <span class="md-headline">{{ $index + 1 }}. {{ res.hotelName }}
+                                <span class="md-headline" ng-class="{withRoom: res.rooms.length > 1}">{{ hotelIndex + 1 }}. {{ res.hotelName }}
                                     <span class="md-subhead">(id: {{ res.hotelId }})</span>
                                 </span>
                                 <span class="md-subhead" ng-show="res.rooms.length > 1">-- Found {{ res.rooms.length }} rooms --</span>
@@ -125,9 +125,9 @@
                                 </md-card-header>
 
                                 <md-card-content layout="column">
-                                    <md-list class="md-dense" flex ng-repeat="room in res.rooms">
+                                    <md-list class="md-dense" flex ng-repeat="room in res.rooms" ng-init="roomIndex = $index">
                                         <md-subheader class="md-no-sticky" ng-show="room.title">
-                                            <span class="md-subhead">{{ $index + 1 }}. {{ room.title }} (id: {{ room.roomId }})</span>
+                                            <span class="md-subhead">{{ roomIndex + 1 }}. {{ room.title }} (id: {{ room.roomId }})</span>
                                             <md-button class="md-secondary md-raised" ng-href="{{ room.url }}">Open URL</md-button>
                                         </md-subheader>
 
@@ -147,10 +147,12 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat="rate in room.rates | orderBy: 'ratePlanCode'">
-                                                        <td>{{ rate.requestType }}</td>
-                                                        <td>{{ rate.displayPrice }}</td>
-                                                        <td>{{ rate.ratePlanCode }}</td>
+                                                    <tr ng-repeat="rate in room.rates | orderBy: 'ratePlanCode'" ng-init="compare = comparePrice(rate, $index)">
+                                                        <div>
+                                                            <td>{{ rate.requestType }}</td>
+                                                            <td>{{ rate.displayPrice }}</td>
+                                                            <td>{{ rate.ratePlanCode }}</td>
+                                                        </div>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -165,7 +167,7 @@
                 </md-content>
             </md-tab>
 
-            <md-tab label="">
+            <md-tab label="" ng-disabled>
                 <md-content layout-padding>
 
                 </md-content>

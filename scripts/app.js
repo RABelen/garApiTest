@@ -107,17 +107,17 @@ angular
 
           angular.forEach(data["room-stays"]["room-stay"], function(room) {
             $scope.multiCount++;
-            console.log(room)
+
             rooms.push({
-              hotelId: room.room["hotel-id"],
+              hotelId: room.room["hotel-id"] || "Unlisted",
               roomId: room.room["room-id"],
-              title: room.room.title.__text,
-              description: room.room.description.__text,   
-              url: room["landing-url"],                       
+              title: room.room.title.__text || "Unlisted",
+              description: room.room.description.__text || "Unlisted",   
+              url: room["landing-url"] || "Unlisted",                       
               rates: [
                 {
-                  ratePlanCode: room["rate-plan-code"],
-                  displayPrice: room["display-pricing"].total,
+                  ratePlanCode: room["rate-plan-code"] || "Unlisted",
+                  displayPrice: room["display-pricing"].total || "Unlisted",
                   requestType: "Multi Property"
                 }
               ]
@@ -162,12 +162,12 @@ angular
             rooms.push({
               hotelId: room.room["hotel-id"],
               roomId: room.room["room-id"],
-              title: room.room.title.__text,
-              url: room["landing-url"],
+              title: room.room.title.__text || "Unlisted",
+              url: room["landing-url"] || "Unlisted",
               rates: [
                 {
-                  ratePlanCode: room["rate-plan-code"],
-                  displayPrice: room["display-pricing"].total,
+                  ratePlanCode: room["rate-plan-code"] || "Unlisted",
+                  displayPrice: room["display-pricing"].total || "Unlisted",
                   requestType: "Single Property"
                 }
               ]
@@ -227,12 +227,12 @@ angular
           rooms.push({
             hotelId: room.room["hotel-id"],
             roomId: room.room["room-id"],
-            title: room.room.title.__text,
-            url: room["landing-url"],
+            title: room.room.title.__text || "Unlisted",
+            url: room["landing-url"] || "Unlisted",
             rates: [
               {
-                ratePlanCode: room["rate-plan-code"],
-                displayPrice: room["display-pricing"].total,
+                ratePlanCode: room["rate-plan-code"] || "Unlisted",
+                displayPrice: room["display-pricing"].total || "Unlisted",
                 requestType: "Pre Book"
               }
             ]
@@ -261,4 +261,11 @@ angular
         }
       }
     };
+    $scope.compare = "";
+
+    let comparePrice = function(data, index) {
+      console.log(data.ratePlanCode);
+      console.log(data.displayPrice);
+      console.log($scope.compare);
+    }
   });

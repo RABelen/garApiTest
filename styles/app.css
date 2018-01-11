@@ -1,9 +1,17 @@
 html {
-    background: #eee;
-  }
-  
-  body {
-    line-height: 1.4;
-    max-width: 1200px;
-    margin: 20px auto;
-  }
+  background: #eee;
+}
+
+body {
+  line-height: 1.4;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.withRoom {
+  color: #258d3f;
+} 
+
+.mismatchFound {
+  color: #b62a2a;
+}
