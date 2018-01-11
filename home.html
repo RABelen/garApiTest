@@ -93,28 +93,30 @@
 
                     <md-content layout-padding layout="column" ng-show="hotelsCount > 0">
                         <md-list flex>
-                            <md-subheader class="md-no-sticky">QUERY RESULTS:</md-subheader>
+                            <md-subheader class="md-no-sticky">REQUEST OVERVIEW:</md-subheader>
                             <md-list-item class="md-3-line">
                                 <div class="md-list-item-text" layout="column">
                                     <p class="md-subhead">Hotels: {{ hotelsCount }}</p>
-                                    <p class="md-subhead">Multi-Property Rooms: {{ multiCount }}</p>
-                                    <p class="md-subhead">Single Property Rooms: {{ singleCount }}</p>
+                                    <p class="md-subhead">Multi-Property Requests: {{ multiCount }}</p>
+                                    <p class="md-subhead">Single Property Requests: {{ singleCount }}</p>
+                                    <p class="md-subhead">Pre-Book Requests: {{ prebookCount }}</p>
                                 </div>
                             </md-list-item>
                         </md-list>
                     </md-content>
 
                     <md-card ng-show="res.hotelName" ng-repeat="res in results">
-                        <md-card-header>
-                            <md-card-header-text>
-                                <span class="md-headline">{{ hotelsCount = $index + 1 }}. {{ res.hotelName }}
+                        <md-card-header ng-click="hide = !hide">
+                            <md-card-header-text layout="column">
+                                <span class="md-headline">{{ $index + 1 }}. {{ res.hotelName }}
                                     <span class="md-subhead">(id: {{ res.hotelId }})</span>
                                 </span>
+                                <span class="md-subhead" ng-show="res.rooms.length > 1">-- Found {{ res.rooms.length }} rooms --</span>
                             </md-card-header-text>
                         </md-card-header>
 
                         <md-card-content layout="column">
-                            <md-card ng-show="res.rooms.length > 1">
+                            <md-card ng-show="hide">
                                 <md-card-header>
                                     <md-card-header-text>
                                         <p class="md-headline">Check In Dates : {{ params.check_in | date:'MM/dd/yyyy' }} - {{ params.check_out
@@ -123,8 +125,18 @@
                                 </md-card-header>
 
                                 <md-card-content layout="column">
-                                    <md-list flex ng-repeat="room in res.rooms">
-                                        <md-subheader class="md-no-sticky" ng-show="room.title">{{ room.title }} (id: {{ room.roomId }})</md-subheader>
+                                    <md-list class="md-dense" flex ng-repeat="room in res.rooms">
+                                        <md-subheader class="md-no-sticky" ng-show="room.title">
+                                            <span class="md-subhead">{{ $index + 1 }}. {{ room.title }} (id: {{ room.roomId }})</span>
+                                            <md-button class="md-secondary md-raised" ng-href="{{ room.url }}">Open URL</md-button>
+                                        </md-subheader>
+
+                                        <md-list-item class="md-2-line md-long-text">
+                                            <div class="md-list-item-text" layout="column">
+                                                <span class="md-caption">Description:</span>
+                                                <p>{{ room.description }}</p>
+                                            </div>
+                                        </md-list-item>
                                         <md-content layout>
                                             <table class="table table-sm table-responsive table-striped table-bordered table-hover">
                                                 <thead class="thead-inverse">
@@ -176,4 +188,5 @@
     <script src="scripts/app.js"></script>
 
 </body>
+
 </html>
