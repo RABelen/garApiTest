@@ -90,16 +90,16 @@
                     </md-content>
 
                     <md-button class="md-raised md-primary" ng-click="fetch(params, rows)" ng-disabled="!rows.length > 0">Query</md-button>
-
+                    
                     <md-content layout-padding layout="column" ng-show="hotelsCount > 0">
                         <md-list flex>
                             <md-subheader class="md-no-sticky">REQUEST OVERVIEW:</md-subheader>
                             <md-list-item class="md-3-line">
                                 <div class="md-list-item-text" layout="column">
-                                    <p class="md-subhead">Hotels: {{ hotelsCount }}</p>
-                                    <p class="md-subhead">Multi-Property Requests: {{ multiCount }}</p>
-                                    <p class="md-subhead">Single Property Requests: {{ singleCount }}</p>
-                                    <p class="md-subhead">Pre-Book Requests: {{ prebookCount }}</p>
+                                    <p class="md-subhead">Hotels Queried: {{ hotelsCount }}</p>
+                                    <p class="md-subhead">Rooms Found [Multi-Property]: {{ multiCount }}</p>
+                                    <p class="md-subhead">Rooms Found [Single Property]: {{ singleCount }}</p>
+                                    <p class="md-subhead">Rooms Found [Pre-Book]: {{ prebookCount }}</p>
                                 </div>
                             </md-list-item>
                         </md-list>
@@ -158,7 +158,6 @@
                                             </table>
                                         </md-content>
                                     </md-list>
-
                                     <md-divider></md-divider>
                                 </md-card-content>
                             </md-card>

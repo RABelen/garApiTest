@@ -124,7 +124,7 @@ angular
             });
           });
 
-          pushResult($scope.results, rooms);
+          pushResult($scope.results, rooms, "Multi Property");
 
           angular.forEach(rows, function(row) {
             if (row.id != "") {
@@ -175,7 +175,7 @@ angular
             });
           });
 
-          pushResult($scope.results, rooms);
+          pushResult($scope.results, rooms, "Single Property");
 
           angular.forEach(rooms, function(room) {
             let codes = room.rates
@@ -239,15 +239,14 @@ angular
             ]
           });
 
-          pushResult($scope.results, rooms);
+          pushResult($scope.results, rooms, "Pre-book");
         })
         .catch(function(err) {
           $scope.message = { type: "Error", text: err.statusText };
         });
     };
 
-    let pushResult = function(result, data) {
-
+    let pushResult = function(result, data, type) {
       for (let hotel = 0; hotel < result.length; hotel++) {
         for (let room = 0; room < data.length; room++) {
           if (data[room].hotelId == result[hotel].hotelId) {
@@ -260,6 +259,15 @@ angular
               result[hotel].rooms.push(data[room]);
             }
           }
+        }
+
+        if (hotel + 1 === result.length  && type == "Pre-book") {
+          $scope.message = { type: "Finished", text: `All requests for ${result.length} hotels done.` };            
+       
+        } else if (hotel + 1 === result.length) {
+          $scope.message = { type: "Finished", text: `${hotel + 1} ${type} requests for ${result.length} hotels.` };
+        } else {
+          $scope.message = { type: "Running", text: `${hotel + 1} ${type} requests for ${result.length} hotels.` };
         }
       }
     };
