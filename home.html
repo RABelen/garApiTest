@@ -8,6 +8,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.0.0-beta.4/dist/css/bootstrap-material-design.min.css"
         integrity="sha384-R80DC0KVBO4GSTw+wZ5x2zn2pu4POSErBkf8/fSFhPXHxvHJydT0CSgAP2Yo2r4I" crossorigin="anonymous">
@@ -90,7 +91,7 @@
                     </md-content>
 
                     <md-button class="md-raised md-primary" ng-click="fetch(params, rows)" ng-disabled="!rows.length > 0">Query</md-button>
-                    
+
                     <md-content layout-padding layout="column" ng-show="hotelsCount > 0">
                         <md-list flex>
                             <md-subheader class="md-no-sticky">REQUEST OVERVIEW:</md-subheader>
@@ -106,11 +107,16 @@
                     </md-content>
 
                     <md-card ng-show="res.hotelName" ng-repeat="res in results" ng-init="hotelIndex = $index">
-                        <md-card-header ng-click="hide = !hide">
+                        <md-card-header>
                             <md-card-header-text layout="column">
-                                <span class="md-headline" ng-class="{withRoom: res.rooms.length > 1, mismatchFound: mismatch}">{{ hotelIndex + 1 }}. {{ res.hotelName }}
+                                <div layout>
+                                    <md-button class="md-icon-button" ng-click="hide = !hide" ng-show="res.rooms.length > 1">
+                                        <i class="material-icons">keyboard_arrow_down</i>                                            
+                                    </md-button>
+                                    <span class="md-headline" ng-class="{withRoom: res.rooms.length > 1, mismatchFound: mismatch}">{{ hotelIndex + 1 }}. {{ res.hotelName }}</span>
                                     <span class="md-subhead">(id: {{ res.hotelId }})</span>
-                                </span>
+                                </div>
+                                <span flex="50"></span>
                                 <span class="md-subhead" ng-show="res.rooms.length > 1">-- Found {{ res.rooms.length }} rooms --</span>
                             </md-card-header-text>
                         </md-card-header>
