@@ -1,6 +1,6 @@
 angular
   .module("MyApp", ["ngMaterial"])
-  .controller("MyCtrl", function($scope, $http, $timeout) {
+  .controller("MyCtrl", function($scope, $http, $timeout, $q) {
     const base_url = "https://availability.integration2.testaroom.com";
     let today = new Date();
     let tom = new Date();
@@ -131,6 +131,7 @@ angular
               $timeout(singleFetch(req, row.id), 10000);
             }
           });
+
         })
         .catch(function(err) {
           $scope.message = {
@@ -246,6 +247,7 @@ angular
     };
 
     let pushResult = function(result, data) {
+
       for (let hotel = 0; hotel < result.length; hotel++) {
         for (let room = 0; room < data.length; room++) {
           if (data[room].hotelId == result[hotel].hotelId) {
@@ -261,7 +263,6 @@ angular
         }
       }
     };
-    $scope.compare = "";
 
     let comparePrice = function(data, index) {
       console.log(data.ratePlanCode);

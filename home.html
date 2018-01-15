@@ -108,7 +108,7 @@
                     <md-card ng-show="res.hotelName" ng-repeat="res in results" ng-init="hotelIndex = $index">
                         <md-card-header ng-click="hide = !hide">
                             <md-card-header-text layout="column">
-                                <span class="md-headline" ng-class="{withRoom: res.rooms.length > 1}">{{ hotelIndex + 1 }}. {{ res.hotelName }}
+                                <span class="md-headline" ng-class="{withRoom: res.rooms.length > 1, mismatchFound: mismatch}">{{ hotelIndex + 1 }}. {{ res.hotelName }}
                                     <span class="md-subhead">(id: {{ res.hotelId }})</span>
                                 </span>
                                 <span class="md-subhead" ng-show="res.rooms.length > 1">-- Found {{ res.rooms.length }} rooms --</span>
@@ -147,7 +147,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat="rate in room.rates | orderBy: 'ratePlanCode'" ng-init="compare = comparePrice(rate, $index)">
+                                                    <tr ng-repeat="rate in room.rates | orderBy: 'ratePlanCode'">
                                                         <div>
                                                             <td>{{ rate.requestType }}</td>
                                                             <td>{{ rate.displayPrice }}</td>
