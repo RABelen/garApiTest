@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>API Test</title>
+    <title>GAR API Test</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
@@ -18,158 +18,15 @@
 
 <body ng-app="MyApp" ng-cloak>
     <md-content ng-controller="MyCtrl">
-        <md-toolbar class="md-hue-2">
-            <div class="md-toolbar-tools">
-                <h2 flex md-truncate>This page needs to have CORS enabled.</h2>
-
-                <md-button class="md-raised" target="_blank" ng-href="https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi">
-                    Install Allow-Control-Allow-Origin: *
-                    <md-tooltip>Needs to have CORS enabled.</md-tooltip>
-                </md-button>
-            </div>
-        </md-toolbar>
+        <div ng-include="'views/toolbar.html'"></div>
 
         <md-tabs md-dynamic-height="" md-border-bottom="" ng-cloak>
             <md-tab label="data" ng-cloak>
-                <md-content layout-padding layout="column">
-                    <md-content layout layout-align="center center">
-                        <md-button class="md-raised md-primary" flex="80" ng-disabled="userInput.length > 0" ng-click="listProperties()">Load Sample</md-button>
-                        <md-button class="md-raised md-primary" flex="80" ng-disabled="!userInput.length > 0" ng-click="queryList(userInput)">Query List</md-button>
-                        <md-button class="md-raised md-primary" ng-click="rows = userInput = ''">Reset</md-button>
-                    </md-content>
-                    <md-content layout-padding>
-                        <md-input-container class="md-block" ng-hide="rows.length > 0">
-                            <label>Paste comma-delimited list of property ids and hotel names (id, name) or load sample data.</label>
-                            <textarea ng-model="userInput" rows="20" md-select-on-focus></textarea>
-                        </md-input-container>
-                        <table class="table table-sm table-responsive table-striped table-bordered table-hover">
-                            <thead class="thead-inverse">
-                                <tr>
-                                    <th ng-repeat='c in fields'>{{ c | uppercase }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat='r in rows'>
-                                    <td ng-repeat='c in fields'>
-                                        {{ r[c] }}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </md-content>
-                </md-content>
+                <div ng-include="'views/data.html'"></div>
             </md-tab>
 
             <md-tab label="properties" ng-cloak>
-                <md-content layout-padding layout="column">
-                    <md-content layout-padding>
-                        <div layout-gt-xs="row">
-                            <div flex-gt-xs>
-                                <h4>Check-In Date</h4>
-                                <md-datepicker ng-model="params.check_in"></md-datepicker>
-                            </div>
-                            <div flex-gt-xs>
-                                <h4>Check-Out Date</h4>
-                                <md-datepicker ng-model="params.check_out"></md-datepicker>
-                            </div>
-                        </div>
-                        <div layout-gt-sm="row">
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>API Key</label>
-                                <input ng-model="auth.api_key">
-                            </md-input-container>
-
-                            <md-input-container class="md-block" flex-gt-sm>
-                                <label>Auth Token</label>
-                                <input ng-model="auth.auth_token">
-                            </md-input-container>
-                        </div>
-                    </md-content>
-
-                    <md-content ng-show="message.text.length > 0" layout layout-align="center center">
-                        <p class="md-title">{{ message.type }}: {{ message.text }}</p>
-                    </md-content>
-
-                    <md-button class="md-raised md-primary" ng-click="fetch(params, rows)" ng-disabled="!rows.length > 0">Query</md-button>
-
-                    <md-content layout-padding layout="column" ng-show="hotelsCount > 0">
-                        <md-list flex>
-                            <md-subheader class="md-no-sticky">REQUEST OVERVIEW:</md-subheader>
-                            <md-list-item class="md-3-line">
-                                <div class="md-list-item-text" layout="column">
-                                    <p class="md-subhead">Hotels Queried: {{ hotelsCount }}</p>
-                                    <p class="md-subhead">Rooms Found [Multi-Property]: {{ multiCount }}</p>
-                                    <p class="md-subhead">Rooms Found [Single Property]: {{ singleCount }}</p>
-                                    <p class="md-subhead">Rooms Found [Pre-Book]: {{ prebookCount }}</p>
-                                </div>
-                            </md-list-item>
-                        </md-list>
-                    </md-content>
-
-                    <md-card ng-show="res.hotelName" ng-repeat="res in results" ng-init="hotelIndex = $index">
-                        <md-card-header>
-                            <md-card-header-text layout="column">
-                                <div layout>
-                                    <md-button class="md-icon-button" ng-click="hide = !hide" ng-show="res.rooms.length > 1">
-                                        <i class="material-icons">keyboard_arrow_down</i>                                            
-                                    </md-button>
-                                    <span class="md-headline" ng-class="{withRoom: res.rooms.length > 1, mismatchFound: mismatch}">{{ hotelIndex + 1 }}. {{ res.hotelName }}</span>
-                                    <span class="md-subhead">(id: {{ res.hotelId }})</span>
-                                </div>
-                                <span flex="50"></span>
-                                <span class="md-subhead" ng-show="res.rooms.length > 1">-- Found {{ res.rooms.length }} rooms --</span>
-                            </md-card-header-text>
-                        </md-card-header>
-
-                        <md-card-content layout="column">
-                            <md-card ng-show="hide">
-                                <md-card-header>
-                                    <md-card-header-text>
-                                        <p class="md-headline">Check In Dates : {{ params.check_in | date:'MM/dd/yyyy' }} - {{ params.check_out
-                                            | date:'MM/dd/yyyy' }}</p>
-                                    </md-card-header-text>
-                                </md-card-header>
-
-                                <md-card-content layout="column">
-                                    <md-list class="md-dense" flex ng-repeat="room in res.rooms" ng-init="roomIndex = $index">
-                                        <md-subheader class="md-no-sticky" ng-show="room.title">
-                                            <span class="md-subhead">{{ roomIndex + 1 }}. {{ room.title }} (id: {{ room.roomId }})</span>
-                                            <md-button class="md-secondary md-raised" ng-href="{{ room.url }}">Open URL</md-button>
-                                        </md-subheader>
-
-                                        <md-list-item class="md-2-line md-long-text">
-                                            <div class="md-list-item-text" layout="column">
-                                                <span class="md-caption">Description:</span>
-                                                <p>{{ room.description }}</p>
-                                            </div>
-                                        </md-list-item>
-                                        <md-content layout>
-                                            <table class="table table-sm table-responsive table-striped table-bordered table-hover">
-                                                <thead class="thead-inverse">
-                                                    <tr>
-                                                        <th>Request Type</th>
-                                                        <th>Display Pricing</th>
-                                                        <th>Rate Plan Code</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="rate in room.rates | orderBy: 'ratePlanCode'">
-                                                        <div>
-                                                            <td>{{ rate.requestType }}</td>
-                                                            <td>{{ rate.displayPrice }}</td>
-                                                            <td>{{ rate.ratePlanCode }}</td>
-                                                        </div>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </md-content>
-                                    </md-list>
-                                    <md-divider></md-divider>
-                                </md-card-content>
-                            </md-card>
-                        </md-card-content>
-                    </md-card>
-                </md-content>
+                <div ng-include="'views/properties.html'"></div>
             </md-tab>
 
             <md-tab label="" ng-disabled>
@@ -193,6 +50,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
 
     <script src="scripts/app.js"></script>
+    <script src="scripts/utilities.js"></script>
+
 
 </body>
 

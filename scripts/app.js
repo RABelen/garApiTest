@@ -1,6 +1,6 @@
 angular
   .module("MyApp", ["ngMaterial"])
-  .controller("MyCtrl", function($scope, $http, $timeout, $q) {
+  .controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast) {
     const base_url = "https://availability.integration2.testaroom.com";
     let today = new Date();
     let tom = new Date();
@@ -23,10 +23,6 @@ angular
     };
 
     $scope.listProperties = function() {
-      let url = `https://book.integration2.testaroom.com/api/properties.csv?api_key=${
-        $scope.auth.api_key
-      }&auth_token=${$scope.auth.auth_token}`;
-
       Papa.parse(
         "https://raw.githubusercontent.com/iamjigz/garApiTest/master/assets/sample.csv",
         {
@@ -59,12 +55,8 @@ angular
       $scope.multiCount = 0;
       $scope.singleCount = 0;
       $scope.prebookCount = 0;
-      
-      multiFetch(req, rows);
-    };
 
-    let formatDate = function(date) {
-      return moment(date).format("MM/DD/YYYY");
+      multiFetch(req, rows);
     };
 
     let multiFetch = function(req, rows) {
@@ -112,8 +104,8 @@ angular
               hotelId: room.room["hotel-id"] || "Unlisted",
               roomId: room.room["room-id"],
               title: room.room.title.__text || "Unlisted",
-              description: room.room.description.__text || "Unlisted",   
-              url: room["landing-url"] || "Unlisted",                       
+              description: room.room.description.__text || "Unlisted",
+              url: room["landing-url"] || "Unlisted",
               rates: [
                 {
                   ratePlanCode: room["rate-plan-code"] || "Unlisted",
@@ -124,20 +116,26 @@ angular
             });
           });
 
-          pushResult($scope.results, rooms, "Multi Property");
+          pushResult($scope.results, rooms);
 
           angular.forEach(rows, function(row) {
             if (row.id != "") {
               $timeout(singleFetch(req, row.id), 10000);
             }
           });
-
         })
         .catch(function(err) {
-          $scope.message = {
-            type: "Error",
-            text: err.statusText
-          };
+          if (err.status == -1) {
+            showMessage(
+              "Error",
+              "No 'Access-Control-Allow-Origin' header is present on the requested resource."
+            );
+          } else {
+            showMessage(
+              "Error",
+              err.statusText
+            );
+          }
         });
     };
 
@@ -175,7 +173,7 @@ angular
             });
           });
 
-          pushResult($scope.results, rooms, "Single Property");
+          pushResult($scope.results, rooms);
 
           angular.forEach(rooms, function(room) {
             let codes = room.rates
@@ -195,10 +193,17 @@ angular
           });
         })
         .catch(function(err) {
-          $scope.message = {
-            type: "Error",
-            text: err.statusText
-          };
+          if (err.status == -1) {
+            showMessage(
+              "Error",
+              "No 'Access-Control-Allow-Origin' header is present on the requested resource."
+            );
+          } else {
+            showMessage(
+              "Error",
+              err.statusText
+            );
+          }
         });
     };
 
@@ -239,42 +244,36 @@ angular
             ]
           });
 
-          pushResult($scope.results, rooms, "Pre-book");
+          pushResult($scope.results, rooms)
         })
         .catch(function(err) {
-          $scope.message = { type: "Error", text: err.statusText };
+          if (err.status == -1) {
+            showMessage(
+              "Error",
+              "No 'Access-Control-Allow-Origin' header is present on the requested resource."
+            );
+          } else {
+            showMessage(
+              "Error",
+              err.statusText
+            );
+          }
         });
     };
 
-    let pushResult = function(result, data, type) {
-      for (let hotel = 0; hotel < result.length; hotel++) {
-        for (let room = 0; room < data.length; room++) {
-          if (data[room].hotelId == result[hotel].hotelId) {
-            let filter = _.find(result[hotel].rooms, {
-              roomId: data[room].roomId
-            });
-            if (filter) {
-              filter.rates.push(data[room].rates[0]);
-            } else {
-              result[hotel].rooms.push(data[room]);
-            }
-          }
-        }
+    let showMessage = function(type, text) {
+      let toast = $mdToast
+        .simple()
+        .hideDelay(10000)
+        .textContent(`${type}: ${text}`)
+        .action("Okay")
+        .highlightAction(true)
+        .highlightClass("md-secondary")
+        .position("top right");
 
-        if (hotel + 1 === result.length  && type == "Pre-book") {
-          $scope.message = { type: "Finished", text: `All requests for ${result.length} hotels done.` };            
-       
-        } else if (hotel + 1 === result.length) {
-          $scope.message = { type: "Finished", text: `${hotel + 1} ${type} requests for ${result.length} hotels.` };
-        } else {
-          $scope.message = { type: "Running", text: `${hotel + 1} ${type} requests for ${result.length} hotels.` };
+      $mdToast.show(toast).then(function(res) {
+        if (res == "ok") {
         }
-      }
+      });
     };
-
-    let comparePrice = function(data, index) {
-      console.log(data.ratePlanCode);
-      console.log(data.displayPrice);
-      console.log($scope.compare);
-    }
   });
