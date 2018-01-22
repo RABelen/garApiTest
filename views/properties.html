@@ -22,14 +22,14 @@
       </md-input-container>
     </div>
     <md-list class="md-dense" flex>
-      <md-subheader class="md-no-sticky">
-        <span>{{ queryLogs.length }} logs found.</span>
-        <md-button class="md-raised md-primary" ng-click="showLogs = !showLogs">Show all logs</md-button>
+      <md-subheader class="md-no-sticky" ng-click="showLogs = !showLogs">
+        <md-button class="md-icon-button md-primary" title="Show all logs">
+          <i class="material-icons">list</i>
+        </md-button>
+        <span class="md-caption">{{ queryLogs.length }} logs found.</span>
       </md-subheader>
       <md-list-item ng-if="!showLogs" ng-repeat="log in queryLogs | limitTo: -1">
-        <div class="md-list-item-text" layout="column">
-          <p class="md-caption" ng-class="{errorFound: log.type == 'Error', success: log.type == 'Success'}">{{ log.type }}! {{ log.message }}</p>
-        </div>
+        <p class="md-caption" ng-class="{errorFound: log.type == 'Error', success: log.type == 'Success'}">{{ log.type }}! {{ log.message }}</p>
       </md-list-item>
 
       <md-list-item ng-if="showLogs" ng-repeat="log in queryLogs">
@@ -43,14 +43,18 @@
 
   <md-button class="md-raised md-primary" ng-click="fetch(params, rows)" ng-disabled="!rows.length > 0">Query</md-button>
 
-  <md-card ng-show="res.hotelName" ng-repeat="res in results" ng-init="hotelIndex = $index">
+  <md-switch md-invert ng-model="hasRooms" ng-init="hasRooms = true">
+    Show only hotels with rooms
+  </md-switch>
+
+  <md-card ng-show="(hasRooms && res.rooms.length > 1) || !hasRooms" ng-repeat="res in results" ng-init="hotelIndex = $index">
     <md-card-header>
       <md-card-header-text layout="column" ng-class="{success: res.rooms.length > 1}">
         <div layout>
-          <md-button class="md-icon-button" ng-click="roomHide = !roomHide" ng-show="res.rooms.length > 1">
-            <i class="material-icons">keyboard_arrow_down</i>
+          <md-button class="md-icon-button md-accent" title="Expand" ng-click="roomHide = !roomHide" ng-show="res.rooms.length > 1">
+            <md-icon class="material-icons">expand_more</md-icon>
           </md-button>
-          <span class="md-headline">{{ hotelIndex + 1 }}. {{ res.hotelName }} ({{ res.rooms.length }} rooms found)</span>
+          <span class="md-headline" title="Click on button to see more">{{ hotelIndex + 1 }}. {{ res.hotelName }} ({{ res.rooms.length }} rooms found)</span>
         </div>
         <span class="md-subhead">id: {{ res.hotelId }}</span>
       </md-card-header-text>
@@ -67,9 +71,13 @@
         <md-card-content layout="column">
           <md-list class="md-dense" flex ng-repeat="room in res.rooms" ng-init="roomIndex = $index">
             <md-subheader class="md-no-sticky" ng-show="room.title">
-              <span class="md-subhead">{{ roomIndex + 1 }}. {{ room.title }} (id: {{ room.roomId }})</span>
-              <md-button class="md-primary md-raised" ng-click="rateHide = !rateHide" ng-show="room.rates.length > 0">Show {{ room.rates.length }} Rates</md-button>
-              <md-button class="md-accent md-raised" ng-href="{{ room.url }}" target="_blank">Open URL</md-button>
+              <md-button class="md-icon-button md-primary" title="Show {{ room.rates.length }} rates" ng-click="rateHide = !rateHide" ng-show="room.rates.length > 0">
+                <md-icon class="material-icons">view_list</md-icon>
+              </md-button>
+              <md-button class="md-icon-button md-accent" ng-href="{{ room.url }}" target="_blank" title="Open landing page">
+                <md-icon class="material-icons">open_in_new</md-icon>
+              </md-button>
+              <span class="md-subhead">{{ roomIndex + 1 }}. {{ room.title }} (id: {{ room.roomId }}) -- {{ room.rates.length }} rates found.</span>
             </md-subheader>
 
             <div ng-show="rateHide">

@@ -45,8 +45,7 @@ app.factory("GarHttp", function($http, $q) {
 					deferred.resolve(json);
 				})
 				.catch(function(err) {
-					let json = toJson(err);
-					deferred.reject(json);
+					deferred.reject(err);
 				});
 
 			return deferred.promise;
@@ -69,8 +68,7 @@ app.factory("GarHttp", function($http, $q) {
 					deferred.resolve(json);
 				})
 				.catch(function(err) {
-					let json = toJson(err);
-					deferred.reject(json);
+					deferred.reject(err);
 				});
 
 			return deferred.promise;

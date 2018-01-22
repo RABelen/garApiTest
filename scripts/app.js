@@ -1,4 +1,4 @@
-let app = angular.module("MyApp", ["ngMaterial"])
+let app = angular.module("MyApp", ["ngMaterial", "ngMessages"])
 app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp) {
 	const base_url = "https://availability.integration2.testaroom.com";
 	let today = new Date();
@@ -22,16 +22,23 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 	$scope.queryLogs = [];
 
 	$scope.listProperties = function() {
+		$scope.rows = [];
+
+		/// TODO: setup async function using promise
 		Papa.parse(
 			"https://raw.githubusercontent.com/iamjigz/garApiTest/master/assets/sample.csv", {
 				download: true,
 				header: true,
 				complete: function(rows) {
+					console.log(rows.data)
 					$scope.rows = rows.data;
 					$scope.fields = rows.meta.fields;
+					$scope.rowLimit = 10;
+					$scope.rowCount = rows.data.length - 1;
+					$scope.showSlider = true;
 					$scope.$apply();
 
-					showMessage("Success", `${rows.data.length - 1} rows ready to query.`)
+					showMessage("Success", `${$scope.rowLimit}/${$scope.rowCount} rows ready to query.`)
 				}
 			}
 		);
@@ -49,17 +56,19 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 		});
 	};
 
-	$scope.resetList = function() {
+	$scope.resetList = function(data) {
 		$scope.results = "";
 		$scope.rows = "";
 		$scope.fields = "";
-		$scope.userInput = "";
-
 		GarHttp.resetList();
+
+		return data = "";
 	}
 
 	$scope.fetch = function(req, rows) {
 		let data = new FormData();
+
+		GarHttp.resetList();
 		$scope.results = GarHttp.getHotels();
 
 		/// TODO: Sync with scope
@@ -82,8 +91,7 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 
 				angular.forEach(rows, function(row) {
 					if (row.id != "") {
-						// $timeout(singleFetch(params, row.id), 10000);
-						GarHttp.getSingle(params, row)
+						$timeout(GarHttp.getSingle(params, row)
 							.then(function(data) {
 								let rooms = data["room-stays"]["room-stay"];
 								let updateData = updateRoomData(rooms, "Single Property");
@@ -92,32 +100,45 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 								showMessage("Success", `${_.size(rooms)} rate plans found from single property request for ${row.name}.`)
 
 								angular.forEach(updateData, function(room) {
-									let codes = room.rates
-										.map(code => code.ratePlanCode)
-										.filter((value, index, self) => self.indexOf(value) === index);
+									if (room.hotelId && room.roomId) {
+										let codes = room.rates
+											.map(code => code.ratePlanCode)
+											.filter((value, index, self) => self.indexOf(value) === index);
 
-									angular.forEach(codes, function(code) {
-										$timeout(
-											prebookFetch(req, {
-												hotel: room.hotelId,
-												room: room.roomId,
-												code: code
-											}),
-											10000
-										);
-									});
+										angular.forEach(codes, function(code) {
+											$timeout(
+												prebookFetch(req, {
+													hotel: room.hotelId,
+													room: room.roomId,
+													code: code
+												}),
+												10000
+											);
+										});
+									}
 								});
 							})
 							.catch(function(err) {
-								showMessage("Error", "Please check if CORS is enabled.")
-							})
+								if (err.status == -1) {
+									showMessage("Error", "Please check if CORS is enabled.")
+									$scope.resetList()
+								} else {
+									showMessage("Error", err.statusText ? err.statusText : "Unknown error occured.")
+									console.log(err)
+								}
+							}), 10000);
 					}
 				});
 
 			})
 			.catch(function(err) {
-				showMessage("Error", "Please check if CORS is enabled.")
-				$scope.resetList();
+				if (err.status == -1) {
+					showMessage("Error", "Please check if CORS is enabled.")
+					$scope.resetList()
+				} else {
+					showMessage("Error", err.statusText ? err.statusText : "Unknown error occured.")
+					console.log(err)
+				}
 			})
 	};
 
@@ -201,73 +222,73 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 	// 		});
 	// };
 
-	let singleFetch = function(req, id) {
-		let singleUrl = `${base_url}/api/1.1/properties/${id}/room_availability?check_in=${formatDate(
-        req.check_in
-      )}&check_out=${formatDate(req.check_out)}&cancellation_rules=${
-        req.cancellation_rules
-      }&api_key=${$scope.auth.api_key}&auth_token=${
-        $scope.auth.auth_token
-      }&rinfo=${req.rinfo}&transaction_id=${req.trans_id}`;
-
-		$http
-			.get(singleUrl, {
-				timeout: 10000
-			})
-			.success(function(res) {
-				let x2js = new X2JS();
-				let data = x2js.xml_str2json(res);
-				let rooms = [];
-
-				angular.forEach(data["room-stays"]["room-stay"], function(room) {
-					$scope.singleCount++;
-
-					rooms.push({
-						hotelId: room.room["hotel-id"] || "Unlisted",
-						roomId: room.room["room-id"] || "Unlisted",
-						title: room.room.title.__text || "Unlisted",
-						url: room["landing-url"] || "Unlisted",
-						rates: [{
-							ratePlanCode: room["rate-plan-code"] || "Unlisted",
-							displayPrice: room["display-pricing"].total || "Unlisted",
-							requestType: "Single Property"
-						}]
-					});
-				});
-
-				pushResult($scope.results, rooms);
-
-				angular.forEach(rooms, function(room) {
-					let codes = room.rates
-						.map(code => code.ratePlanCode)
-						.filter((value, index, self) => self.indexOf(value) === index);
-
-					angular.forEach(codes, function(code) {
-						$timeout(
-							prebookFetch(req, {
-								hotel: room.hotelId,
-								room: room.roomId,
-								code: code
-							}),
-							10000
-						);
-					});
-				});
-			})
-			.catch(function(err) {
-				if (err.status == -1) {
-					showMessage(
-						"Error",
-						"No 'Access-Control-Allow-Origin' header is present on the requested resource."
-					);
-				} else {
-					showMessage(
-						"Error",
-						err.statusText
-					);
-				}
-			});
-	};
+	// let singleFetch = function(req, id) {
+	// 	let singleUrl = `${base_url}/api/1.1/properties/${id}/room_availability?check_in=${formatDate(
+	//       req.check_in
+	//     )}&check_out=${formatDate(req.check_out)}&cancellation_rules=${
+	//       req.cancellation_rules
+	//     }&api_key=${$scope.auth.api_key}&auth_token=${
+	//       $scope.auth.auth_token
+	//     }&rinfo=${req.rinfo}&transaction_id=${req.trans_id}`;
+	//
+	// 	$http
+	// 		.get(singleUrl, {
+	// 			timeout: 10000
+	// 		})
+	// 		.success(function(res) {
+	// 			let x2js = new X2JS();
+	// 			let data = x2js.xml_str2json(res);
+	// 			let rooms = [];
+	//
+	// 			angular.forEach(data["room-stays"]["room-stay"], function(room) {
+	// 				$scope.singleCount++;
+	//
+	// 				rooms.push({
+	// 					hotelId: room.room["hotel-id"] || "Unlisted",
+	// 					roomId: room.room["room-id"] || "Unlisted",
+	// 					title: room.room.title.__text || "Unlisted",
+	// 					url: room["landing-url"] || "Unlisted",
+	// 					rates: [{
+	// 						ratePlanCode: room["rate-plan-code"] || "Unlisted",
+	// 						displayPrice: room["display-pricing"].total || "Unlisted",
+	// 						requestType: "Single Property"
+	// 					}]
+	// 				});
+	// 			});
+	//
+	// 			pushResult($scope.results, rooms);
+	//
+	// 			angular.forEach(rooms, function(room) {
+	// 				let codes = room.rates
+	// 					.map(code => code.ratePlanCode)
+	// 					.filter((value, index, self) => self.indexOf(value) === index);
+	//
+	// 				angular.forEach(codes, function(code) {
+	// 					$timeout(
+	// 						prebookFetch(req, {
+	// 							hotel: room.hotelId,
+	// 							room: room.roomId,
+	// 							code: code
+	// 						}),
+	// 						10000
+	// 					);
+	// 				});
+	// 			});
+	// 		})
+	// 		.catch(function(err) {
+	// 			if (err.status == -1) {
+	// 				showMessage(
+	// 					"Error",
+	// 					"No 'Access-Control-Allow-Origin' header is present on the requested resource."
+	// 				);
+	// 			} else {
+	// 				showMessage(
+	// 					"Error",
+	// 					err.statusText
+	// 				);
+	// 			}
+	// 		});
+	// };
 
 	let prebookFetch = function(req, params) {
 		let prebookUrl = `${base_url}/api/1.1/properties/${
@@ -294,19 +315,21 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 
 				$scope.prebookCount++;
 
-				rooms.push({
-					hotelId: room.room["hotel-id"] || "Unlisted",
-					roomId: room.room["room-id"] || "Unlisted",
-					title: room.room.title.__text || "Unlisted",
-					url: room["landing-url"] || "Unlisted",
-					rates: [{
-						ratePlanCode: room["rate-plan-code"] || "Unlisted",
-						displayPrice: room["display-pricing"].total || "Unlisted",
-						requestType: "Pre Book"
-					}]
-				});
-
-				pushResult($scope.results, rooms)
+				if (room) {
+					rooms.push({
+						hotelId: room.room != undefined ? room.room["hotel-id"] : "Unlisted",
+						roomId: room.room != undefined ? room.room["room-id"] : "Unlisted",
+						title: room.room != undefined ? room.room.title.__text : "Unlisted",
+						description: room.room != undefined ? room.room.description.__text : "Unlisted",
+						url: room["landing-url"] != undefined ? room["landing-url"] : "Unlisted",
+						rates: [{
+							ratePlanCode: room["rate-plan-code"] != undefined ? room["rate-plan-code"] : "Unlisted",
+							displayPrice: room["display-pricing"] != undefined ? room["display-pricing"].total : "Unlisted",
+							requestType: "Pre book"
+						}]
+					});
+					pushResult($scope.results, rooms)
+				}
 			})
 			.catch(function(err) {
 				if (err.status == -1) {

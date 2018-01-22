@@ -34,18 +34,20 @@ function updateRoomData(rooms, requestType) {
 	let data = [];
 
 	angular.forEach(rooms, function(room) {
-		data.push({
-			hotelId: room.room["hotel-id"] || "Unlisted",
-			roomId: room.room["room-id"] || "Unlisted",
-			title: room.room.title.__text || "Unlisted",
-			description: room.room.description.__text || "Unlisted",
-			url: room["landing-url"] || "Unlisted",
-			rates: [{
-				ratePlanCode: room["rate-plan-code"] || "Unlisted",
-				displayPrice: room["display-pricing"].total || "Unlisted",
-				requestType: requestType
-			}]
-		});
+		if (room != undefined) {
+			data.push({
+				hotelId: room.room != undefined ? room.room["hotel-id"] : undefined,
+				roomId: room.room != undefined ? room.room["room-id"] : undefined,
+				title: room.room != undefined ? room.room.title.__text : "Unlisted",
+				description: room.room != undefined ? room.room.description.__text : "Unlisted",
+				url: room["landing-url"] != undefined ? room["landing-url"] : "Unlisted",
+				rates: [{
+					ratePlanCode: room["rate-plan-code"] != undefined ? room["rate-plan-code"] : "Unlisted",
+					displayPrice: room["display-pricing"] != undefined ? room["display-pricing"].total : "Unlisted",
+					requestType: requestType
+				}]
+			});
+		}
 	});
 
 	return data;
