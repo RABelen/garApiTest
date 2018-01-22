@@ -8,10 +8,10 @@ body {
   margin: 20px auto;
 }
 
-.withRoom {
+.success {
   color: #258d3f;
-} 
+}
 
-.mismatchFound {
+.errorFound {
   color: #b62a2a;
 }

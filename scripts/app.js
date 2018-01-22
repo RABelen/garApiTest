@@ -6,8 +6,6 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 
 	tom.setDate(tom.getDate() + 1);
 
-	$scope.rows = [];
-
 	$scope.auth = {
 		api_key: "095f6d98-36cc-5975-a67a-95c48b87187d",
 		auth_token: "92623a90-6c52-5cbf-88c2-f061fd003028"
@@ -20,6 +18,8 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 		rinfo: "[[18,18]]",
 		trans_id: "67f6d937"
 	};
+
+	$scope.queryLogs = [];
 
 	$scope.listProperties = function() {
 		Papa.parse(
@@ -49,14 +49,20 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 		});
 	};
 
+	$scope.resetList = function() {
+		$scope.results = "";
+		$scope.rows = "";
+		$scope.fields = "";
+		$scope.userInput = "";
+
+		GarHttp.resetList();
+	}
+
 	$scope.fetch = function(req, rows) {
 		let data = new FormData();
-		$scope.results = [];
-		$scope.hotelsCount = 0;
-		$scope.multiCount = 0;
-		$scope.singleCount = 0;
-		$scope.prebookCount = 0;
+		$scope.results = GarHttp.getHotels();
 
+		/// TODO: Sync with scope
 		let params = {
 			check_in: today,
 			check_out: tom,
@@ -66,27 +72,53 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 			auth_token: "92623a90-6c52-5cbf-88c2-f061fd003028"
 		}
 
-		$scope.results = GarHttp.getHotels();
-
 		GarHttp.getMulti(params, rows)
 			.then(function(data) {
 				let rooms = data["room-stays"]["room-stay"];
 				let updateData = updateRoomData(rooms, "Multi-Property");
 
-				$scope.multiCount = _.size(rooms);
 				pushResult($scope.results, updateData);
-				showMessage("Success", `${_.size(rooms)} rooms found from multi-property request`)
+				showMessage("Success", `${_.size(rooms)} rate plans found from multi-property request for ${rows.length} hotels.`)
 
 				angular.forEach(rows, function(row) {
 					if (row.id != "") {
-						$timeout(singleFetch(req, row.id), 10000);
+						// $timeout(singleFetch(params, row.id), 10000);
+						GarHttp.getSingle(params, row)
+							.then(function(data) {
+								let rooms = data["room-stays"]["room-stay"];
+								let updateData = updateRoomData(rooms, "Single Property");
+
+								pushResult($scope.results, updateData);
+								showMessage("Success", `${_.size(rooms)} rate plans found from single property request for ${row.name}.`)
+
+								angular.forEach(updateData, function(room) {
+									let codes = room.rates
+										.map(code => code.ratePlanCode)
+										.filter((value, index, self) => self.indexOf(value) === index);
+
+									angular.forEach(codes, function(code) {
+										$timeout(
+											prebookFetch(req, {
+												hotel: room.hotelId,
+												room: room.roomId,
+												code: code
+											}),
+											10000
+										);
+									});
+								});
+							})
+							.catch(function(err) {
+								showMessage("Error", "Please check if CORS is enabled.")
+							})
 					}
 				});
+
 			})
 			.catch(function(err) {
-				console.log(err)
+				showMessage("Error", "Please check if CORS is enabled.")
+				$scope.resetList();
 			})
-		// multiFetch(req, rows);
 	};
 
 	// let multiFetch = function(req, rows) {
@@ -191,8 +223,8 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 					$scope.singleCount++;
 
 					rooms.push({
-						hotelId: room.room["hotel-id"],
-						roomId: room.room["room-id"],
+						hotelId: room.room["hotel-id"] || "Unlisted",
+						roomId: room.room["room-id"] || "Unlisted",
 						title: room.room.title.__text || "Unlisted",
 						url: room["landing-url"] || "Unlisted",
 						rates: [{
@@ -263,8 +295,8 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 				$scope.prebookCount++;
 
 				rooms.push({
-					hotelId: room.room["hotel-id"],
-					roomId: room.room["room-id"],
+					hotelId: room.room["hotel-id"] || "Unlisted",
+					roomId: room.room["room-id"] || "Unlisted",
 					title: room.room.title.__text || "Unlisted",
 					url: room["landing-url"] || "Unlisted",
 					rates: [{
@@ -304,5 +336,10 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 		$mdToast.show(toast).then(function(res) {
 			if (res == "ok") {}
 		});
+
+		$scope.queryLogs.push({
+			type: type,
+			message: text
+		})
 	};
 });

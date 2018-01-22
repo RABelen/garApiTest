@@ -2,7 +2,8 @@
     <md-content layout layout-align="center center">
         <md-button class="md-raised md-primary" flex="80" ng-disabled="userInput.length > 0" ng-click="listProperties()">Load Sample</md-button>
         <md-button class="md-raised md-primary" flex="80" ng-disabled="!userInput.length > 0" ng-click="queryList(userInput)">Query List</md-button>
-        <md-button class="md-raised md-primary" ng-click="rows = userInput = ''">Reset</md-button>
+        <md-button class="md-raised md-primary" ng-click="resetList()">Reset</md-button>
+
     </md-content>
     <md-content layout-padding>
         <md-input-container class="md-block" ng-hide="rows.length > 0">

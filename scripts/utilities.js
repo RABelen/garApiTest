@@ -36,7 +36,7 @@ function updateRoomData(rooms, requestType) {
 	angular.forEach(rooms, function(room) {
 		data.push({
 			hotelId: room.room["hotel-id"] || "Unlisted",
-			roomId: room.room["room-id"],
+			roomId: room.room["room-id"] || "Unlisted",
 			title: room.room.title.__text || "Unlisted",
 			description: room.room.description.__text || "Unlisted",
 			url: room["landing-url"] || "Unlisted",
