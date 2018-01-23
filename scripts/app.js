@@ -1,8 +1,9 @@
 let app = angular.module("MyApp", ["ngMaterial", "ngMessages"])
-app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp) {
+app.controller("MyCtrl", function($scope, $http, $filter, $q, $timeout, $mdToast, GarHttp) {
 	const base_url = "https://availability.integration2.testaroom.com";
 	let today = new Date();
 	let tom = new Date();
+	let rowLimitChanged = 10;
 
 	tom.setDate(tom.getDate() + 1);
 
@@ -25,10 +26,9 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 				download: true,
 				header: true,
 				complete: function(rows) {
-					console.log(rows.data)
 					$scope.rows = rows.data;
 					$scope.fields = rows.meta.fields;
-					$scope.rowLimit = 10;
+					$scope.rowLimit = rowLimitChanged;
 					$scope.rowCount = rows.data.length - 1;
 					$scope.showSlider = true;
 					$scope.$apply();
@@ -62,26 +62,41 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 		return data = "";
 	}
 
+	$scope.updateFilteredRows = function(limit) {
+		rowLimitChanged = limit;
+	}
+
 	$scope.fetch = function(params, rows) {
 		let data = new FormData();
-
 		GarHttp.resetList();
 		$scope.results = GarHttp.getHotels();
+
+		rows = $filter('limitTo')(rows, rowLimitChanged)
 
 		GarHttp.getMulti(params, rows)
 			.then(function(data) {
 				let rooms = data["room-stays"]["room-stay"];
 				let updateData = updateRoomData(rooms, "Multi-Property");
+				let promises = [];
 
 				pushResult($scope.results, updateData);
 				showMessage("Success", `${_.size(rooms)} rate plans found from multi-property request for ${rows.length} hotels.`)
 
 				angular.forEach(rows, function(row) {
+					let defer = $q.defer();
+					promises.push(defer.promise);
+
 					if (row.id != "") {
-						$timeout(singleFetch(params, row), 10000);
+						$timeout(function() {
+							singleFetch(params, row);
+							defer.resolve();
+						}, 10000)
 					}
 				});
 
+				$q.all(promises).then(function() {
+					console.log("All Done")
+				})
 			})
 			.catch(function(err) {
 				checkError(err)
@@ -93,26 +108,35 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 			.then(function(data) {
 				let rooms = data["room-stays"]["room-stay"];
 				let updateData = updateRoomData(rooms, "Single Property");
+				let outerPromises = [];
 
 				pushResult($scope.results, updateData);
 				showMessage("Success", `${_.size(rooms)} rate plans found from single property request for ${row.name}.`)
 
 				angular.forEach(updateData, function(room) {
+					let outerDefer = $q.defer();
+					outerPromises.push(outerDefer.promise);
+
 					if (room.hotelId && room.roomId) {
+						let innerPromises = [];
 						let codes = room.rates
 							.map(code => code.ratePlanCode)
 							.filter((value, index, self) => self.indexOf(value) === index);
 
 						angular.forEach(codes, function(code) {
-							$timeout(
+							let innerDefer = $q.defer();
+							innerPromises.push(innerDefer.promise);
+
+							$timeout(function() {
+								innerDefer.resolve()
 								prebookFetch(params, {
 									hotel: room.hotelId,
 									room: room.roomId,
 									code: code
-								}),
-								10000
-							);
+								})
+							}, 10000)
 						});
+						$q.all(innerPromises).then(outerDefer.resolve());
 					}
 				});
 			})
@@ -185,7 +209,8 @@ app.controller("MyCtrl", function($scope, $http, $q, $timeout, $mdToast, GarHttp
 	let checkError = function(err) {
 		if (err.status == -1) {
 			showMessage("Error", "Please check if CORS is enabled.")
-			$scope.resetList()
+			console.log(err)
+
 		} else {
 			showMessage("Error", err.statusText ? err.statusText : "Unknown error occured.")
 			console.log(err)

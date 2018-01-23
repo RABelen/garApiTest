@@ -13,7 +13,7 @@
 
     <md-slider-container md-padding ng-show="showSlider">
       <span>Limit</span>
-      <md-slider class="md-primary" ng-model="rowLimit" md-discrete step="1" min="1" max="{{ rowCount }}" aria-label="limit"></md-slider>
+      <md-slider class="md-primary" md-discrete ng-model="rowLimit" ng-change="updateFilteredRows(rowLimit)" step="1" min="1" max="{{ rowCount }}" aria-label="rowLimit"></md-slider>
         <md-input-container>
           <input flex type="number" ng-model="rowLimit" aria-label="rowLimit">
         </md-input-container>
@@ -26,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat='r in rows | orderBy: r.name | limitTo: rowLimit'>
+        <tr ng-repeat='r in rows | orderBy: r.name | limitTo: rowLimit as filteredRows'>
           <td>{{ r.id }}</td>
           <td>{{ r.name }}</td>
         </tr>
