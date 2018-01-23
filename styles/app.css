@@ -8,6 +8,10 @@ body {
   margin: 20px auto;
 }
 
+table {
+  white-space: nowrap
+}
+
 .success {
   color: #258d3f;
 }

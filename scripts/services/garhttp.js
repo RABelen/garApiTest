@@ -73,6 +73,5 @@ app.factory("GarHttp", function($http, $q) {
 
 			return deferred.promise;
 		}
-
 	}
 })

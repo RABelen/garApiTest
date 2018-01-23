@@ -22,18 +22,21 @@
 
         <md-tabs md-dynamic-height="" md-border-bottom="" ng-cloak>
             <md-tab label="data" ng-cloak>
+              <md-content layout-padding>
                 <div ng-include="'views/data.html'"></div>
+              </md-content>
             </md-tab>
 
             <md-tab label="properties" ng-cloak>
+              <md-content layout-padding>
+                <div ng-include="'views/form.html'"></div>
+                <md-divider></md-divider>
+                <div ng-include="'views/logs.html'"></div>
                 <div ng-include="'views/properties.html'"></div>
+              </md-content>
             </md-tab>
 
-            <md-tab label="" ng-disabled>
-                <md-content layout-padding>
-
-                </md-content>
-            </md-tab>
+            <md-tab ng-disabled label=""></md-tab>
         </md-tabs>
     </md-content>
 

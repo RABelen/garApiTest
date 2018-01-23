@@ -1,50 +1,8 @@
 <md-content layout-padding layout="column">
-  <md-content layout-padding>
-    <div layout-gt-xs="row">
-      <div flex-gt-xs>
-        <h4>Check-In Date</h4>
-        <md-datepicker ng-model="params.check_in"></md-datepicker>
-      </div>
-      <div flex-gt-xs>
-        <h4>Check-Out Date</h4>
-        <md-datepicker ng-model="params.check_out"></md-datepicker>
-      </div>
-    </div>
-    <div layout-gt-sm="row">
-      <md-input-container class="md-block" flex-gt-sm>
-        <label>API Key</label>
-        <input ng-model="auth.api_key">
-      </md-input-container>
-
-      <md-input-container class="md-block" flex-gt-sm>
-        <label>Auth Token</label>
-        <input ng-model="auth.auth_token">
-      </md-input-container>
-    </div>
-    <md-list class="md-dense" flex>
-      <md-subheader class="md-no-sticky" ng-click="showLogs = !showLogs">
-        <md-button class="md-icon-button md-primary" title="Show all logs">
-          <i class="material-icons">list</i>
-        </md-button>
-        <span class="md-caption">{{ queryLogs.length }} logs found.</span>
-      </md-subheader>
-      <md-list-item ng-if="!showLogs" ng-repeat="log in queryLogs | limitTo: -1">
-        <p class="md-caption" ng-class="{errorFound: log.type == 'Error', success: log.type == 'Success'}">{{ log.type }}! {{ log.message }}</p>
-      </md-list-item>
-
-      <md-list-item ng-if="showLogs" ng-repeat="log in queryLogs">
-        <div class="md-list-item-text" layout="column">
-          <p class="md-caption" ng-class="{errorFound: log.type == 'Error', success: log.type == 'Success'}">{{ log.type }}! {{ log.message }}</p>
-        </div>
-      </md-list-item>
-    </md-list>
-
-  </md-content>
-
   <md-button class="md-raised md-primary" ng-click="fetch(params, rows)" ng-disabled="!rows.length > 0">Query</md-button>
 
   <md-switch md-invert ng-model="hasRooms" ng-init="hasRooms = true">
-    Show only hotels with rooms
+    <span class="md-subhead">Show only hotels with response</span>
   </md-switch>
 
   <md-card ng-show="(hasRooms && res.rooms.length > 1) || !hasRooms" ng-repeat="res in results" ng-init="hotelIndex = $index">

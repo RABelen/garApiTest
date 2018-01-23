@@ -1,51 +1,201 @@
-id,name
-2823e7e0-9f26-4d03-af66-fd1cf5f64f1d,Seralago Hotel & Suites
-b41ce02e-69a3-4a28-8bf8-2ab48d0d4135,Blue Heron Beach Resort
-bf7bdcbc-83e5-4fba-b3a9-bc0f97f222f5,Caribe Royale All Suites Hotel
-7547d917-54f9-4836-8d3a-1848882c95ab,Fantasy World Villas Resort
-4a312e50-b40f-4a3b-b04a-c15b32897c3a,Luxe Hotel Sunset Blvd
-45f63ea3-17fb-4da7-94f1-79b10b0c088f,Royal Plaza Hotel-Downtown Disney- Lake Buena Vista
-4e6260fb-923d-4a8f-ac59-9b8bbd7817bb,The Gershwin Hotel
-6a8c9f13-9737-4e5d-984e-460d5e7049f1,Americana Inn
-66ab1fac-fbfb-4460-afec-ecc86884c36c,Belvedere Hotel
-2e984b51-46b0-4ef2-a53b-8a0c162d5fb0,Best Western Adams Inn
-2968f9c4-0421-45ef-b739-92a3ed720df9,Best Western Americania
-e9fb59b5-df45-4295-9158-a33418e2e6ec,Comfort Inn & Suites Logan International Airport
-0d6f111e-0cb8-4923-917a-853f64626cac,Executive Hotel Vintage Court
-60f1786c-602e-4379-b180-41b3ddca0361,"Hotel Kabuki, a Joie de Vivre Boutique Hotel"
-bde05ff1-90a6-4345-a6be-b358e94120d8,Hotel Nikko San Francisco
-6fc03609-920f-4553-9794-680b21d1145e,Hotel Whitcomb
-11058125-91b5-404a-9b70-0663d39281b0,Hotel Belleclaire
-d5e2253f-66ce-44c3-bbd4-d2300e7d8e8b,The Jane Hotel
-b7a632f2-fcf4-4e0f-93d6-e906e6eb522d,Continental Hotel Oceanfront South Beach
-bf207e11-94dd-40f2-b8ac-22cca56f3986,Townhouse Hotel
-c077aeb2-1091-45bd-95df-ae3bbfe8cfb0,Hotel Mela
-fa80a10e-b70f-421a-9c5e-bee691bcc774,Flatotel
-da60fb75-e327-4150-add7-1b2de58a347f,The Mansfield
-be4a404d-ee8e-4289-aeb7-876debee719a,St. Gregory Luxury Hotel and Suites
-c1a46f0f-d9f0-473b-bdd8-982b2cc13009,The Beacon Hotel & Corporate Quarters
-e7b91ac2-0662-4f8d-aa43-7574c19490c1,Marseilles Oceanfront Hotel
-7c21c60b-0410-4b5a-8b1b-5d821fb177f5,Deauville Beach Resort
-88ae59fa-e434-4644-bed9-cdf251d497b4,Sadigo Court Hotel
-e4a318b1-401e-41ca-8fbb-c74def7136cc,Essex House Hotel
-9a0862de-0cc4-4627-9dc9-d64aa70b5e14,Gaylord Palms
-68dc5832-cf31-481a-9675-fc773aff81e2,"Hotel Tomo, a Joie de Vivre Boutique Hotel"
-89ad3715-11c9-4693-abe5-805aa396b62b,Radisson Orlando Celebration Resort- Kissimmee
-50bfb0ae-89de-460a-99f2-b8a8bce9d489,The Roger
-a0f93a15-3b06-4a8f-9ed4-81681bd9769e,Travel Inn Hotel
-5cdc5d36-cefc-48a2-9a2a-f1aeef1a8c3a,"The Langham Huntington, Pasadena, Los Angeles"
-2fc20d7d-1f4c-464c-8f27-04a3da901d30,The Melrose Hotel
-d894fa8c-484b-4428-b1d1-fa9463317473,The Allerton Hotel
-68b8b6f5-75ad-4fdf-a2c0-3ba7ea10c9de,The Pod 51 Hotel
-6c7a9f93-ffe0-4c0d-8b1a-ca3159997dce,One Washington Circle Hotel
-d991f9be-d6a6-4e4e-9a14-eaf880ca3669,Georgetown Suites
-cfc058c6-838d-453a-ab00-ebeb97a1b68d,Dorchester Hotel and Suites
-fc7362b3-1b43-47c6-bc7e-1c54a0dcd0b5,Marco Polo Beach Resort - A Ramada Plaza
-eacbb745-3698-435f-a901-e71a47eac014,Suites on South Beach
-0fea6cd1-57a1-412b-bfed-e9bed5c772b9,The Kent Hotel
-9e418f4c-29e3-4e05-a938-90e4e12e67b2,Belnord Hotel
-8d8998e9-c391-4e49-8060-da6c0177463d,Wellington Hotel
-4144cca3-9391-4119-85e0-dbb9c0ef256b,Travelodge Chicago
-97de36bb-ad84-434d-9e28-b11e4fa15958,Adante Hotel
-19dff8b0-9dea-4fe2-9add-521751142390,Best Western Hotel California
-6296c549-5e8b-4620-9ef3-005f994ed9f6,Blue Tree Resort
+id,name,street_address,locality,region,postal_code,country,latitude,longitude,content_updated_at
+2823e7e0-9f26-4d03-af66-fd1cf5f64f1d,Seralago Hotel & Suites,5678 W. Irlo Bronson Memorial Highway,Kissimmee,FL,34746,US,28.331128,-81.511602,2017-12-15T03:30:39Z
+b41ce02e-69a3-4a28-8bf8-2ab48d0d4135,Blue Heron Beach Resort,13428 Blue Heron Beach Dr,Orlando,FL,32821,US,28.3687305,-81.5020262,2017-12-15T03:31:02Z
+bf7bdcbc-83e5-4fba-b3a9-bc0f97f222f5,Caribe Royale All Suites Hotel,8101 World Center Drive,Orlando,FL,32821,US,28.3579994,-81.5050267,2017-12-15T03:31:01Z
+7547d917-54f9-4836-8d3a-1848882c95ab,Fantasy World Villas Resort,5005 Kyng's Heath Road,Kissimmee,FL,34746,US,28.3352,-81.485307,2017-12-15T03:30:40Z
+4a312e50-b40f-4a3b-b04a-c15b32897c3a,Luxe Hotel Sunset Blvd,11461 Sunset Blvd,Los Angeles,CA,90049,US,34.07262,-118.46865,2017-12-17T01:31:40Z
+45f63ea3-17fb-4da7-94f1-79b10b0c088f,Royal Plaza Hotel-Downtown Disney- Lake Buena Vista,1905 Hotel Plaza Blvd.,Lake Buena Vista,FL,32830,US,28.3764254,-81.5082696,2017-12-15T03:30:42Z
+4e6260fb-923d-4a8f-ac59-9b8bbd7817bb,The Gershwin Hotel,7 East 27th Street,New York,NY,10016,US,40.7437295,-73.9869525,2017-12-15T03:30:39Z
+6a8c9f13-9737-4e5d-984e-460d5e7049f1,Americana Inn,69 West 38th Street,New York,NY,10018,US,40.7521266,-73.985442,2017-12-15T03:30:47Z
+66ab1fac-fbfb-4460-afec-ecc86884c36c,Belvedere Hotel,319 West 48th Street,New York,NY,10036,US,40.7619,-73.987805,2017-12-15T03:30:43Z
+2e984b51-46b0-4ef2-a53b-8a0c162d5fb0,Best Western Adams Inn,29 Hancock Street,Quincy,MA,2171,US,42.2833999,-71.0383096,2017-12-15T03:31:18Z
+2968f9c4-0421-45ef-b739-92a3ed720df9,Best Western Americania,121 7th Street,San Francisco,CA,94108,US,37.778677,-122.409878,2017-12-15T03:31:17Z
+e9fb59b5-df45-4295-9158-a33418e2e6ec,Comfort Inn & Suites Logan International Airport,85 American Legion Highway,Revere,MA,2151,US,42.411058,-70.99961,2017-12-15T03:30:38Z
+0d6f111e-0cb8-4923-917a-853f64626cac,Executive Hotel Vintage Court,650 Bush Street,San Francisco,CA,94108,US,37.790463,-122.408109,2017-12-15T03:31:19Z
+60f1786c-602e-4379-b180-41b3ddca0361,"Hotel Kabuki, a Joie de Vivre Boutique Hotel",1625 Post Street,San Francisco,CA,64155,US,37.785393,-122.42857,2017-12-17T01:31:38Z
+bde05ff1-90a6-4345-a6be-b358e94120d8,Hotel Nikko San Francisco,222 Mason Street,San Francisco,CA,94102,US,37.785679,-122.409253,2017-12-15T03:31:06Z
+6fc03609-920f-4553-9794-680b21d1145e,Hotel Whitcomb,1231 Market Street,San Francisco,CA,94103,US,37.7782037,-122.4154786,2017-12-15T03:30:41Z
+11058125-91b5-404a-9b70-0663d39281b0,Hotel Belleclaire,250 West 77th Street,New York,NY,10024,US,40.7826849,-73.9813171,2017-12-15T03:30:51Z
+d5e2253f-66ce-44c3-bbd4-d2300e7d8e8b,The Jane Hotel,113 Jane Street,New York,NY,10014,US,40.7381411,-74.0090347,2017-12-17T01:31:38Z
+b7a632f2-fcf4-4e0f-93d6-e906e6eb522d,Continental Hotel Oceanfront South Beach,1825 Collins Avenue,Miami Beach,FL,33139,US,25.794431,-80.128343,2017-12-15T03:31:05Z
+bf207e11-94dd-40f2-b8ac-22cca56f3986,Townhouse Hotel,150 20th Street,Miami Beach,FL,33139,US,25.795203,-80.128818,2017-12-15T03:30:50Z
+c077aeb2-1091-45bd-95df-ae3bbfe8cfb0,Hotel Mela,120 W. 44th St.,New York,NY,10036,US,40.756397,-73.984423,2017-12-15T03:31:06Z
+fa80a10e-b70f-421a-9c5e-bee691bcc774,Flatotel,135 W 52nd Street,New York,NY,10019,US,40.7618149,-73.9810708,2017-12-15T03:30:49Z
+da60fb75-e327-4150-add7-1b2de58a347f,The Mansfield,12 West 44th Street,New York,NY,10036,US,40.75501,-73.981095,2017-12-15T03:31:07Z
+be4a404d-ee8e-4289-aeb7-876debee719a,St. Gregory Luxury Hotel and Suites,2033 M Street NW,Washington,DC,20036,US,38.905963,-77.046277,2017-12-15T03:30:59Z
+c1a46f0f-d9f0-473b-bdd8-982b2cc13009,The Beacon Hotel & Corporate Quarters,1615 Rhode Island Ave NW,Washington,DC,20036,US,38.9066654,-77.0378866,2017-12-15T03:31:00Z
+e7b91ac2-0662-4f8d-aa43-7574c19490c1,Marseilles Oceanfront Hotel,1741 Collins Avenue,Miami Beach,FL,33139,US,25.793209,-80.12886,2017-12-15T03:31:07Z
+7c21c60b-0410-4b5a-8b1b-5d821fb177f5,Deauville Beach Resort,6701 Collins Ave,Miami Beach,FL,33141,US,25.8506174,-80.1203235,2017-12-15T03:30:45Z
+88ae59fa-e434-4644-bed9-cdf251d497b4,Sadigo Court Hotel,334 20th Street,Miami Beach,FL,33139,US,25.795986,-80.13093,2017-12-15T03:30:47Z
+e4a318b1-401e-41ca-8fbb-c74def7136cc,Essex House Hotel,1001 Collins Avenue,Miami Beach,FL,33139,US,25.780808,-80.131319,2017-12-15T03:31:13Z
+9a0862de-0cc4-4627-9dc9-d64aa70b5e14,Gaylord Palms,6000 W. Osceola Parkway,Kissimmee,FL,34746,US,28.343169,-81.526203,2017-12-15T03:30:50Z
+68dc5832-cf31-481a-9675-fc773aff81e2,"Hotel Tomo, a Joie de Vivre Boutique Hotel",1800 Sutter Street,San Francisco,CA,94155,US,37.786809,-122.430326,2017-12-17T01:31:39Z
+89ad3715-11c9-4693-abe5-805aa396b62b,Radisson Orlando Celebration Resort- Kissimmee,2900 Parkway Blvd,Kissimmee,FL,34747,US,28.334952,-81.535463,2017-12-17T00:32:06Z
+50bfb0ae-89de-460a-99f2-b8a8bce9d489,The Roger,131 Madison Avenue,New York,NY,10016,US,40.7458946,-73.9843142,2017-12-15T03:31:19Z
+a0f93a15-3b06-4a8f-9ed4-81681bd9769e,Travel Inn Hotel,515 W 42nd Street,New York,NY,10036,US,40.760331,-73.99593,2017-12-15T03:30:41Z
+5cdc5d36-cefc-48a2-9a2a-f1aeef1a8c3a,"The Langham Huntington, Pasadena, Los Angeles",1401 South Oak Knoll Ave,Pasadena,CA,91106,US,34.1224107,-118.1338354,2017-12-15T03:31:03Z
+2fc20d7d-1f4c-464c-8f27-04a3da901d30,The Melrose Hotel,"2430 Pennsylvania Avenue, NW",Washington,DC,20037,US,38.902873,-77.052962,2017-12-15T03:31:16Z
+d894fa8c-484b-4428-b1d1-fa9463317473,The Allerton Hotel,701 N. Michigan Avenue,Chicago,IL,60611,US,41.895194,-87.623732,2017-12-15T03:30:54Z
+68b8b6f5-75ad-4fdf-a2c0-3ba7ea10c9de,The Pod 51 Hotel,230 E 51st Street,New York,NY,10022,US,40.7559243,-73.9690678,2017-12-15T03:31:10Z
+6c7a9f93-ffe0-4c0d-8b1a-ca3159997dce,One Washington Circle Hotel,One Washington Circle NW,Washington,DC,20036,US,38.903298,-77.049753,2017-12-15T03:30:37Z
+d991f9be-d6a6-4e4e-9a14-eaf880ca3669,Georgetown Suites,1111 30th Street NW,Washington,DC,20007,US,38.9045145,-77.0591068,2017-12-17T01:31:36Z
+cfc058c6-838d-453a-ab00-ebeb97a1b68d,Dorchester Hotel and Suites,1850 Collins Avenue,Miami Beach,FL,33139,US,25.79483,-80.129787,2017-12-15T03:30:49Z
+fc7362b3-1b43-47c6-bc7e-1c54a0dcd0b5,Marco Polo Beach Resort - A Ramada Plaza,19201 Collins Ave,Miami Beach,FL,33160,US,25.931207,-80.121831,2017-12-15T03:30:55Z
+eacbb745-3698-435f-a901-e71a47eac014,Suites on South Beach,1330 Collins Avenue,Miami Beach,FL,33139,US,25.784662,-80.13123,2017-12-15T03:30:53Z
+0fea6cd1-57a1-412b-bfed-e9bed5c772b9,The Kent Hotel,1131 Collins Avenue,Miami Beach,FL,33139,US,25.782378,-80.131006,2017-12-15T03:30:48Z
+9e418f4c-29e3-4e05-a938-90e4e12e67b2,Belnord Hotel,209 W 87th Street,New York,NY,10024,US,40.7887182,-73.9753607,2017-12-15T03:30:37Z
+8d8998e9-c391-4e49-8060-da6c0177463d,Wellington Hotel,871 Seventh Avenue at 55th Street,New York,NY,10019,US,40.7646559,-73.9806639,2017-12-17T01:31:36Z
+4144cca3-9391-4119-85e0-dbb9c0ef256b,Travelodge Chicago,65 East Harrison Street,Chicago,IL,60605,US,41.8744081,-87.6255495,2017-12-15T03:30:53Z
+97de36bb-ad84-434d-9e28-b11e4fa15958,Adante Hotel,610 Geary Street,San Francisco,CA,94102,US,37.786954,-122.413637,2017-12-15T03:31:03Z
+19dff8b0-9dea-4fe2-9add-521751142390,Best Western Hotel California,580 Geary Street,San Francisco,CA,94102,US,37.786959,-122.41298,2017-12-15T03:31:14Z
+6296c549-5e8b-4620-9ef3-005f994ed9f6,Blue Tree Resort,12007 Cypress Run Drive,Orlando,FL,32836,US,28.389101,-81.503725,2017-12-15T03:30:40Z
+d07c51eb-6e5c-482a-8acb-23ef27d30968,Holiday Villas,3045 Polynesian Isle Blvd,Kissimmee,FL,34746,US,28.3287501,-81.4894511,2017-12-15T03:31:18Z
+b88a51eb-0f65-4473-9598-94fa3aa09aee,Inn at Lincoln Park,601 W. Diversey Parkway,Chicago,IL,60614,US,41.932595,-87.643746,2017-12-15T03:31:07Z
+5e5f7818-b455-4bad-85ea-3d26e730dc36,Renoir Hotel,45 McAllister Street,San Francisco,CA,94102,US,37.78081,-122.412701,2017-12-15T03:30:44Z
+c40bdebf-dd67-4c57-adb7-e1b9a587c68e,"Hotel Carlton, a Joie de Vivre Boutique Hotel",1075 Sutter Street,San Francisco,CA,94109,US,37.787751,-122.417932,2017-12-15T03:30:54Z
+cd165872-dab1-40cd-a1c4-f1755f288ea0,Good Hotel,112 7th Street,San Francisco,CA,94103,US,37.778773,-122.410923,2017-12-17T01:31:37Z
+0edf96bb-2adf-4385-be04-70ebc8276569,"Hotel Rex, a Joie de Vivre Boutique Hotel",562 Sutter Street,San Francisco,CA,94102,US,37.78936,-122.409792,2017-12-15T03:30:52Z
+d7668e27-3205-4c59-abfc-17a32d67c373,La Luna Inn,2599 Lombard Street,San Francisco,CA,94123,US,37.798557,-122.44391,2017-12-15T03:31:03Z
+a8b18c12-210e-4793-b95a-95d4f6627fee,The Whitehall Hotel,105 E. Delaware Place,Chicago,IL,60611,US,41.89887,-87.625989,2017-12-15T03:30:59Z
+617e8b33-5f78-4b5a-9f40-3288b5f781ec,Miami International Airport Hotel,NW 20th Street,Miami,FL,33122,US,25.794481,-80.233032,2017-12-15T03:31:07Z
+a3c2c672-8888-4e7d-8c7a-8ffa3392baac,Hotel Shelley,844 Collins Ave,Miami Beach,FL,33139,US,25.779022,-80.132341,2017-12-17T01:31:35Z
+5ea1e53d-80d8-46e9-beb5-3a0c9db627cc,Georgetown Suites Harbour,1000 29th Street NW,Washington,DC,20007,US,38.902945,-77.058349,2017-12-17T01:31:36Z
+98af8904-8900-421d-91e7-c9556cf64c39,The George Washington University Inn,824 New Hampshire Ave NW,Washington,DC,20037,US,38.900249,-77.053068,2017-12-15T03:30:56Z
+e14317e3-8edd-4b2e-ad72-edd4eca67430,The Quincy Suites,1823 L Street NW,Washington,DC,20036,US,38.903999,-77.042698,2017-12-15T03:30:55Z
+edd1ff82-6406-4882-8bc2-a4a1b313bcf0,The River Inn,924 25th Street NW,Washington,DC,20037,US,38.901443,-77.053708,2017-12-15T03:30:36Z
+1c209a89-d423-427b-a52c-424b23591d4f,Vista Cay Resort by Millenium,9924 Universal Blvd Ste 244,Orlando,FL,32819,US,28.4276985,-81.4431293,2017-12-15T03:30:51Z
+4d8e9c66-94f6-4c38-9c26-d2c7fce9a77c,Washington Suites Alexandria,100 S. Reynolds St,Alexandria,VA,22304,US,38.811588,-77.125723,2017-12-15T03:30:36Z
+73511a48-2b6d-403e-bcb5-3669cffa35fa,Newport Beachside Hotel & Resort,16701 Collins Avenue,Sunny Isles Beach,FL,33160,US,25.9312953,-80.1218495,2017-12-15T03:31:09Z
+eb9acd77-e897-4687-ab35-50d8ab0c5818,"Galleria Park Hotel, a Joie de Vivre Boutique Hotel",191 Sutter Street,San Francisco,CA,94104,US,37.7898488,-122.4037242,2017-12-15T03:30:57Z
+4814d138-133e-4149-89cd-d4892c7de69b,The Point Orlando Resort,7389 Universal Blvd.,Orlando,FL,32819,US,28.4561936,-81.4643971,2017-12-15T03:31:17Z
+de11a5cc-3cba-4a34-bade-1e835a9316e8,Le Petit,8822 Cynthia Street,West Hollywood,CA,90069,US,34.087111,-118.383902,2017-12-15T03:31:00Z
+8ad25fe7-436b-4342-a281-6ad66648dfb0,Wyndham Glenview Suites,1400 Milwaukee Ave,Glenview,IL,60025,US,42.0808921,-87.8642424,2017-12-15T03:31:24Z
+2ccf377c-f373-4008-8642-8780c4cb494d,Gaylord National,201 Waterfront Street,Oxon Hill,MD,20745,US,38.7824107,-77.0160709,2017-12-17T01:31:40Z
+1373ff02-3a52-435a-9dd3-7eefdcbf85b6,Millennium Broadway Hotel Times Square,145 West 44th Street,New York,NY,10036,US,40.7567887,-73.9847074,2017-12-15T03:31:04Z
+7437e4a1-4657-43a7-8dcf-e3ab9f18be8d,ONE UN New York – formerly Millennium UN Plaza Hotel,One United Nations Plaza,New York,NY,10017,US,40.7493469,-73.9689763,2017-12-15T03:31:05Z
+553d5ebb-e504-4276-8ea1-8e29a8880b81,Whitelaw Hotel,808 Collins Ave,Miami Beach,FL,33139,US,25.778478,-80.132464,2017-12-15T03:30:46Z
+1105fe56-d1f7-4bc2-82ca-a94883c9848f,The Colonnade Hotel,120 Huntington Avenue,Boston,MA,2116,US,42.345621,-71.080906,2017-12-17T01:31:41Z
+8a1c3e6a-8d5a-4064-ad58-23464388ecc9,Hotel Fusion,140 Ellis Street,San Francisco,CA,94102,US,37.785719,-122.408523,2017-12-15T03:31:00Z
+2457fa68-c634-4146-b5b9-a1c71869846a,The Pickwick Hotel,85 Fifth Street,San Francisco,CA,94103,US,37.78302,-122.406519,2017-12-15T03:31:23Z
+5c543ba4-3883-4bf9-b259-ec41816655dd,Pan American Hotel,79-00 Queens Boulevard,Elmhurst,NY,11373,US,40.73896,-73.8899802,2017-12-15T03:31:27Z
+32da18bc-d533-40bd-a648-341009b94ce9,Metropole South Beach,635 Collins Ave,Miami Beach,FL,33139,US,25.776156,-80.132351,2017-12-15T03:30:46Z
+572e21c4-7e5e-4cc6-bcda-0ca8d95e4243,Villa Florence,225 Powell Street,San Francisco,CA,94102,US,37.7868453,-122.4081359,2017-12-15T03:31:09Z
+018c49e2-3642-4089-9baf-e826726e671b,Larkspur Hotel Union Square,524 Sutter Street,San Francisco,CA,94102,US,37.789438,-122.409173,2017-12-15T03:31:06Z
+5296db19-bae6-4671-9bd5-270aaf0f7809,Catalina Hotel & Beach Club,1732-1756 Collins Avenue,Miami Beach,FL,33139,US,25.793427,-80.12995,2017-12-17T01:31:38Z
+c9b0ca01-c5b6-4847-a7d9-b1ce72d70380,Chesterfield Hotel and Suites,855 Collins Ave,Miami Beach,FL,33139,US,25.779039,-80.131721,2017-12-15T03:30:46Z
+1d7612ac-b6f7-4cd8-ae0d-b3af4319f8b2,Hotel Chelsea,944 Washington Avenue,Miami Beach,FL,33139,US,25.780296,-80.133283,2017-12-15T03:30:48Z
+d80164e0-8ecb-4488-ba3b-ce27115ade64,Riviera South Beach,2000 Liberty Ave,Miami Beach,FL,33139,US,25.796295,-80.130314,2017-12-15T03:30:48Z
+4e43abad-b94b-4831-9863-3121905eadd9,The Shoreham,33 West 55th Street,New York,NY,10019,US,40.762495,-73.976334,2017-12-15T03:31:19Z
+fb088f8e-32bc-457e-9b2a-58aab084f7a2,The Franklin,164 East 87th Street,New York,NY,10128,US,40.7297197,-73.9903241,2017-12-15T03:31:20Z
+01c3113e-32bd-4181-8e38-900cac15d1b9,The Orlando Vista Hotel- Lake Buena Vista,12490 Apopka Vineland Road S.R. 535,Orlando Lake Buena Vista,FL,32836,US,28.3845541,-81.5060382,2017-12-15T03:30:42Z
+c16fc7d4-1f30-4180-a98d-18fc9ec4f1a3,The Midtown Hotel,220 Huntington Ave,Boston,MA,2115,US,42.343453,-71.083686,2017-12-15T03:31:23Z
+5bf5457f-5286-4984-9c08-0df186aab16f,The Mosser Hotel,54 Fourth Street,San Francisco,CA,94103,US,37.784863,-122.405135,2017-12-15T03:30:57Z
+79341da1-5b90-4311-8e35-54968ea659f7,Floridays Resort Orlando,12550 Floridays Resort Drive,Orlando,FL,32821,US,28.3894044,-81.4815556,2017-12-15T03:31:03Z
+aeec0fa8-4e50-401c-885d-c7e8ca33ad36,Beekman Tower Hotel,3 Mitchell Place,New York,NY,10017,US,40.7532189,-73.9662351,2017-12-15T03:30:59Z
+53405c87-0d33-4d1e-8243-d4df9052d722,Fitzpatrick Grand Central Hotel,141 East 44th Street,New York,NY,10017,US,40.7524555,-73.9744085,2017-12-15T03:31:25Z
+f30375fc-f4ab-4cd8-a8f7-88b1c025c28c,Fitzpatrick Manhattan Hotel,687 Lexington Avenue,New York,NY,10022,US,40.7605675,-73.9691546,2017-12-15T03:31:25Z
+f214ec23-3c1c-4359-8116-86abb02079e3,Albion South Beach Hotel,1650 James Avenue,Miami Beach,FL,33139,US,25.791073,-80.131116,2017-12-15T03:31:08Z
+2940ba37-3d35-411d-ab69-3d3bca9ef5fd,Hotel 140,140 Clarendon Street,Boston,MA,2116,US,42.3484979,-71.0741678,2017-12-15T03:31:28Z
+dd75307c-2e3c-4e98-9ece-bbd2b91b9aac,Washington Jefferson Hotel,318 West 51st Street,New York,NY,10019,US,40.763254,-73.986883,2017-12-15T03:30:47Z
+12a68203-acdb-4396-b397-fdcd995bf1a7,Millennium Bostonian Hotel,26 North Street,Boston,MA,2109,US,42.3605617,-71.0562027,2017-12-15T03:31:01Z
+33e161d3-7783-41b5-a3dc-e7bbfded48ef,Revere Hotel Boston,200 Stuart Street,Boston,MA,2116,US,42.3507679,-71.0676218,2017-12-15T03:31:26Z
+a365dc86-89f3-43ce-bf5a-b724cbac9e50,Wyndham Lake Buena Vista Resort,1850 Hotel Plaza Blvd.,Orlando,FL,32830,US,28.375131,-81.511875,2017-12-15T03:30:57Z
+f578675e-b15b-4180-a6fc-5edfa9ec883a,The Orchard Garden Hotel,466 Bush Street,San Francisco,CA,94108,US,37.79001,-122.40844,2017-12-15T03:30:56Z
+dee26c0e-fbea-4c14-9b85-a2b70c8ee13b,The Orchard Hotel,665 Bush Street,San Francisco,CA,94108,US,37.79089,-122.405224,2017-12-15T03:30:50Z
+5b784a9c-a9bc-46dd-a0a7-167f2e4357f5,The Powell Hotel,28 Cyril Magnin Street,San Francisco,CA,94102,US,37.7842708,-122.4083226,2017-12-15T03:30:53Z
+e9ac9e56-eb94-4ebb-9c0a-7af5a9458065,Luxe Hotel Rodeo Drive,360 N. Rodeo Drive,Beverly Hills,CA,90210,US,34.069033,-118.402278,2017-12-15T03:31:18Z
+39f5aa1d-d56e-4965-84a6-725d98a23387,Quality Suites Lake Buena Vista,8200 Palm Parkway,Orlando,FL,32836,US,28.3892367,-81.4972354,2017-12-15T03:30:38Z
+a02f1451-aca6-4d97-9742-7180cfb0c811,Seaport Boston Hotel,1 Seaport Lane,Boston,MA,2210,US,42.349316,-71.041742,2017-12-15T03:31:21Z
+b0b61abe-9557-4a9c-b095-c2d1cbfbe78c,Comfort Suites — Michigan Avenue/Loop,320 N. Michigan Avenue,Chicago,IL,60601,US,41.887493,-87.625061,2017-12-15T03:30:59Z
+2cd04e30-d1f3-4925-80a3-41559cb09f42,Eurostars Wall Street Hotel,129 Front Street,New York,NY,10005,US,40.705023,-74.006089,2017-12-15T03:30:56Z
+7757ba44-3309-4bab-bd0d-7a265cf8c1f6,Best Western Atlantic Beach Hotel,4101 Collins Avenue,Miami Beach,FL,33140,US,25.813281,-80.122463,2017-12-15T03:31:17Z
+7a12f592-88b5-48a3-9722-3e3af5b5ee1b,Days Inn Oceanside Miami Beach,4299 Collins Avenue,Miami Beach,FL,33140,US,25.814226,-80.122322,2017-12-15T03:31:22Z
+436ad023-0509-49f4-9a39-8302e312090b,Seagull Hotel Miami Beach,100 21st Street,Miami Beach,FL,33139,US,25.795763,-80.127752,2017-12-15T03:31:22Z
+053e3f4f-b6ad-4615-99a5-a3406eb5cecc,Thompson Ocean Drive,1144 Ocean Drive,Miami Beach,FL,33139,US,25.782546,-80.130474,2017-12-15T03:30:52Z
+9c8acb55-a0c9-4b45-89c6-33d28b811630,Hotel Felix,111 West Huron Street,Chicago,IL,60654,US,41.894415,-87.631538,2017-12-15T03:30:51Z
+6ffc88fe-dfae-403e-be86-d46ba3034741,New Casablanca on the Ocean Hotel,6345 Collins Avenue,Miami Beach,FL,33141,US,25.845231,-80.119941,2017-12-15T03:31:08Z
+59058ca4-a468-4af9-b719-bfd75d97e59f,Best Western Lake Buena Vista Hotel at Downtown Disney,2000 Hotel Plaza Blvd,Lake Buena Vista,FL,32830,US,28.378675,-81.508968,2017-12-15T03:30:46Z
+e9f522db-7739-4134-a471-317e93a1d4ff,The Churchill Hotel,1914 Connecticut Avenue NW,Washington,DC,20009,US,38.916334,-77.047002,2017-12-15T03:31:21Z
+cecc2f39-ea0c-4658-821f-72a8eb827834,Public Chicago,1301 N State Parkway,Chicago,IL,60610,US,41.906268,-87.628375,2017-12-15T03:30:44Z
+c7ee921e-720b-4f1a-a28e-a36c3c1e1d57,Holiday Inn Miami Beach,4333 Collins Avenue,Miami Beach,FL,33140,US,25.815105,-80.122336,2017-12-15T03:31:18Z
+743061dc-1e40-4eb4-84ad-28f361af2d70,Atlantis Casino Resort Spa,3800 South Virginia St,Reno,NV,89502,US,39.488897,-119.795266,2017-12-15T03:31:30Z
+65f9b20f-327a-4592-9385-d0d90b21714a,Bentley Hotel South Beach,510 Ocean Drive,Miami Beach,FL,33139,US,25.774988,-80.132141,2017-12-15T03:31:23Z
+f8e51f35-a163-48dc-bcee-fecfba66bb6b,Skyline Hotel,725 Tenth Avenue,New York,NY,10019,US,40.764381,-73.99202,2017-12-15T03:30:45Z
+77a201cf-a2c4-4e0c-a04b-4e904c224910,Best Western Grant Park Hotel,1100 S. Michigan Avenue,Chicago,IL,60605,US,41.868658,-87.624582,2017-12-15T03:30:56Z
+5914e9c6-b98d-4e8d-8d4b-5a3315f15ea1,Riviera Hotel & Casino,2901 Las Vegas Boulevard South,Las Vegas,NV,89109,US,36.135387,-115.159247,2017-12-15T03:31:30Z
+b6ac66a3-98cf-4cca-8b6f-09960b5f8d61,Trump International Hotel Las Vegas,2000 Fashion Show Drive,Las Vegas,NV,89109,US,36.1288335,-115.1710934,2017-12-15T03:31:35Z
+167cfaa2-3fc6-4edd-b884-1e4b15790d6f,California Hotel and Casino,12 Ogden Avenue,Las Vegas,NV,89015,US,36.1728985,-115.1457162,2017-12-15T03:31:37Z
+0c52d161-3474-495a-b741-426b51120a45,Fremont Hotel and Casino,200 East Fremont Street,Las Vegas,NV,89101,US,36.171132,-115.143359,2017-12-15T03:31:36Z
+dddfa7da-bd1d-4253-af35-98c0189ba106,"Main Street Station Hotel, Casino and Brewery",200 North Main Street,Las Vegas,NV,89101,US,36.1840774,-115.1382359,2017-12-15T03:31:13Z
+9e564efa-dfc3-4df7-b496-54e158520256,Hotel Amarano,322 North Pass Avenue,Burbank,CA,91505,US,34.1555069,-118.3457142,2017-12-15T03:31:26Z
+c7b45dce-0890-4d53-86ee-faef43e0d3d9,Hotel Angeleno,170 N Church Lane,Los Angeles,CA,90049,US,34.073748,-118.468195,2017-12-15T03:30:45Z
+b851e362-34c1-4ed5-924c-95f506aaf71f,Gold Coast Hotel & Casino,4000 West Flamingo Road,Las Vegas,NV,89103,US,36.1156495,-115.192445,2017-12-15T03:31:30Z
+9cf872be-f9fe-4d66-8530-ebfa1ab6eb12,Best Western Orlando Gateway- International Drive Area,7299 Universal Blvd.,Orlando,FL,32809,US,28.45805,-81.463476,2017-12-15T03:30:43Z
+2ee9236e-e605-4b62-9216-e3d2fa57f5c5,Planet Hollywood Resort & Casino,3667 Las Vegas Boulevard. South,Las Vegas,NV,89109,US,36.111067,-115.168141,2017-12-15T03:31:36Z
+0da77196-bd45-4f18-b06f-570bda8f49ef,The Orleans Hotel and Casino,4500 West Tropicana Avenue,Las Vegas,NV,89103,US,36.1008907,-115.2015414,2017-12-15T03:31:36Z
+6f8197c7-ce58-40ea-b524-590084bb8a15,Standard LA Downtown,550 South Flower St,Los Angeles,CA,90071,US,34.050158,-118.256975,2017-12-15T03:31:16Z
+26846c52-2d7d-4669-9d82-c169868db713,Boston Hotel Buckminster,645 Beacon Street,Boston,MA,2215,US,42.348345,-71.097927,2017-12-15T03:31:28Z
+3ada7cfc-4b54-48dd-9e31-2e469ff91a08,Capitol Skyline Hotel,10 I Street SW,Washington,DC,20024,US,38.879023,-77.00978,2017-12-15T03:30:57Z
+c794e347-a4e0-44ef-8d50-ba68bff05567,Tropicana Las Vegas,3801 Las Vegas Blvd. South,Las Vegas,NV,89109,US,36.09904,-115.170443,2017-12-17T01:31:41Z
+4a1ae5a3-c0b3-4413-8ec9-50317c720db3,Green Valley Ranch Resort Spa Casino,2300 Paseo Verde Parkway,Henderson,NV,89032,US,36.020557,-115.089995,2017-12-15T03:31:31Z
+249b02f1-d8aa-4e47-b316-45fe4cd195d5,Dylan Hotel,52 East 41st Street,New York,NY,10017,US,40.7519267,-73.9792684,2017-12-15T03:30:58Z
+38a938c6-8db5-4584-9fde-d8f98e52888d,Holiday Inn Midtown - 57th Street,440 West 57th Street,New York,NY,10019,US,40.7686561,-73.9874536,2017-12-15T03:30:52Z
+0ba2f050-9d4f-4e0c-8908-d5eb48f57a75,The Lenox Hotel,61 Exeter Street at Boylston,Boston,MA,2116,US,42.3491378,-71.0794121,2017-12-15T03:30:43Z
+436a5ceb-9f8f-4d18-aa56-0a9c67941d3b,Fiesta Rancho Casino Hotel,2400 North Rancho Drive,North Las Vegas,NV,89130,US,36.201494,-115.195271,2017-12-15T03:31:33Z
+53141c6e-4e44-4df4-a874-c5290facd5c1,Santa Fe Station Hotel & Casino,4949 North Rancho,Las Vegas,NV,89130,US,36.25096,-115.2429863,2017-12-15T03:31:33Z
+798fe33b-1289-4f41-b8d2-223ec709ec0e,Texas Station Gambling Hall and Hotel,2101 Texas Star Lane,North Las Vegas,NV,89032,US,36.197381,-115.19139,2017-12-15T03:31:33Z
+9fe2e78a-2e67-4249-83c4-ef20911536a2,Fiesta Henderson Hotel & Casino,777 West Lake Mead Parkway,Henderson,NV,89015,US,36.031371,-115.008977,2017-12-15T03:31:33Z
+39b10767-bfcc-4502-8594-13948fab7488,Aliante Station Casino & Hotel,7300 Aliante Parkway,North Las Vegas,NV,89084,US,36.2995635,-115.1890888,2017-12-15T03:31:31Z
+15c82211-0cbf-4ffc-a66d-fa1df65db4ea,Red Rock Casino Resort Spa,11011 West Charleston Boulevard,Las Vegas,NV,89135,US,36.158891,-115.3351685,2017-12-15T03:31:31Z
+064c5132-264e-4795-88be-c7e4f302b75c,Boulder Station Hotel Casino,4111 Boulder Highway,Las Vegas,NV,89121,US,36.13577,-115.085039,2017-12-15T03:31:32Z
+fe1e7011-db5b-4f0a-bd78-57afa54ae126,Sunset Station Hotel Casino,1301 West Sunset Road,Henderson,NV,89014,US,36.060989,-115.040954,2017-12-15T03:31:23Z
+f8394916-087f-4b49-82e2-b04522f734a3,Palace Station Hotel & Casino,2411 West Sahara Avenue,Las Vegas,NV,89102,US,36.143311,-115.174748,2017-12-15T03:31:32Z
+f61f05e1-d51a-4b29-b99d-0e06bd1455dc,Days Inn Las Vegas At Wild Wild West Gambling Hall,3330 West Tropicana Avenue,Las Vegas,NV,89103,US,36.101832,-115.184909,2017-12-15T03:31:34Z
+60fe5834-1cbc-4648-b56d-f6f448d82ac7,Swissôtel Chicago,323 East Wacker Drive,Chicago,IL,60601,US,41.8876461,-87.6195299,2017-12-15T03:31:42Z
+2631fd75-4a25-41e8-ad46-1e821f96c1dd,The Dupont Circle Hotel,1500 New Hampshire Ave NW,Washington,DC,20036,US,38.9105948,-77.0425577,2017-12-15T03:31:11Z
+441090ed-dae8-4de5-b644-51123fb30ba4,Back Bay Hotel,350 Stuart Street,Boston,MA,2116,US,42.349386,-71.072758,2017-12-15T03:31:09Z
+8f72fa33-54df-47b9-872f-85757ce315b7,Helmsley Park Lane Hotel,36 Central Park South,New York,NY,10019,US,40.7652622,-73.9752198,2017-12-17T00:32:06Z
+8d8c34ca-d754-4cf8-822c-e59cdcbdd45b,Capitol Hill Hotel Washington D.C.,200C Street SE,Washington,DC,20003,US,38.8860288,-77.003072,2017-12-15T03:31:41Z
+ff559c50-aa34-4968-bc78-e434927cb046,Best Western Airport Inn,8101 Aircenter Court,Orlando,FL,32809,US,28.450574,-81.356316,2017-12-17T00:32:05Z
+356b14fe-d169-468c-a32e-666920fea827,Suncoast Hotel & Casino,9090 Alta Drive,Las Vegas,NV,89145,US,36.169805,-115.296649,2017-12-15T03:31:51Z
+cfd28a97-157c-4311-89cc-ef2493f506a9,Boston Common Hotel and Conference Center,40 Trinity Place,Boston,MA,2116,US,42.3485188,-71.0753723,2017-12-15T03:31:48Z
+77da40a3-320e-4f92-ab8e-31380be2ab43,Arizona Charlie's Boulder,4575 Boulder Hwy,Las Vegas,NV,89121,US,36.124205,-115.075383,2017-12-15T03:31:42Z
+e27d75e8-dae8-41cc-8528-74cd5c7bd7c0,"Stratosphere Casino, Hotel and Tower",2000 S. Las Vegas Blvd,Las Vegas,NV,89104,US,36.147974,-115.155328,2017-12-15T03:31:42Z
+31a07411-ad98-4de4-8ce3-7fc5a98faebc,Arizona Charlie's Decatur,740 S. Decatur Blvd,Las Vegas,NV,89107,US,36.163765,-115.207028,2017-12-15T03:31:42Z
+e84d049d-e8a0-47b9-87dc-1ba2d22aed7b,"Inn of Chicago, an Ascend Collection hotel",162 East Ohio Street,Chicago,IL,60611,US,41.892784,-87.623,2017-12-15T03:31:02Z
+9c0d2649-daa7-4cb5-97f3-bee6b34c0543,Affinia Shelburne,303 Lexington Ave,New York,NY,10016,US,40.748364,-73.97787,2017-12-15T03:31:17Z
+58092ef4-5e70-40b0-aa80-322f2002e384,The Benjamin Hotel,125 East 50th Street,New York,NY,10022,US,40.756491,-73.9723428,2017-12-15T03:31:14Z
+1b3a8f15-7558-42f0-a8c9-8f6fc56c7587,Affinia 50,155 East 50th Street,New York,NY,10022,US,40.756092,-73.9714005,2017-12-15T03:31:12Z
+9adb9a31-c59d-48fa-93ce-b8d142a1462d,Affinia Dumont,150 East 34th Street,New York,NY,10016,US,40.745896,-73.979317,2017-12-17T01:31:40Z
+abcf340b-b7d8-4316-a5a0-36a5e3d5a653,Affinia Gardens Hotel,215 East 64th Street,New York,NY,10065,US,40.764419,-73.963086,2017-12-15T03:31:15Z
+a14c69f3-21e7-4588-b21c-b5251460d3fd,Affinia Manhattan,371 Seventh Avenue,New York,NY,10001,US,40.7487,-73.991662,2017-12-15T03:31:15Z
+20e34d0d-5318-465f-8d6a-9fa16f8c1150,Eastgate Tower Hotel,222 East 39th Street,New York,NY,10016,US,40.748501,-73.9750082,2017-12-15T03:31:13Z
+c9f41a29-4e0c-4f25-8226-193cef8f9369,Buena Vista Suites- Lake Buena Vista,8203 World Center Drive,Orlando,FL,32821,US,28.358747,-81.5050514,2017-12-15T03:31:02Z
+eea35c44-9fc5-4f55-a0fd-f850f1892b26,Colony Hotel,736 Ocean Drive,Miami Beach,FL,33139,US,25.777478,-80.131578,2017-12-15T03:30:37Z
+cad12e57-4de0-4cb5-a5da-b0cf7ae4b161,James Hotel,55 E. Ontario,Chicago,IL,60611,US,41.8932833,-87.626197,2017-12-15T03:31:16Z
+4e4aa090-932f-446c-8795-7b71a13ff700,Meliá Orlando Suite Hotel at Celebration,225 Celebration Place,Celebration,FL,34747,US,28.3295762,-81.5348943,2017-12-15T03:32:01Z
+aed50253-97b1-4457-b2be-84cf6d57da55,Hotel 71,71 E. Wacker,Chicago,IL,60601,US,41.8877315,-87.6258282,2017-12-15T03:31:22Z
+2ea3bae7-2cb1-47d4-8a57-d1bf75db24a2,Golden Nugget  Hotel & Casino,129 E Fremont,Las Vegas,NV,89101,US,36.169746,-115.145476,2017-12-15T03:32:04Z
+fcf66f83-c56a-43ea-91be-46829a967e48,Cortona Inn & Suites,2029 South Harbor Blvd.,Anaheim,CA,92802,US,33.7979853,-117.9152417,2017-12-15T03:31:14Z
+784de8b7-2c49-4404-a536-7a8e7423264e,Big 7 Motel,333 Broadway,Chula Vista,CA,91910,US,32.636599,-117.091292,2017-12-15T03:31:11Z
+5d2baf5a-5a87-470d-b79d-4d1e005331d9,Del Mar Motel on the Beach,1702 Coast Blvd,Del Mar,CA,92014,US,32.962651,-117.267558,2017-12-15T03:31:27Z
+a0261f07-4b0b-4d16-b179-b817969b7c45,El Cordova Hotel,1351 Orange Ave,Coronado,CA,92118,US,32.682904,-117.177833,2017-12-15T03:31:37Z
+4b9f9197-5544-412c-bbc1-3c82ea0ff054,Oceanside Marina Suites,2008 Harbor Drive North,Oceanside,CA,92054,US,33.2109934,-117.3979819,2017-12-15T03:31:38Z
+7a7b1544-5479-42ca-b367-13dfd6fd9b40,Beach Haven Inn,4740 Mission Blvd.,San Diego,CA,92109,US,32.799966,-117.256875,2017-12-15T03:31:13Z
+ad5d49d1-8c2d-42c0-b65e-14f013bfcc12,Circa 39 Hotel Miami Beach,3900 Collins Avenue,Miami Beach,FL,33140,US,25.812008,-80.123465,2017-12-15T03:31:29Z
+79c06bb7-0e39-48f6-8dd8-00a22d28a07a,The Palms Hotel & Spa,3025 Collins Avenue,Miami Beach,FL,33140,US,25.806029,-80.12376,2017-12-15T03:31:25Z
+8f8d1c96-a18e-4886-bca8-0aec588fa8c9,Warwick San Francisco Hotel,490 Geary Blvd,San Francisco,CA,94102,US,37.787142,-122.411335,2017-12-15T05:30:12Z
+737031ae-5f22-416c-ab34-39193866565a,Bourbon Orleans Hotel,717 Orleans Street,New Orleans,LA,70116,US,29.9585191,-90.064513,2017-12-15T03:32:08Z
+bfed82da-bf61-4eb8-9850-0753008a68b1,Hotel Chateau Dupre,131 Rue Decatur,New Orleans,LA,70130,US,29.9522271,-90.0668778,2017-12-15T03:32:06Z
+c51f10b1-3d17-478a-a0ca-107f960eabcd,Maison Dupuy Hotel,1001 rue Toulouse,New Orleans,LA,70112,US,29.9590201,-90.0681588,2017-12-15T03:32:07Z
+dc844126-8642-42e3-981a-5d0f315bafc9,"Blake New Orleans, An Ascend Collection Hotel",500 St. Charles Ave,New Orleans,LA,70130,US,29.9494583,-90.0706248,2017-12-15T03:32:06Z
+7b313482-83ea-4fb4-9633-8d45ea207957,St. James Hotel - New Orleans,330 Magazine St,New Orleans,LA,70130,US,29.9502335,-90.0677496,2017-12-15T03:32:06Z
+c932501b-f961-49c9-8f50-c459de0063ba,Country Inn & Suites New Orleans French Quarter,315 Magazine Street,New Orleans,LA,70130,US,29.9503788,-90.067706,2017-12-15T03:32:07Z
+66d3c9aa-6108-411d-868e-0034837cc338,Historic Cotton Exchange,221 Carondelet St,New Orleans,LA,70130,US,29.9524836,-90.0709448,2017-12-15T03:32:07Z
+82b197bd-c6b4-49d7-8de9-40a5797b3bdc,Pelham Hotel - New Orleans,444 Common St,New Orleans,LA,70130,US,29.9509108,-90.0668301,2017-12-15T03:32:07Z
+1fc38f83-d2da-416e-9acd-213d49f82c81,Quality Inn International Drive,7600 International Drive,Orlando,FL,32819,US,28.4522076,-81.4708281,2017-12-15T03:31:06Z
+ebb0fef5-8b8e-4acc-b89c-5359a5c73a9d,Rosen Inn Closest to Universal,6327 International Drive,Orlando,FL,32819,US,28.460541,-81.469326,2017-12-15T03:31:10Z
+9f2df7ef-b03b-41ef-99dc-5670892b2ef8,Rosen Plaza International Drive,9700 International Drive,Orlando,FL,32819,US,28.43013,-81.472065,2017-12-15T03:31:25Z
+655ad0d0-6b7a-4419-a183-c1a3a274a513,Four Queens Hotel & Casino,202 Fremont Street,Las Vegas,NV,89101,US,36.170346,-115.144035,2017-12-15T03:31:24Z
+6fc1a44b-3920-4459-890f-07e8f123a376,Hotel Pepper Tree,2375 W Lincoln Ave,Anaheim,CA,92801,US,33.832973,-117.967055,2017-12-15T03:32:09Z
+ec04488b-d4f0-4b70-ac08-072014de2bdc,The Anabella Hotel,1030 West Katella Avenue,Anaheim,CA,92802,US,33.8032275,-117.9220258,2017-12-15T03:32:09Z
