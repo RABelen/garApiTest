@@ -1,4 +1,4 @@
-app.factory("GarHttp", function($http, $q) {
+app.factory("GarHttp", function($http, $q, $timeout) {
 	const base_url = "https://availability.integration2.testaroom.com";
 	let hotels = [];
 
@@ -42,7 +42,14 @@ app.factory("GarHttp", function($http, $q) {
 				})
 				.success(function(res) {
 					let json = toJson(res);
-					deferred.resolve(json);
+					let rooms = json["room-stays"]["room-stay"];
+					let updateData = updateRoomData(rooms, "Multi-Property");
+					let data = {
+						data: updateData,
+						count: _.size(rooms)
+					}
+
+					deferred.resolve(data);
 				})
 				.catch(function(err) {
 					deferred.reject(err);
@@ -65,7 +72,42 @@ app.factory("GarHttp", function($http, $q) {
 				})
 				.success(function(res) {
 					let json = toJson(res);
-					deferred.resolve(json);
+					let rooms = json["room-stays"]["room-stay"];
+					let updateData = updateRoomData(rooms, "Single Property");
+					let data = {
+						data: updateData,
+						count: _.size(rooms)
+					}
+
+					deferred.resolve(data);
+				})
+				.catch(function(err) {
+					deferred.reject(err);
+				});
+
+			return deferred.promise;
+		},
+		getPrebook: function(params, info) {
+			let deferred = $q.defer();
+			let url = base_url + "/api/1.1/properties/" + info.hotel + "/room_availability?check_in=" + formatDate(params.check_in) +
+				"&check_out=" + formatDate(params.check_out) +
+				"&room_id=" + info.room +
+				"&rate_plan_code=" + info.code +
+				"&api_key=" + params.api_key +
+				"&auth_token=" + params.auth_token +
+				"&rinfo=" + params.rinfo +
+				"&transaction_id=" + params.trans_id;
+
+			$http
+				.get(url, {
+					timeout: 10000
+				})
+				.success(function(res) {
+					let json = toJson(res);
+					let rooms = json["room-stays"]["room-stay"];
+					let updateData = updateRoomData(rooms, "Pre Book");
+
+					deferred.resolve(updateData);
 				})
 				.catch(function(err) {
 					deferred.reject(err);

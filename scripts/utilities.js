@@ -33,8 +33,8 @@ function pushResult(result, data) {
 function updateRoomData(rooms, requestType) {
 	let data = [];
 
-	angular.forEach(rooms, function(room) {
-		if (room != undefined) {
+	if (rooms) {
+		let pushObj = function(room) {
 			data.push({
 				hotelId: room.room != undefined ? room.room["hotel-id"] : undefined,
 				roomId: room.room != undefined ? room.room["room-id"] : undefined,
@@ -48,10 +48,19 @@ function updateRoomData(rooms, requestType) {
 				}]
 			});
 		}
-	});
-
+		if (rooms.length > 0) {
+			angular.forEach(rooms, function(room) {
+				if (room != undefined) {
+					pushObj(room)
+				}
+			});
+		} else {
+			pushObj(rooms)
+		}
+	}
 	return data;
 }
+
 /**
  * Transforms xml object to json
  * @param  {[type]} xml [XML object to convert]
@@ -64,7 +73,13 @@ function toJson(xml) {
 	if (data) return data;
 }
 
-let comparePrice = function(data, index) {
-	console.log(data.ratePlanCode);
-	console.log(data.displayPrice);
+function checkError(err) {
+	if (err.status == -1) {
+		showMessage("Error", `Could not connect to ${err.config.url}. Please check if CORS is enabled.`)
+		console.log(err)
+
+	} else {
+		showMessage("Error", err.statusText ? err.statusText : "Unknown error occured.")
+		console.log(err)
+	}
 };

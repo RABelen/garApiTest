@@ -19,6 +19,7 @@ app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, Ga
 	};
 
 	$scope.queryLogs = [];
+	$scope.queryComplete = false;
 
 	$scope.listProperties = function() {
 		$scope.rows = [];
@@ -60,6 +61,7 @@ app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, Ga
 		$scope.rows = "";
 		$scope.fields = "";
 
+		resetLogs();
 		GarHttp.resetList();
 
 		return data = "";
@@ -67,6 +69,8 @@ app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, Ga
 
 	let resetLogs = function() {
 		$scope.queryLogs = [];
+		$scope.queryComplete = false;
+
 		resultsFound = 0;
 		queryCount = 0;
 	}
@@ -86,13 +90,11 @@ app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, Ga
 
 		GarHttp.getMulti(params, rows)
 			.then(function(data) {
-				let rooms = data["room-stays"]["room-stay"];
-				let updateData = updateRoomData(rooms, "Multi-Property");
 				let promise = $timeout();
 
-				resultsFound = _.size(rooms);
-				pushResult($scope.results, updateData);
-				showMessage("Success", `${resultsFound} results found from multi-property request for ${rows.length} hotels.`)
+				resultsFound = data.count;
+				pushResult($scope.results, data.data);
+				queryProgress("Multi-Property", resultsFound, rows.length)
 
 				angular.forEach(rows, function(row) {
 					if (row.id != "") {
@@ -111,14 +113,12 @@ app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, Ga
 	let singleFetch = function(params, row) {
 		GarHttp.getSingle(params, row)
 			.then(function(data) {
-				let rooms = data["room-stays"]["room-stay"];
-				let updateData = updateRoomData(rooms, "Single Property");
 				let outerPromise = $timeout();
 
-				pushResult($scope.results, updateData);
-				showMessage("Success", `${_.size(rooms)} rate plans found from single property request for ${row.name}.`)
+				pushResult($scope.results, data.data);
+				queryProgress("Single Property", data.count, row.name)
 
-				angular.forEach(updateData, function(room) {
+				angular.forEach(data.data, function(room) {
 					if (room.hotelId && room.roomId) {
 						let codes = room.rates
 							.map(code => code.ratePlanCode)
@@ -148,49 +148,20 @@ app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, Ga
 	}
 
 	let prebookFetch = function(params, info) {
-		let url = base_url + "/api/1.1/properties/" + info.hotel + "/room_availability?check_in=" + formatDate(params.check_in) +
-			"&check_out=" + formatDate(params.check_out) +
-			"&room_id=" + info.room +
-			"&rate_plan_code=" + info.code +
-			"&api_key=" + params.api_key +
-			"&auth_token=" + params.auth_token +
-			"&rinfo=" + params.rinfo +
-			"&transaction_id=" + params.trans_id;
+		GarHttp.getPrebook(params, info)
+			.then(function(data) {
+				pushResult($scope.results, data)
+				queryProgress("Pre Book", _.size(data.rates), info.room)
+				queryCount++;
 
-		$http
-			.get(url, {
-				timeout: 10000
-			})
-			.success(function(res) {
-				let x2js = new X2JS();
-				let data = x2js.xml_str2json(res);
-				let updated = {};
-				let room = data["room-stays"]["room-stay"];
-
-				if (room) {
-					updated = {
-						hotelId: room.room != undefined ? room.room["hotel-id"] : "Unlisted",
-						roomId: room.room != undefined ? room.room["room-id"] : "Unlisted",
-						title: room.room != undefined ? room.room.title.__text : "Unlisted",
-						description: room.room != undefined ? room.room.description.__text : "Unlisted",
-						url: room["landing-url"] != undefined ? room["landing-url"] : "Unlisted",
-						rates: [{
-							ratePlanCode: room["rate-plan-code"] != undefined ? room["rate-plan-code"] : "Unlisted",
-							displayPrice: room["display-pricing"] != undefined ? room["display-pricing"].total : "Unlisted",
-							requestType: "Pre book"
-						}]
-					};
-					pushResult($scope.results, updated)
-					showMessage("Success", `${_.size(updated.rates)} rate plans found from pre-book request for room id: ${info.room}.`)
-					queryCount++;
-					if (queryCount + 1 >= resultsFound) {
-						showMessage("Success", "All queries finished!")
-					}
+				if (queryCount >= resultsFound) {
+					showMessage("Success", "All queries finished!")
+					$scope.queryComplete = true;
 				}
 			})
 			.catch(function(err) {
 				checkError(err)
-			});
+			})
 	};
 
 	let showMessage = function(type, text) {
@@ -203,24 +174,26 @@ app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, Ga
 			.highlightClass("md-secondary")
 			.position("top right");
 
-		$mdToast.show(toast).then(function(res) {
-			if (res == "ok") {}
-		});
+		if (type == "Error") {
+			$mdToast.show(toast).then(function(res) {
+				if (res == "ok") {}
+			});
+		}
 
 		$scope.queryLogs.push({
 			type: type,
+			title: type,
 			message: text
 		})
 	};
 
-	let checkError = function(err) {
-		if (err.status == -1) {
-			showMessage("Error", "Please check if CORS is enabled.")
-			console.log(err)
+	let queryProgress = function(reqType, count, name) {
+		let type = (count > 0) ? "Success" : "Info";
 
-		} else {
-			showMessage("Error", err.statusText ? err.statusText : "Unknown error occured.")
-			console.log(err)
-		}
-	};
+		$scope.queryLogs.push({
+			type: type,
+			title: reqType,
+			message: `${count} results found for ${name}. `
+		})
+	}
 });

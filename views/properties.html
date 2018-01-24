@@ -5,7 +5,7 @@
     <span class="md-subhead">Show only hotels with response</span>
   </md-switch>
 
-  <md-card ng-show="(hasRooms && res.rooms.length > 1) || !hasRooms" ng-repeat="res in results" ng-init="hotelIndex = $index">
+  <md-card ng-show="((hasRooms && res.rooms.length > 1) || !hasRooms) && queryComplete" ng-repeat="res in results" ng-init="hotelIndex = $index">
     <md-card-header>
       <md-card-header-text layout="column" ng-class="{success: res.rooms.length > 1}">
         <div layout>

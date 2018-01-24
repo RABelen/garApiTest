@@ -19,3 +19,23 @@ table {
 .errorFound {
   color: #b62a2a;
 }
+
+.bottom-block {
+  display: block;
+  position: relative;
+  background-color: rgba(255, 235, 169, 0.25);
+  height: 85px;
+  width: 100%;
+}
+
+.bottom-block > span {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 25px;
+  font-size: 0.9em;
+}
+
+.log-item {
+  padding-top:0px !important;
+  padding-bottom:0px !important;
+}

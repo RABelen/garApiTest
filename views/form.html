@@ -1,42 +1,46 @@
 <md-content layout-padding>
-    <div layout="column">
-      <md-subheader class="md-primary">User Form</md-subheader>
-      <md-checkbox ng-model="showForm" ng-init="showForm = false">
-        <span class="md-caption">Show/Hide User Form</span>
-      </md-checkbox>
-    </div>
+  <div layout="column">
+    <md-subheader class="md-primary">User Form</md-subheader>
+    <md-checkbox ng-model="showForm" ng-init="showForm = false">
+      <span class="md-caption">Show/Hide User Form</span>
+    </md-checkbox>
+  </div>
 
-    <md-content layout-padding md-padding>
-      <form name="userForm" ng-show="showForm">
-        <div layout-gt-sm="row">
-          <md-input-container class="md-block" flex-gt-sm>
-            <label>API Key</label>
-            <input required type="password" ng-model="params.api_key">
-          </md-input-container>
+  <md-content layout-padding md-padding>
+    <form name="userForm" ng-show="showForm">
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>API Key</label>
+          <input required type="password" ng-model="params.api_key">
+        </md-input-container>
 
-          <md-input-container class="md-block" flex-gt-sm>
-            <label>Auth Token</label>
-            <input required type="password" ng-model="params.auth_token">
-          </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Auth Token</label>
+          <input required type="password" ng-model="params.auth_token">
+        </md-input-container>
+      </div>
+
+      <div layout-gt-xs="row">
+        <div flex-gt-xs>
+          <label>Check-In Date</label>
+          <md-datepicker required class="md-primary" ng-model="params.check_in"></md-datepicker>
         </div>
 
-        <div layout-gt-xs="row">
-          <div flex-gt-xs>
-            <label>Check-In Date</label>
-            <md-datepicker required class="md-primary" ng-model="params.check_in"></md-datepicker>
-          </div>
-
-          <div flex-gt-xs>
-            <label>Check-Out Date</label>
-            <md-datepicker required ng-model="params.check_out"></md-datepicker>
-          </div>
+        <div flex-gt-xs>
+          <label>Check-Out Date</label>
+          <md-datepicker required ng-model="params.check_out"></md-datepicker>
         </div>
-      </form>
-    </md-content>
-    
-    <md-list class="md-dense" flex>
+      </div>
+    </form>
+  </md-content>
+
+  <md-content ng-show="!queryComplete && queryLogs.length > 1">
+    <md-subheader class="md-primary">Querying...</md-subheader>
+    <md-progress-linear md-mode="query"></md-progress-linear>
+    <md-list flex>
       <md-list-item ng-if="!showLogs" ng-repeat="log in queryLogs | limitTo: -1">
-        <p class="md-caption" ng-class="{errorFound: log.type == 'Error', success: log.type == 'Success'}">{{ log.type }}! {{ log.message }}</p>
+        <p class="md-caption" ng-class="{errorFound: log.type == 'Error', success: log.type == 'Success'}">{{ log.title }}: {{ log.message }}</p>
       </md-list-item>
     </md-list>
+  </md-content>
 </md-content>
