@@ -1,9 +1,11 @@
 let app = angular.module("MyApp", ["ngMaterial", "ngMessages"])
-app.controller("MyCtrl", function($scope, $http, $filter, $q, $timeout, $mdToast, GarHttp) {
+app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, GarHttp) {
 	const base_url = "https://availability.integration2.testaroom.com";
 	let today = new Date();
 	let tom = new Date();
 	let rowLimitChanged = 10;
+	let resultsFound = 0;
+	let queryCount = 0;
 
 	tom.setDate(tom.getDate() + 1);
 
@@ -33,7 +35,7 @@ app.controller("MyCtrl", function($scope, $http, $filter, $q, $timeout, $mdToast
 					$scope.showSlider = true;
 					$scope.$apply();
 
-					showMessage("Success", `${$scope.rowLimit}/${$scope.rowCount} rows ready to query.`)
+					showMessage("Success", `${rowLimitChanged}/${$scope.rowCount} rows ready to query.`)
 				}
 			}
 		);
@@ -57,9 +59,16 @@ app.controller("MyCtrl", function($scope, $http, $filter, $q, $timeout, $mdToast
 		$scope.results = "";
 		$scope.rows = "";
 		$scope.fields = "";
+
 		GarHttp.resetList();
 
 		return data = "";
+	}
+
+	let resetLogs = function() {
+		$scope.queryLogs = [];
+		resultsFound = 0;
+		queryCount = 0;
 	}
 
 	$scope.updateFilteredRows = function(limit) {
@@ -68,35 +77,31 @@ app.controller("MyCtrl", function($scope, $http, $filter, $q, $timeout, $mdToast
 
 	$scope.fetch = function(params, rows) {
 		let data = new FormData();
+
+		resetLogs();
 		GarHttp.resetList();
 		$scope.results = GarHttp.getHotels();
-
 		rows = $filter('limitTo')(rows, rowLimitChanged)
+		showMessage("Info", `${rowLimitChanged} rows will be queried.`)
 
 		GarHttp.getMulti(params, rows)
 			.then(function(data) {
 				let rooms = data["room-stays"]["room-stay"];
 				let updateData = updateRoomData(rooms, "Multi-Property");
-				let promises = [];
+				let promise = $timeout();
 
+				resultsFound = _.size(rooms);
 				pushResult($scope.results, updateData);
-				showMessage("Success", `${_.size(rooms)} results found from multi-property request for ${rows.length} hotels.`)
+				showMessage("Success", `${resultsFound} results found from multi-property request for ${rows.length} hotels.`)
 
 				angular.forEach(rows, function(row) {
-					let defer = $q.defer();
-					promises.push(defer.promise);
-
 					if (row.id != "") {
-						$timeout(function() {
+						promise = promise.then(function() {
 							singleFetch(params, row);
-							defer.resolve();
-						}, 10000)
+							return $timeout(5000);
+						})
 					}
 				});
-
-				$q.all(promises).then(function() {
-					console.log("All Done")
-				})
 			})
 			.catch(function(err) {
 				checkError(err)
@@ -108,35 +113,32 @@ app.controller("MyCtrl", function($scope, $http, $filter, $q, $timeout, $mdToast
 			.then(function(data) {
 				let rooms = data["room-stays"]["room-stay"];
 				let updateData = updateRoomData(rooms, "Single Property");
-				let outerPromises = [];
+				let outerPromise = $timeout();
 
 				pushResult($scope.results, updateData);
 				showMessage("Success", `${_.size(rooms)} rate plans found from single property request for ${row.name}.`)
 
 				angular.forEach(updateData, function(room) {
-					let outerDefer = $q.defer();
-					outerPromises.push(outerDefer.promise);
-
 					if (room.hotelId && room.roomId) {
-						let innerPromises = [];
 						let codes = room.rates
 							.map(code => code.ratePlanCode)
 							.filter((value, index, self) => self.indexOf(value) === index);
 
-						angular.forEach(codes, function(code) {
-							let innerDefer = $q.defer();
-							innerPromises.push(innerDefer.promise);
+						outerPromise = outerPromise.then(function() {
+							let innerPromise = $timeout();
 
-							$timeout(function() {
-								innerDefer.resolve()
-								prebookFetch(params, {
-									hotel: room.hotelId,
-									room: room.roomId,
-									code: code
+							angular.forEach(codes, function(code) {
+								innerPromise = innerPromise.then(function() {
+									prebookFetch(params, {
+										hotel: room.hotelId,
+										room: room.roomId,
+										code: code
+									})
 								})
-							}, 10000)
-						});
-						$q.all(innerPromises).then(outerDefer.resolve());
+								return $timeout(3000);
+							});
+							return $timeout(3000);
+						})
 					}
 				});
 			})
@@ -162,11 +164,11 @@ app.controller("MyCtrl", function($scope, $http, $filter, $q, $timeout, $mdToast
 			.success(function(res) {
 				let x2js = new X2JS();
 				let data = x2js.xml_str2json(res);
-				let rooms = [];
+				let updated = {};
 				let room = data["room-stays"]["room-stay"];
 
 				if (room) {
-					rooms.push({
+					updated = {
 						hotelId: room.room != undefined ? room.room["hotel-id"] : "Unlisted",
 						roomId: room.room != undefined ? room.room["room-id"] : "Unlisted",
 						title: room.room != undefined ? room.room.title.__text : "Unlisted",
@@ -177,8 +179,13 @@ app.controller("MyCtrl", function($scope, $http, $filter, $q, $timeout, $mdToast
 							displayPrice: room["display-pricing"] != undefined ? room["display-pricing"].total : "Unlisted",
 							requestType: "Pre book"
 						}]
-					});
-					pushResult($scope.results, rooms)
+					};
+					pushResult($scope.results, updated)
+					showMessage("Success", `${_.size(updated.rates)} rate plans found from pre-book request for room id: ${info.room}.`)
+					queryCount++;
+					if (queryCount + 1 >= resultsFound) {
+						showMessage("Success", "All queries finished!")
+					}
 				}
 			})
 			.catch(function(err) {

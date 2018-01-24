@@ -33,4 +33,10 @@
         </div>
       </form>
     </md-content>
+    
+    <md-list class="md-dense" flex>
+      <md-list-item ng-if="!showLogs" ng-repeat="log in queryLogs | limitTo: -1">
+        <p class="md-caption" ng-class="{errorFound: log.type == 'Error', success: log.type == 'Success'}">{{ log.type }}! {{ log.message }}</p>
+      </md-list-item>
+    </md-list>
 </md-content>
