@@ -80,7 +80,7 @@ app.controller("MyCtrl", function($scope, $http, $filter, $q, $timeout, $mdToast
 				let promises = [];
 
 				pushResult($scope.results, updateData);
-				showMessage("Success", `${_.size(rooms)} rate plans found from multi-property request for ${rows.length} hotels.`)
+				showMessage("Success", `${_.size(rooms)} results found from multi-property request for ${rows.length} hotels.`)
 
 				angular.forEach(rows, function(row) {
 					let defer = $q.defer();
