@@ -42,6 +42,12 @@
               </md-content>
             </md-tab>
 
+            <md-tab label="task" ng-cloak>
+              <md-content layout-padding>
+                <div ng-include="'views/task.html'"></div>
+              </md-content>
+            </md-tab>
+
             <md-tab label="logs" ng-cloak>
               <md-content layout-padding>
                 <div ng-include="'views/logs.html'"></div>
@@ -58,6 +64,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
 
     <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/task.js"></script>
     <script src="scripts/services/garhttp.js"></script>
     <script src="scripts/utilities.js"></script>
 </body>

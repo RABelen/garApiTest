@@ -1,0 +1,19 @@
+<md-content ng-controller="TaskCtrl">
+  <md-button class="md-raised md-primary" ng-click="fetchFees(params, rows)">Query</md-button>
+  <md-button class="md-raised md-primary" ng-click="export(filteredResponse)">Export</md-button>
+
+  <md-content>
+    <md-list ng-repeat="res in filteredResponse = (response | filter: res)">
+      <md-subheader>
+      <span>Hotel ID: {{ res.hotelId }}</span>
+      <md-list-item class="md-3-line">
+        <div class="md-list-item-text" layout="column">
+          <span>Room Title: {{ res.title }}</span>
+          <span>Fees Collected: {{ res.fee }}</span>
+          <span>Amount: {{ res.total }}</span>
+        </div>
+      </md-list-item>
+      </md-subheader>
+    </md-list>
+  </md-content>
+</md-content>
