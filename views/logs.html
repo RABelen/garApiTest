@@ -11,7 +11,7 @@
       <p class="md-caption">{{ log.title }}: {{ log.message }}</p>
     </md-list-item>
 
-    <md-list-item ng-if="showLogs" ng-repeat="log in queryLogs" ng-class="{errorFound: log.type == 'Error', success: log.type == 'Success'}">
+    <md-list-item ng-if="showLogs" ng-repeat="log in queryLogs | orderBy:'-'" ng-class="{errorFound: log.type == 'Error', success: log.type == 'Success'}">
       <p class="md-caption">{{ log.title }}: {{ log.message }}</p>
     </md-list-item>
   </md-list>

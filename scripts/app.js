@@ -110,6 +110,16 @@ app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, Ga
 			})
 	};
 
+	$scope.export = function(data) {
+		let arr = $filter('limitTo')(data, rowLimitChanged);
+		let result = [].concat(...arr.map((item) => item.rooms.map((rooms) => Object.assign({}, item, {
+			rooms
+		}))));
+
+		console.log(arr);
+		console.log(result);
+	}
+
 	let singleFetch = function(params, row) {
 		GarHttp.getSingle(params, row)
 			.then(function(data) {
@@ -135,6 +145,11 @@ app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, Ga
 										code: code
 									})
 								})
+								queryCount++;
+
+								if (queryCount >= resultsFound) {
+									$scope.queryComplete = true;
+								}
 								return $timeout(3000);
 							});
 							return $timeout(3000);
@@ -152,12 +167,6 @@ app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, Ga
 			.then(function(data) {
 				pushResult($scope.results, data)
 				queryProgress("Pre Book", _.size(data.rates), info.room)
-				queryCount++;
-
-				if (queryCount >= resultsFound) {
-					showMessage("Success", "All queries finished!")
-					$scope.queryComplete = true;
-				}
 			})
 			.catch(function(err) {
 				checkError(err)
