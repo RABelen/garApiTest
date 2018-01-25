@@ -94,7 +94,7 @@ app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, Ga
 
 				resultsFound = data.count;
 				pushResult($scope.results, data.data);
-				queryProgress("Multi-Property", resultsFound, rows.length)
+				queryProgress("Multi-Property", resultsFound, `${rows.length} hotels`)
 
 				angular.forEach(rows, function(row) {
 					if (row.id != "") {
@@ -196,4 +196,15 @@ app.controller("MyCtrl", function($scope, $http, $filter, $timeout, $mdToast, Ga
 			message: `${count} results found for ${name}. `
 		})
 	}
+
+	let checkError = function(err) {
+		if (err.status == -1) {
+			showMessage("Error", `Could not connect to ${err.config.url}. Please check if CORS is enabled.`)
+			console.log(err)
+
+		} else {
+			showMessage("Error", err.statusText ? err.statusText : "Unknown error occured.")
+			console.log(err)
+		}
+	};
 });

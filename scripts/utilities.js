@@ -72,14 +72,3 @@ function toJson(xml) {
 
 	if (data) return data;
 }
-
-function checkError(err) {
-	if (err.status == -1) {
-		showMessage("Error", `Could not connect to ${err.config.url}. Please check if CORS is enabled.`)
-		console.log(err)
-
-	} else {
-		showMessage("Error", err.statusText ? err.statusText : "Unknown error occured.")
-		console.log(err)
-	}
-};

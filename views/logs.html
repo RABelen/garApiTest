@@ -6,13 +6,13 @@
     </md-checkbox>
   </div>
 
-  <md-list class="md-dense log-item" flex>
+  <md-list class="md-dense" flex>
     <md-list-item ng-if="!showLogs" ng-repeat="log in queryLogs | limitTo: -1" ng-class="{errorFound: log.type == 'Error', success: log.type == 'Success'}">
-      <p class="md-caption log-item">{{ log.title }}: {{ log.message }}</p>
+      <p class="md-caption">{{ log.title }}: {{ log.message }}</p>
     </md-list-item>
 
-    <md-list-item class="log-item" ng-if="showLogs" ng-repeat="log in queryLogs" ng-class="{errorFound: log.type == 'Error', success: log.type == 'Success'}">
-      <p class="md-caption log-item">{{ log.title }}: {{ log.message }}</p>
+    <md-list-item ng-if="showLogs" ng-repeat="log in queryLogs" ng-class="{errorFound: log.type == 'Error', success: log.type == 'Success'}">
+      <p class="md-caption">{{ log.title }}: {{ log.message }}</p>
     </md-list-item>
   </md-list>
 </md-content>
